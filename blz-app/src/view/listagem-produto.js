@@ -17,15 +17,15 @@ import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/produtos`;
 
-function ListagemCargos() {
+function Listagemproduto() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/Cadastroprodutos`);
+    navigate(`/cadastro-produtos`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-cargos/${id}`);
+    navigate(`/cadastro-produtos/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);
@@ -112,4 +112,4 @@ function ListagemCargos() {
   );
 }
 
-export default ListagemCargos;
+export default Listagemproduto;

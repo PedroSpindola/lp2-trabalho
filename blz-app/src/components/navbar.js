@@ -22,14 +22,15 @@ function Navbar(props) {
           <span className='navbar-toggler-icon'></span>
         </button>
         <div className='collapse navbar-collapse' id='navbarResponsive'>
+
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/Cadastroprodutos' label='produto' />
+            <NavbarItem render='true' href='/listagem-produto' label='produto' />
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/CadastroServico' label='serviço' />
+            <NavbarItem render='true' href='/cadastro-servico' label='serviço' />
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/CadastroLoja' label='loja'/>
+            <NavbarItem render='true' href='/cadastro-loja' label='loja'/>
           </ul>
 
         </div>

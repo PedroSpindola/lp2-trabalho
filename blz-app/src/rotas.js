@@ -14,15 +14,15 @@ function Rotas(props) {
     <BrowserRouter>
       <Routes>
         <Route
-          path='/Cadastroprodutos/:idParam?'
+          path='/cadastro-produto/:idParam?'
           element={<Cadastroprodutos />}
         />
         <Route 
-          path='/CadastroServico/:idParam?' 
+          path='/cadastro-servico/:idParam?' 
           element={<CadastroServico />}
         />
         <Route 
-          path='/CadastroLojas/'
+          path='/cadastro-lojas/'
           element={<CadastroLojas/>}
         />
         <Route path='/listagem-produto' element={<Listagemproduto />} />
