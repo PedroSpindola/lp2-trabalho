@@ -8,6 +8,7 @@ import CadastroLojas from "./view/cadastro-loja"
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import Listagemproduto from './view/listagem-produto';
+import Listagemservico from './view/listagem-servico';
 
 function Rotas(props) {
   return (
@@ -26,6 +27,8 @@ function Rotas(props) {
           element={<CadastroLojas/>}
         />
         <Route path='/listagem-produto' element={<Listagemproduto />} />
+        <Route path='/listagem-servico' element={<Listagemservico />} />
+
       </Routes>
     </BrowserRouter>
   );
