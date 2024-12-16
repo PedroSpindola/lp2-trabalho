@@ -13,19 +13,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios2';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/Colaboradores`;
+const baseURL = `${BASE_URL}/funcionario`;
 
-function Listagemcolaborador() {
+function ListagemFuncionario() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/cadastro-colaborador`);
+    navigate(`/cadastro-funcionario`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-colaborador/${id}`);
+    navigate(`/cadastro-funcionario/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);
@@ -61,7 +61,7 @@ function Listagemcolaborador() {
 
   return (
     <div className='container'>
-      <Card title='Listagem de colaborador'>
+      <Card title='Listagem de produto'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -70,28 +70,24 @@ function Listagemcolaborador() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
-                Novo Colaborador
+                Novo funcionario
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                  <th scope='col'>CPF</th>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Telefone</th>
-                    <th scope='col'>Celular</th>
-                    <th scope='col'>Email</th>
-                    <th scope='col'>Cargo</th>
+                    <th scope='col'>telefone</th>
+                    <th scope='col'>celular</th>
+                    <th scope='col'>Data de nascimento</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                     <td>{dado.cpf}</td>
                       <td>{dado.nome}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
-                      <td>{dado.email}</td>
-                      <td>{dado.cargo}</td>
+                      <td>{dado.dtaNasc}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -120,4 +116,4 @@ function Listagemcolaborador() {
   );
 }
 
-export default Listagemcolaborador;
+export default ListagemFuncionario;

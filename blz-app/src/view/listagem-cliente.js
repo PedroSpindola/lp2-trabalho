@@ -80,7 +80,6 @@ function Listagemcliente() {
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Celular</th>
                     <th scope='col'>Email</th>
-                    <th scope='col'>Senha</th>
                     <th scope='col'>Cargo</th>
 
                   </tr>
@@ -93,7 +92,6 @@ function Listagemcliente() {
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
                       <td>{dado.email}</td>
-                      <td>{dado.senha}</td>
                       <td>{dado.cargo}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
