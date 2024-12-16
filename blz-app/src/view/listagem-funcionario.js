@@ -83,7 +83,8 @@ function Listagemfuncionario() {
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
-                    <tr key={dado.id}>
+                    <tr key={dado.cpf}>
+                     <td>{dado.cpf}</td>
                       <td>{dado.nome}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
