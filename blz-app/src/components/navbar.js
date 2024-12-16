@@ -8,7 +8,7 @@ function Navbar(props) {
     <div className='navbar navbar-expand-lg fixed-top navbar-dark bg-primary'>
       <div className='container'>
         <a href='/' className='navbar-brand'>
-          BLZFODA
+          SBLZ
         </a>
         <button
           className='navbar-toggler'
@@ -42,7 +42,7 @@ function Navbar(props) {
             <NavbarItem render='true' href='/listagem-cargo' label='Cargo'/>
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/listagem-funcionario' label='funcionario'/>
+            <NavbarItem render='true' href='/listagem-funcionario' label='Funcionario'/>
           </ul>
 
         </div>

@@ -17,7 +17,7 @@ import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/funcionario`;
 
-function ListagemFuncionario() {
+function Listagemfuncionario() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
@@ -61,7 +61,7 @@ function ListagemFuncionario() {
 
   return (
     <div className='container'>
-      <Card title='Listagem de produto'>
+      <Card title='Listagem de funcionario'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -70,15 +70,15 @@ function ListagemFuncionario() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
-                Novo funcionario
+                Novo Funcionario
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>telefone</th>
-                    <th scope='col'>celular</th>
-                    <th scope='col'>Data de nascimento</th>
+                    <th scope='col'>Telefone</th>
+                    <th scope='col'>Celular</th>
+                    <th scope='col'>Data de Nascimento</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -116,4 +116,4 @@ function ListagemFuncionario() {
   );
 }
 
-export default ListagemFuncionario;
+export default Listagemfuncionario;

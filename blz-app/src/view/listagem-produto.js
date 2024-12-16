@@ -70,20 +70,22 @@ function Listagemproduto() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
-                Novo Cargo
+                Novo Produto
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Salário</th>
+                    <th scope='col'>Valor para venda</th>
+                    <th scope='col'>Unidades Disponíveis</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.salario}</td>
+                      <td>{dado.valorvenda}</td>
+                      <td>{dado.quantidade}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
