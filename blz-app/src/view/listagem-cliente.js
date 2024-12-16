@@ -15,17 +15,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL2 } from '../config/axios2';
 
-const baseURL = `${BASE_URL2}/Loja`;
+const baseURL = `${BASE_URL2}/Clientes`;
 
-function Listagemloja() {
+function Listagemcliente() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/cadastro-lojas`);
+    navigate(`/cadastro-cliente`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-lojas/${id}`);
+    navigate(`/cadastro-cliente/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);
@@ -61,7 +61,7 @@ function Listagemloja() {
 
   return (
     <div className='container'>
-      <Card title='Listagem de lojas'>
+      <Card title='Listagem de cliente'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -70,18 +70,31 @@ function Listagemloja() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
-                Nova Loja
+                Novo cliente
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>CNPJ</th>
+                    <th scope='col'>CPF</th>
+                    <th scope='col'>Nome</th>
+                    <th scope='col'>Telefone</th>
+                    <th scope='col'>Celular</th>
+                    <th scope='col'>Email</th>
+                    <th scope='col'>Senha</th>
+                    <th scope='col'>Cargo</th>
+
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.cnpj}</td>
+                      <td>{dado.cpf}</td>
+                      <td>{dado.nome}</td>
+                      <td>{dado.telefone}</td>
+                      <td>{dado.celular}</td>
+                      <td>{dado.email}</td>
+                      <td>{dado.senha}</td>
+                      <td>{dado.cargo}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -110,4 +123,4 @@ function Listagemloja() {
   );
 }
 
-export default Listagemloja;
+export default Listagemcliente;

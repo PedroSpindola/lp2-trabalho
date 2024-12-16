@@ -24,13 +24,22 @@ function Navbar(props) {
         <div className='collapse navbar-collapse' id='navbarResponsive'>
 
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/listagem-produto' label='produto' />
+            <NavbarItem render='true' href='/listagem-produto' label='Produtos' />
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/listagem-servico' label='serviço' />
+            <NavbarItem render='true' href='/listagem-servico' label='Serviços' />
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/cadastro-loja' label='loja'/>
+            <NavbarItem render='true' href='/listagem-loja' label='Lojas'/>
+          </ul>
+          <ul className='navbar-nav'>
+            <NavbarItem render='true' href='/listagem-colaborador' label='Colaboradores'/>
+          </ul>
+          <ul className='navbar-nav'>
+            <NavbarItem render='true' href='/listagem-cliente' label='Clientes'/>
+          </ul>
+          <ul className='navbar-nav'>
+            <NavbarItem render='true' href='/listagem-cargo' label='Cargo'/>
           </ul>
 
         </div>

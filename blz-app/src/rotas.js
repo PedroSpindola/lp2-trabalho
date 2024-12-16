@@ -9,6 +9,10 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 import Listagemproduto from './view/listagem-produto';
 import Listagemservico from './view/listagem-servico';
+import Listagemloja from './view/listagem-loja';
+import Listagemcolaborador from './view/listagem-colaborador';
+import Listagemcliente from './view/listagem-cliente';
+import Listagemcargo from './view/listagem-cargo';
 
 function Rotas(props) {
   return (
@@ -28,6 +32,10 @@ function Rotas(props) {
         />
         <Route path='/listagem-produto' element={<Listagemproduto />} />
         <Route path='/listagem-servico' element={<Listagemservico />} />
+        <Route path='/listagem-loja' element={<Listagemloja />} />
+        <Route path='/listagem-colaborador' element={<Listagemcolaborador />} />
+        <Route path='/listagem-cliente' element={<Listagemcliente />} />
+        <Route path='/listagem-cargo' element={<Listagemcargo />} />
 
       </Routes>
     </BrowserRouter>

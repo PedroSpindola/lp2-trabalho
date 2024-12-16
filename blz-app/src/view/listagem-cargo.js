@@ -15,17 +15,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL2 } from '../config/axios2';
 
-const baseURL = `${BASE_URL2}/Loja`;
+const baseURL = `${BASE_URL2}/Cargo`;
 
-function Listagemloja() {
+function Listagemcargo() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/cadastro-lojas`);
+    navigate(`/cadastro-cargos`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-lojas/${id}`);
+    navigate(`/cadastro-cargos/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);
@@ -61,7 +61,7 @@ function Listagemloja() {
 
   return (
     <div className='container'>
-      <Card title='Listagem de lojas'>
+      <Card title='Listagem de cargos'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -70,18 +70,20 @@ function Listagemloja() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
-                Nova Loja
+                Nova cargo
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                    <th scope='col'>CNPJ</th>
+                    <th scope='col'>ID</th>
+                    <th scope='col'>Nome</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.cnpj}</td>
+                      <td>{dado.id}</td>
+                      <td>{dado.nome}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -110,4 +112,4 @@ function Listagemloja() {
   );
 }
 
-export default Listagemloja;
+export default Listagemcargo;
