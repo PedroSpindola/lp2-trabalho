@@ -21,11 +21,11 @@ function ListagemServico() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/cadastrar-servico`);
+    navigate(`/cadastro-servico`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastrar-servico/${id}`);
+    navigate(`/cadastro-servico/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);

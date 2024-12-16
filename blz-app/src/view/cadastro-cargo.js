@@ -1,10 +1,10 @@
 import React from 'react';
 
-function Cadastroloja(){
+function Cadastrocargo(){
         return(
             <div>
-         <h1>Cadastro Loja</h1>
+         <h1>Cadastro cargo</h1>
             </div>
         )
 }
-export default Cadastroloja;
+export default Cadastrocargo;

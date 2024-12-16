@@ -1,8 +1,13 @@
 import React from 'react';
 
-import Cadastroprodutos from "./view/cadastro-produto";
-import CadastroServico from "./view/cadastro-servico"
-import CadastroLojas from "./view/cadastro-loja"
+import Cadastrocargo from './view/cadastro-cargo';//
+import Cadastrocliente from './view/cadastro-cliente';//
+import Cadastrocolaborador from './view/cadastro-colaborador';
+import Cadastroproduto from "./view/cadastro-produto";//
+import Cadastroservico from "./view/cadastro-servico" //
+import Cadastroloja from "./view/cadastro-loja"//
+
+
 
 
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
@@ -20,16 +25,33 @@ function Rotas(props) {
       <Routes>
         <Route
           path='/cadastro-produto/:idParam?'
-          element={<Cadastroprodutos />}
+          element={<Cadastroproduto />}
         />
         <Route 
           path='/cadastro-servico/:idParam?' 
-          element={<CadastroServico />}
+          element={<Cadastroservico />}
         />
         <Route 
-          path='/cadastro-lojas/'
-          element={<CadastroLojas/>}
+          path='/cadastro-loja/'
+          element={<Cadastroloja/>} 
         />
+          <Route 
+          path='/cadastro-cargo/'
+          element={<Cadastrocargo/>} 
+        />
+           <Route 
+          path='/cadastro-cliente/'
+          element={<Cadastrocliente/>} 
+        />
+            <Route 
+          path='/cadastro-cliente/'
+          element={<Cadastrocliente/>} 
+        />
+             <Route 
+          path='/cadastro-colaborador/'
+          element={<Cadastrocolaborador/>} 
+        />
+
         <Route path='/listagem-produto' element={<Listagemproduto />} />
         <Route path='/listagem-servico' element={<Listagemservico />} />
         <Route path='/listagem-loja' element={<Listagemloja />} />
