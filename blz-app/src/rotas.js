@@ -34,27 +34,27 @@ function Rotas(props) {
           element={<Cadastroservico />}
         />
         <Route 
-          path='/cadastro-loja/'
+          path='/cadastro-loja/:idParam?'
           element={<Cadastroloja/>} 
         />
           <Route 
-          path='/cadastro-cargo/'
+          path='/cadastro-cargo/:idParam?'
           element={<Cadastrocargo/>} 
         />
            <Route 
-          path='/cadastro-cliente/'
+          path='/cadastro-cliente/:idParam?'
           element={<Cadastrocliente/>} 
         />
             <Route 
-          path='/cadastro-cliente/'
+          path='/cadastro-cliente/:idParam?'
           element={<Cadastrocliente/>} 
         />
              <Route 
-          path='/cadastro-colaborador/'
+          path='/cadastro-colaborador/:idParam?'
           element={<Cadastrocolaborador/>} 
         />
               <Route 
-          path='/cadastro-funcionario/'
+          path='/cadastro-funcionario/:idParam?'
           element={<Cadastrofuncionario/>} 
         />
 
