@@ -75,20 +75,23 @@ function Listagemfuncionario() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
+                  <th scope='col'>Cpf</th>
                     <th scope='col'>Nome</th>
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Celular</th>
                     <th scope='col'>Data de Nascimento</th>
+                    <th scope='col'>Email</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
-                    <tr key={dado.cpf}>
+                    <tr key={dado.id}>
                      <td>{dado.cpf}</td>
                       <td>{dado.nome}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
                       <td>{dado.dtaNasc}</td>
+                      <td>{dado.email}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
