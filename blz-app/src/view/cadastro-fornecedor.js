@@ -8,23 +8,21 @@ import FormGroup from '../components/form-group';
 
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios2';
+import { BASE_URL } from '../config/axios';
 
-function CadastroColaborador() {
+function CadastroFornecedor() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL2}/Colaboradores`;
+  const baseURL = `${BASE_URL}/fornecedor`;
 
   const [id, setId] = useState('');
-  const [cpf, setCpf] = useState('');
   const [nome, setnome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [idCargo, setIdCargo] = useState(0);
+  const [dtaNasc, setDtaNasc] = useState('');
 
 
   const [dados, setDados] = useState([]);
@@ -32,27 +30,23 @@ function CadastroColaborador() {
   function inicializar() {
     if (idParam == null) {
       setId('')
-      setCpf('');
       setnome('');
       setTelefone('(xx) xxxx-xxxx');
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
-      setSenha('');
-      setIdCargo(0);
+      setDtaNasc('');
     } else {
-      setId(dados.id)
-      setCpf(dados.cpf);
+      setId(dados.id);
       setnome(dados.nome);
       setTelefone(dados.telefone);
       setCelular(dados.celular);
       setEmail(dados.email);
-      setSenha(dados.senha);
-      setIdCargo(dados.idCargo);
+      setDtaNasc(dados.dtaNasc);
     }
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, senha,idCargo };
+    let data = { id, nome, telefone, celular, email, dtaNasc };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -61,7 +55,7 @@ function CadastroColaborador() {
         })
         .then(function (response) {
          
-          navigate(`/listagem-colaborador`);
+          navigate(`/listagem-fornecedor`);
         })
         .catch(function (error) {
 
@@ -73,7 +67,7 @@ function CadastroColaborador() {
         })
         .then(function (response) {
        
-          navigate(`/listagem-Colaborador`);
+          navigate(`/listagem-fornecedor`);
         })
         .catch(function (error) {
 
@@ -82,63 +76,37 @@ function CadastroColaborador() {
   }
 
   async function buscar() {
-  
-    if (idParam != null) {
-      await axios.get(`${baseURL}/${idParam}`).then((response) => {
-        setDados(response.data);
-      }).catch((a) => {
-        console.log(a);
-      });
-        
-    }
-  
+    await axios.get(`${baseURL}/${idParam}`).then((response) => {
+      setDados(response.data);
+    });
     setId(dados.id)
-    setCpf(dados.cpf);
     setnome(dados.nome);
     setTelefone(dados.telefone);
     setCelular(dados.celular);
     setEmail(dados.email);
-    setSenha(dados.senha);
-    setIdCargo(dados.idCargo);
+    setDtaNasc(dados.dtaNasc);
   }
-  const [dadosCargos,setDadosCargos] = React.useState(null)
-
-  useEffect(()=>{
-
-    axios.get(`${BASE_URL2}/Cargo`).then((response) => {
-      setDadosCargos(response.data);
-    });
-  },[]);
 
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
   if (!dados) return null;
-  if(!dadosCargos) return null; 
+
   return (
     <div className='container'>
       <Card title='Cadastro de Usuário'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            <FormGroup label='Cpf: *' htmlFor='inputCpf'>
-                <input
-                  type='text'
-                  id='inputCpf'
-                  value={cpf}
-                  className='form-control'
-                  name='cpfColaborador'
-                  onChange={(e) => setnome(e.target.value)}
-                />
-              </FormGroup>
+
               <FormGroup label='Nome: *' htmlFor='inputNome'>
                 <input
                   type='text'
                   id='inputNome'
                   value={nome}
                   className='form-control'
-                  name='nomeColaborador'
+                  name='nomefornecedor'
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
@@ -148,7 +116,7 @@ function CadastroColaborador() {
                   id='inputTelefone'
                   value={telefone}
                   className='form-control'
-                  name='telefoneColaborador'
+                  name='telefonefornecedor'
                   onChange={(e) => setTelefone(e.target.value)}
                 />
               </FormGroup>
@@ -158,7 +126,7 @@ function CadastroColaborador() {
                   id='inputCelular'
                   value={celular}
                   className='form-control'
-                  name='celularColaborador'
+                  name='celularfornecedor'
                   onChange={(e) => setCelular(e.target.value)}
                 />
               </FormGroup>
@@ -168,30 +136,9 @@ function CadastroColaborador() {
                   id='inputEmail'
                   value={email}
                   className='form-control'
-                  name='EmailColaborador'
+                  name='Emailfornecedor'
                   onChange={(e) => setEmail(e.target.value)}
                 />
-              </FormGroup>
-              <FormGroup label = "Cargo:" htmlFor='selectCargo'>
-
-                <select className='form-select'
-                type='select'
-                id='selectCargo'
-                name='cargoColaborador'
-                value={idCargo}
-                onChange={(e)=> setIdCargo(e.target.value)}>
-
-                  {dadosCargos.map((dado)=>(
-                    <option key={dado.id} value={dado.id}>
-
-                      {dado.nome}
-
-                    </option>
-
-                  ))}
-
-                </select>
-
               </FormGroup>
               <Stack spacing={1} padding={1} direction='row'>
                 <button
@@ -217,4 +164,4 @@ function CadastroColaborador() {
   );
 }
 
-export default CadastroColaborador;
+export default CadastroFornecedor;

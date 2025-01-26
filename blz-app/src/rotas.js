@@ -5,9 +5,9 @@ import Cadastrocliente from './view/cadastro-cliente';
 import Cadastrocolaborador from './view/cadastro-colaborador';
 import Cadastrofuncionario from './view/cadastro-funcionario';
 import Cadastroproduto from "./view/cadastro-produto";
-import Cadastroservico from "./view/cadastro-servico" 
-import Cadastroloja from "./view/cadastro-loja"
-
+import Cadastroservico from "./view/cadastro-servico" ;
+import Cadastroloja from "./view/cadastro-loja";
+import CadastroFornecedor from "./view/cadastro-fornecedor";
 
 
 
@@ -20,6 +20,7 @@ import Listagemcolaborador from './view/listagem-colaborador';
 import Listagemcliente from './view/listagem-cliente';
 import Listagemcargo from './view/listagem-cargo';
 import Listagemfuncionario from './view/listagem-funcionario';
+import Listagemfornecedor from './view/listagem-fornecedor';
 
 function Rotas(props) {
   return (
@@ -57,6 +58,10 @@ function Rotas(props) {
           path='/cadastro-funcionario/:idParam?'
           element={<Cadastrofuncionario/>} 
         />
+        <Route 
+          path='/cadastro-fornecedor/:idParam?'
+          element={<CadastroFornecedor/>} 
+        />
 
         <Route path='/listagem-produto' element={<Listagemproduto />} />
         <Route path='/listagem-servico' element={<Listagemservico />} />
@@ -65,6 +70,7 @@ function Rotas(props) {
         <Route path='/listagem-cliente' element={<Listagemcliente />} />
         <Route path='/listagem-cargo' element={<Listagemcargo />} />
         <Route path='/listagem-funcionario' element={<Listagemfuncionario />} />
+        <Route path='/listagem-fornecedor' element={<Listagemfornecedor />} />
 
       </Routes>
     </BrowserRouter>

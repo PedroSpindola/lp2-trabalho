@@ -22,6 +22,7 @@ function Cadastroprodutos() {
   const [valorvenda, setValorVenda] = useState('0');
   const [quantidade, setQuantidade] = useState('0');
   const [dataValidade, setDataValidade] = useState('');
+  const [idFornecedor, setIdFornecedor] = useState(0);
 
 
   const [dados, setDados] = useState([]);
@@ -33,6 +34,7 @@ function Cadastroprodutos() {
       setValorVenda('');
       setQuantidade('');
       setDataValidade('');
+      setIdFornecedor(0)
 
     } else {
       setId(dados.id)
@@ -40,11 +42,12 @@ function Cadastroprodutos() {
       setValorVenda(dados.valorvenda);
       setQuantidade(dados.quantidade);
       setDataValidade(dados.dataValidade);
+      setIdFornecedor(dados.idFornecedor);
     }
   }
 
   async function salvar() {
-    let data = { id,nome, valorvenda, quantidade, dataValidade };
+    let data = { id,nome, valorvenda, quantidade, dataValidade, idFornecedor };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -74,21 +77,34 @@ function Cadastroprodutos() {
   }
 
   async function buscar() {
-    await axios.get(`${baseURL}/${idParam}`).then((response) => {
-      setDados(response.data);
-    });
-    setId(dados.id)
-    setnome(dados.nome);
-    setValorVenda(dados.valorvenda);
-    setQuantidade(dados.quantidade);
-    setDataValidade(dados.dataValidade);
+    if (idParam != null) {
+      await axios.get(`${baseURL}/${idParam}`).then((response) => {
+        setDados(response.data);
+      }).catch((a) => {
+        console.log(a);
+      });
+      setId(dados.id);
+      setnome(dados.nome);
+      setValorVenda(dados.valorvenda);
+      setQuantidade(dados.quantidade);
+      setDataValidade(dados.dataValidade);
+      setIdFornecedor(dados.idFornecedor);
+    }
   }
 
+
+  const [dadosFornecedor, setDadosFornecedor] = React.useState(null);
+  useEffect(()=>{
+    axios.get(`${BASE_URL}/fornecedor`).then((response) => {
+      setDadosFornecedor(response.data);
+    });
+  },[]);
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
   if (!dados) return null;
+  if (!dadosFornecedor) return null;
 
   return (
     <div className='container'>
@@ -136,6 +152,27 @@ function Cadastroprodutos() {
                   name='dataValidadeprodutos'
                   onChange={(e) => setDataValidade(e.target.value)}
                 />
+              </FormGroup>
+              <FormGroup label= 'Fornecedor' htmlFor='selectFornecedor'>
+
+                <select className='form-select'
+                id='selectFornecedor'
+                name='idFornecedor'
+                value={idFornecedor}
+                onChange={(e)=>setIdFornecedor(e.target.value)}>
+                  <option key='0' value='0'>
+                    {''}
+                  </option>
+                  {dadosFornecedor.map((dado)=>(
+
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                    
+
+
+                </select>
               </FormGroup>
               <Stack spacing={1} padding={1} direction='row'>
                 <button

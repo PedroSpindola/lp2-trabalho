@@ -9,6 +9,7 @@ import FormGroup from '../components/form-group';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import { BASE_URL2 } from '../config/axios2';
 
 function CadastroFuncionario() {
   const { idParam } = useParams();
@@ -25,7 +26,7 @@ function CadastroFuncionario() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [dtaNasc, setDtaNasc] = useState('');
-
+  const [idCargo, setIdCargo] = useState(0);
 
   const [dados, setDados] = useState([]);
 
@@ -39,6 +40,7 @@ function CadastroFuncionario() {
       setEmail('');
       setSenha('');
       setDtaNasc('');
+      setIdCargo(0)
     } else {
       setId(dados.id)
       setCpf(dados.cpf);
@@ -48,11 +50,12 @@ function CadastroFuncionario() {
       setEmail(dados.email);
       setSenha(dados.senha);
       setDtaNasc(dados.dtaNasc);
+      setIdCargo(dados.idCargo)
     }
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, senha, dtaNasc };
+    let data = { id,cpf, nome, telefone, celular, email, senha, dtaNasc,idCargo };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -82,9 +85,14 @@ function CadastroFuncionario() {
   }
 
   async function buscar() {
-    await axios.get(`${baseURL}/${idParam}`).then((response) => {
-      setDados(response.data);
-    });
+  
+    if (idParam != null) {
+      await axios.get(`${baseURL}/${idParam}`).then((response) => {
+        setDados(response.data);
+      }).catch((a) => {
+        console.log(a);
+      });
+  
     setId(dados.id)
     setCpf(dados.cpf);
     setnome(dados.nome);
@@ -93,13 +101,25 @@ function CadastroFuncionario() {
     setEmail(dados.email);
     setSenha(dados.senha);
     setDtaNasc(dados.dtaNasc);
+    setIdCargo (dados.idCargo);
+    }
   }
+
+  const [dadosCargos, setDadosCargos] = React.useState(null)
+
+  useEffect(()=>{
+    axios.get(`${BASE_URL2}/Cargo`).then((response) => {
+      setDadosCargos(response.data);
+
+    });
+  },[]);
 
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
   if (!dados) return null;
+  if(!dadosCargos) return null
 
   return (
     <div className='container'>
@@ -166,6 +186,25 @@ function CadastroFuncionario() {
                   name='dtaNascFuncionario'
                   onChange={(e) => setEmail(e.target.value)}
                 />
+              </FormGroup>
+              <FormGroup label = 'Cargo*' htmlFor ='selectCargo'>
+
+                <select className='form-select'
+                type = 'select'
+                id ='selectCargo'
+                name='idCargo'
+                value={idCargo}
+                onChange={(e)=>setIdCargo(e.target.value)}>
+
+                  {dadosCargos.map((dado)=>(
+
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  )
+                  )}
+                </select>
+
               </FormGroup>
               <Stack spacing={1} padding={1} direction='row'>
                 <button

@@ -15,17 +15,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/produtos`;
+const baseURL = `${BASE_URL}/fornecedor`;
 
-function Listagemproduto() {
+function Listagemfornecedor() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/cadastro-produto`);
+    navigate(`/cadastro-fornecedor`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-produto/${id}`);
+    navigate(`/cadastro-fornecedor/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);
@@ -61,7 +61,7 @@ function Listagemproduto() {
 
   return (
     <div className='container'>
-      <Card title='Listagem de Produtos'>
+      <Card title='Listagem de fornecedor'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -70,24 +70,26 @@ function Listagemproduto() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
-                Novo Produto
+                Novo fornecedor
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Valor para venda</th>
-                    <th scope='col'>Unidades Disponíveis</th>
-                    <th scope='col'>Fornecedor</th>
+                    <th scope='col'>Telefone</th>
+                    <th scope='col'>Celular</th>
+                    <th scope='col'>Email</th>
+                    <th scope='col'>Data de Nascimento</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.nome}</td>
-                      <td>{dado.valorvenda}</td>
-                      <td>{dado.quantidade}</td>
-                      <td>{dado.fornecedor}</td>
+                      <td>{dado.nome}</td>  
+                      <td>{dado.telefone}</td>
+                      <td>{dado.celular}</td>
+                      <td>{dado.email}</td>
+                      <td>{dado.dtaNasc}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -116,4 +118,4 @@ function Listagemproduto() {
   );
 }
 
-export default Listagemproduto;
+export default Listagemfornecedor;
