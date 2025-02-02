@@ -81,6 +81,8 @@ function CadastroCliente() {
   async function buscar() {
     await axios.get(`${baseURL}/${idParam}`).then((response) => {
       setDados(response.data);
+    }).catch((a) => {
+      console.log(a);
     });
     setId(dados.id)
     setCpf(dados.cpf);
