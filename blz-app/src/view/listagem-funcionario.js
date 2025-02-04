@@ -30,26 +30,26 @@ function Listagemfuncionario() {
 
   const [dados, setDados] = React.useState(null);
 
-  // async function excluir(id) {
-  //   let data = JSON.stringify({ id });
-  //   //let url = `${baseURL}/${id}`;
-  //   console.log(url);
-  //  // await axios
-  //     .delete(url, data, {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     })
-  //     .then(function (response) {
-  //       mensagemSucesso(`Cargo excluído com sucesso!`);
-  //       setDados(
-  //         dados.filter((dado) => {
-  //           return dado.id !== id;
-  //         })
-  //       );
-  //     })
-  //     .catch(function (error) {
-  //       mensagemErro(`Erro ao excluir o cargo`);
-  //     });
-  // }
+   async function excluir(id) {
+     let data = JSON.stringify({ id });
+     let url = `${baseURL}/${id}`;
+     console.log(url);
+     await axios
+       .delete(url, data, {
+         headers: { 'Content-Type': 'application/json' },
+       })
+       .then(function (response) {
+         mensagemSucesso(`Cargo excluído com sucesso!`);
+         setDados(
+           dados.filter((dado) => {
+             return dado.id !== id;
+           })
+         );
+       })
+       .catch(function (error) {
+         mensagemErro(`Erro ao excluir o cargo`);
+       });
+   }
 
   React.useEffect(() => {
      axios.get(baseURL).then((response) => {
@@ -102,7 +102,7 @@ function Listagemfuncionario() {
                           </IconButton>
                           <IconButton
                             aria-label='delete'
-                          //  onClick={() => excluir(dado.id)}
+                            onClick={() => excluir(dado.id)}
                           >
                             <DeleteIcon />
                           </IconButton>

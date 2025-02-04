@@ -74,6 +74,7 @@ function Cadastroservico() {
         });
     }
   }
+  
 
   async function buscar() {
     await axios.get(`${baseURL}/${idParam}`).then((response) => {
