@@ -189,7 +189,7 @@ function CadastroLoja() {
           </div>
         </div>
       </Card>
-      <Card title='Localidade da loja'>
+      <Card title='Localização da loja'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>

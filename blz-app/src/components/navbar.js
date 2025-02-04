@@ -30,7 +30,7 @@ function Navbar(props) {
             <NavbarItem render='true' href='/listagem-servico' label='Serviços' />
           </ul>
           <ul className='navbar-nav'>
-            <NavbarItem render='true' href='/listagem-loja' label='Lojas'/>
+            <NavbarItem render='true' href='/listagem-loja' label='Loja'/>
           </ul>
           <ul className='navbar-nav'>
             <NavbarItem render='true' href='/listagem-colaborador' label='Colaboradores'/>
