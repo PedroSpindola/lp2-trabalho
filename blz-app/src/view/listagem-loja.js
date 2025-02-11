@@ -30,27 +30,29 @@ function Listagemloja() {
   };
 
   const [dados, setDados] = React.useState(null);
+  
+  async function excluir(id) {
+    let data = JSON.stringify({ id });
+    let url = `${baseURL}/${id}`;
+    console.log(url);
+    await axios
+      .delete(url, data, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then(function (response) {
+        mensagemSucesso(`Loja excluida com sucesso!`);
+        setDados(
+          dados.filter((dado) => {
+            return dado.id !== id;
+          })
+        );
+      })
+      .catch(function (error) {
+        mensagemErro(`Erro ao excluir a loja`);
+      });
+  }
 
-  // async function excluir(id) {
-  //   let data = JSON.stringify({ id });
-  //   //let url = `${baseURL}/${id}`;
-  //   console.log(url);
-  //  // await axios
-  //     .delete(url, data, {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     })
-  //     .then(function (response) {
-  //       mensagemSucesso(`Cargo excluído com sucesso!`);
-  //       setDados(
-  //         dados.filter((dado) => {
-  //           return dado.id !== id;
-  //         })
-  //       );
-  //     })
-  //     .catch(function (error) {
-  //       mensagemErro(`Erro ao excluir o cargo`);
-  //     });
-  // }
+ 
 
   React.useEffect(() => {
      axios.get(baseURL).then((response) => {
@@ -66,20 +68,13 @@ function Listagemloja() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              {dados.map((dado)=>(
-
-                <button
+            <button
                 type='button'
                 className='btn btn-warning'
-                
-                onClick={() => editar(dado.id)}
-
+                onClick={() => cadastrar()}
               >
-                Configurar Loja
+                Nova loja
               </button>
-
-              ))}
-              
               <table className='table table-hover'>
                 <thead>
                   <tr>
@@ -96,6 +91,7 @@ function Listagemloja() {
                     <th scope='col'>Cidade</th>
                     <th scope='col'>Estado</th>
                     <th scope='col'>Cep</th>
+                    
 
                   </tr>
                 </thead>
@@ -115,6 +111,20 @@ function Listagemloja() {
                       <td>{dado.cidade}</td>
                       <td>{dado.estado}</td>
                       <td>{dado.cep}</td>
+                      <td> <Stack spacing={1} padding={0} direction='row'>
+                          <IconButton
+                            aria-label='edit'
+                            onClick={() => editar(dado.id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            aria-label='delete'
+                            onClick={() => excluir(dado.id)}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Stack></td>
                     </tr>
                   ))}
                 </tbody>
