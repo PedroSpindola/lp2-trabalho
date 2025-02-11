@@ -123,7 +123,7 @@ function Cadastroprodutos() {
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='preço: *' htmlFor='inputvalorvenda'>
+              <FormGroup label='Preço (R$): *' htmlFor='inputvalorvenda'>
                 <input
                   type='text'
                   id='inputvalorvenda'
@@ -133,7 +133,7 @@ function Cadastroprodutos() {
                   onChange={(e) => setValorVenda(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='quantidade: *' htmlFor='inputquantidade'>
+              <FormGroup label='Quantidade: *' htmlFor='inputquantidade'>
                 <input
                   type='text'
                   id='inputquantidade'
@@ -143,7 +143,7 @@ function Cadastroprodutos() {
                   onChange={(e) => setQuantidade(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='dataValidade: *' htmlFor='inputdataValidade'>
+              <FormGroup label='Data de validade: *' htmlFor='inputdataValidade'>
                 <input
                   type='text'
                   id='inputdataValidade'

@@ -20,7 +20,7 @@ function Cadastroagenda() {
   const [id, setId] = useState('');
   const [data, setData] = useState('');
   const [horario, setHorario] = useState('0');
-  const [servico, setServico] = useState('0');
+  const [idServico, setIdServico] = useState(0);
   const [idFuncionario, setIdFuncionario] = useState(0);
 
 
@@ -31,20 +31,20 @@ function Cadastroagenda() {
       setId('')
       setData('');
       setHorario('');
-      setServico('');
+      setIdServico(0);
       setIdFuncionario(0)
 
     } else {
       setId(dados.id)
       setData(dados.data);
       setHorario(dados.horario);
-      setServico(dados.servico);
+      setIdServico(dados.idServico);
       setIdFuncionario(dados.idFuncionario);
     }
   }
 
   async function salvar() {
-    let data = { id,data, horario, servico, idFuncionario };
+    let data = { id,data, horario, idServico, idFuncionario };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -83,12 +83,28 @@ function Cadastroagenda() {
       setId(dados.id);
       setData(dados.data);
       setHorario(dados.horario);
-      setServico(dados.servico);
+      setIdServico(dados.idServico);
       setIdFuncionario(dados.idFuncionario);
     }
   }
 
 
+  const [dadosServico, setDadosServico] = React.useState(null);
+  useEffect(()=>{
+    axios.get(`${BASE_URL}/servico`).then((response) => {
+      setDadosServico(response.data);
+    });
+  },[]);
+  useEffect(() => {
+    buscar(); // eslint-disable-next-line
+  }, [id]);
+
+
+  
+  
+  
+  
+  
   const [dadosFuncionario, setDadosFuncionario] = React.useState(null);
   useEffect(()=>{
     axios.get(`${BASE_URL}/funcionario`).then((response) => {
@@ -100,7 +116,11 @@ function Cadastroagenda() {
   }, [id]);
 
   if (!dados) return null;
+  if (!dadosServico) return null;
+  if (!dados) return null;
   if (!dadosFuncionario) return null;
+
+  
 
   return (
     <div className='container'>
@@ -129,19 +149,26 @@ function Cadastroagenda() {
                   onChange={(e) => setHorario(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='servico: *' htmlFor='inputservico'>
-                <input
-                  type='text'
-                  id='inputservico'
-                  value={servico}
-                  className='form-control'
-                  name='servicoagenda'
-                  onChange={(e) => setServico(e.target.value)}
-                />
+             
+              <FormGroup label= 'Serviço Desejado *' htmlFor='selectServico'>
+                <select className='form-select'
+                id='selectServico'
+                name='idServico'
+                value={idServico}
+                onChange={(e)=>setIdServico(e.target.value)}>
+                  <option key='0' value='0'>
+                    {''}
+                  </option>
+                  {dadosServico.map((dado)=>(
+
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
               
               <FormGroup label= 'Funcionario' htmlFor='selectFuncionario'>
-
                 <select className='form-select'
                 id='selectFuncionario'
                 name='idFuncionario'
@@ -156,11 +183,9 @@ function Cadastroagenda() {
                       {dado.nome}
                     </option>
                   ))}
-                    
-
-
                 </select>
               </FormGroup>
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

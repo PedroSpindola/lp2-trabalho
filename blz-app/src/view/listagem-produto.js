@@ -76,7 +76,7 @@ function Listagemproduto() {
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Valor para venda</th>
+                    <th scope='col'>Valor para venda (R$)</th>
                     <th scope='col'>Unidades Disponíveis</th>
                     <th scope='col'>Fornecedor</th>
                   </tr>

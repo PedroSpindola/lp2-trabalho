@@ -87,7 +87,7 @@ function CadastroCargo() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='cargo: *' htmlFor='inputcargo'>
+              <FormGroup label='Cargo: *' htmlFor='inputcargo'>
                 <input
                   type='text'
                   id='inputcargo'

@@ -123,7 +123,7 @@ function Cadastroservico() {
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='preço: *' htmlFor='inputpreco'>
+              <FormGroup label='Preço: *' htmlFor='inputpreco'>
                 <input
                   type='text'
                   id='inputpreco'
@@ -133,7 +133,7 @@ function Cadastroservico() {
                   onChange={(e) => setPreco(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='duracao: *' htmlFor='inputduracao'>
+              <FormGroup label='Duração (min):  *' htmlFor='inputduracao'>
                 <input
                   type='text'
                   id='inputduracao'
@@ -143,7 +143,7 @@ function Cadastroservico() {
                   onChange={(e) => setDuracao(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label= 'Cargo:*' htmlFor= 'selectCargo'>
+              <FormGroup label= 'Profissional que realizará o serviço: *' htmlFor= 'selectCargo'>
                 <select
                   className='form-select'
                   id='selectCarogo'

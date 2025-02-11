@@ -127,7 +127,7 @@ function CadastroFuncionario() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            <FormGroup label='Cpf: *' htmlFor='inputCpf'>
+            <FormGroup label='CPF: *' htmlFor='inputCpf'>
                 <input
                   type='text'
                   id='inputCpf'
@@ -177,7 +177,7 @@ function CadastroFuncionario() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='DtaNasc: *' htmlFor='inputDtaNasc'>
+              <FormGroup label='Data de Nascimento: *' htmlFor='inputDtaNasc'>
                 <input
                   type='text'
                   id='inputDtaNasc'
@@ -187,7 +187,7 @@ function CadastroFuncionario() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label = 'Cargo*' htmlFor ='selectCargo'>
+              <FormGroup label = 'Cargo: *' htmlFor ='selectCargo'>
 
                 <select className='form-select'
                 type = 'select'

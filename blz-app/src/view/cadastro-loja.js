@@ -125,7 +125,7 @@ function CadastroLoja() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            <FormGroup label='Cnpj: *' htmlFor='inputCnpj'>
+            <FormGroup label='CNPJ: *' htmlFor='inputCnpj'>
                 <input
                   type='text'
                   id='inputCnpj'
@@ -175,7 +175,7 @@ function CadastroLoja() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='DtaCriacao: *' htmlFor='inputDtaCriacao'>
+              <FormGroup label='Data de Criação: *' htmlFor='inputDtaCriacao'>
                 <input
                   type='text'
                   id='inputDtaCriacao'

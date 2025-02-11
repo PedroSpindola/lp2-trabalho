@@ -76,8 +76,8 @@ function ListagemServico() {
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Duração</th>
-                    <th scope='col'>Valor</th>
+                    <th scope='col'>Duração (Min)</th>
+                    <th scope='col'>Valor (R$)</th>
                   </tr>
                 </thead>
                 <tbody>
