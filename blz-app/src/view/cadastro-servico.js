@@ -24,6 +24,7 @@ function Cadastroservico() {
   const [preco, setPreco] = useState('0');
   const [duracao, setDuracao] = useState('0');
   const [idCargo, setIdCargo] = useState(0)
+  const [idLoja, setIdLoja] = useState(0)
 
 
   const [dados, setDados] = useState([]);
@@ -34,7 +35,8 @@ function Cadastroservico() {
       setnome('');
       setPreco('');
       setDuracao('');
-      setIdCargo(0)
+      setIdCargo(0);
+      setIdLoja(0)
 
     } else {
       setId(dados.id)
@@ -42,7 +44,9 @@ function Cadastroservico() {
       setPreco(dados.preco);
       setDuracao(dados.duracao);
       setIdCargo(dados.idCargo)
+      setIdLoja(dados.idLoja)
     }
+    navigate(`/listagem-servico`);
   }
 
   async function salvar() {
@@ -87,9 +91,11 @@ function Cadastroservico() {
     setPreco(dados.preco);
     setDuracao(dados.duracao);
     setIdCargo(dados.idCargo)
+    setIdLoja(dados.idLoja)
   }
 
   const [dadosCargos, setDadosCargos] = React.useState(null)
+  const [dadosLoja, setDadosLoja] = React.useState(null)
 
   useEffect(()=>{
 
@@ -102,9 +108,24 @@ function Cadastroservico() {
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
+  useEffect(()=>{
+
+    axios.get(`${BASE_URL2}/Loja`).then((response) => {
+      setDadosLoja(response.data);
+    });
+
+  },[])
+
+  useEffect(() => {
+    buscar(); // eslint-disable-next-line
+  }, [id]);
+
+
 
   if (!dados) return null;
   if(!dadosCargos) return null;
+  if(!dados) return null;
+  if(!dadosLoja) return null;
 
   return (
     <div className='container'>
@@ -159,6 +180,24 @@ function Cadastroservico() {
                   ))}
                 </select>
               </FormGroup>
+
+              <FormGroup label= 'Cadastrar serviço na loja: *' htmlFor= 'selectLoja'>
+                <select
+                  className='form-select'
+                  id='selectLoja'
+                  name='idLoja'
+                  value={idLoja}
+                >
+                  {dadosLoja.map((dado)=>(
+                    <option key={dado.id} value={dado.id}>
+
+                      {dado.nome}
+                    
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+              
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

@@ -24,6 +24,7 @@ function CadastroCliente() {
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [idLoja, setIdLoja] = useState(0);
 
 
   const [dados, setDados] = useState([]);
@@ -37,6 +38,7 @@ function CadastroCliente() {
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
       setSenha('');
+      setIdLoja(0);
     } else {
       setId(dados.id)
       setCpf(dados.cpf);
@@ -45,11 +47,13 @@ function CadastroCliente() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setSenha(dados.senha);
+      setIdLoja(dados.idLoja);
     }
+     navigate(`/listagem-cliente`);
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, senha };
+    let data = { id,cpf, nome, telefone, celular, email, senha, idLoja };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -91,12 +95,25 @@ function CadastroCliente() {
     setCelular(dados.celular);
     setEmail(dados.email);
     setSenha(dados.senha);
+    setIdLoja(dados.idLoja);
   }
 
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
+  const [dadosLoja, setDadosLoja] = React.useState(null);
+  useEffect(()=>{
+    axios.get(`${BASE_URL2}/Loja`).then((response) => {
+      setDadosLoja(response.data);
+    });
+  },[]);
+  useEffect(() => {
+    buscar(); // eslint-disable-next-line
+  }, [id]);
+
+  if (!dados) return null;
+  if (!dadosLoja) return null;
   if (!dados) return null;
 
   return (
@@ -155,6 +172,27 @@ function CadastroCliente() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
+
+              <FormGroup label= 'Cliente da Loja:' htmlFor='selectLoja'>
+                <select className='form-select'
+                id='selectLoja'
+                name='idLoja'
+                value={idLoja}
+                onChange={(e)=>setIdLoja(e.target.value)}>
+                  <option key='0' value='0'>
+                    {''}
+                  </option>
+                  {dadosLoja.map((dado)=>(
+
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+
+
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

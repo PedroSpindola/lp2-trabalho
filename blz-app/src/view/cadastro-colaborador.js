@@ -49,6 +49,7 @@ function CadastroColaborador() {
       setSenha(dados.senha);
       setIdCargo(dados.idCargo);
     }
+    navigate(`/listagem-colaborador`);
   }
 
   async function salvar() {

@@ -9,6 +9,7 @@ import FormGroup from '../components/form-group';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import { BASE_URL2 } from '../config/axios2';
 
 function Cadastroprodutos() {
   const { idParam } = useParams();
@@ -23,6 +24,7 @@ function Cadastroprodutos() {
   const [quantidade, setQuantidade] = useState('0');
   const [dataValidade, setDataValidade] = useState('');
   const [idFornecedor, setIdFornecedor] = useState(0);
+  const [idLoja, setIdLoja] = useState(0);
 
 
   const [dados, setDados] = useState([]);
@@ -34,7 +36,8 @@ function Cadastroprodutos() {
       setValorVenda('');
       setQuantidade('');
       setDataValidade('');
-      setIdFornecedor(0)
+      setIdFornecedor(0);
+      setIdLoja(0);
 
     } else {
       setId(dados.id)
@@ -43,11 +46,13 @@ function Cadastroprodutos() {
       setQuantidade(dados.quantidade);
       setDataValidade(dados.dataValidade);
       setIdFornecedor(dados.idFornecedor);
+      setIdLoja(dados.idLoja);
     }
+      navigate(`/listagem-produto`);
   }
 
   async function salvar() {
-    let data = { id,nome, valorvenda, quantidade, dataValidade, idFornecedor };
+    let data = { id,nome, valorvenda, quantidade, dataValidade, idFornecedor, idLoja };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -89,6 +94,7 @@ function Cadastroprodutos() {
       setQuantidade(dados.quantidade);
       setDataValidade(dados.dataValidade);
       setIdFornecedor(dados.idFornecedor);
+      setIdLoja(dados.idLoja);
     }
   }
 
@@ -103,8 +109,20 @@ function Cadastroprodutos() {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
+  const [dadosLoja, setDadosLoja] = React.useState(null);
+  useEffect(()=>{
+    axios.get(`${BASE_URL2}/Loja`).then((response) => {
+      setDadosLoja(response.data);
+    });
+  },[]);
+  useEffect(() => {
+    buscar(); // eslint-disable-next-line
+  }, [id]);
+
   if (!dados) return null;
   if (!dadosFornecedor) return null;
+  if (!dados) return null;
+  if (!dadosLoja) return null;
 
   return (
     <div className='container'>
@@ -174,6 +192,27 @@ function Cadastroprodutos() {
 
                 </select>
               </FormGroup>
+
+
+              <FormGroup label= 'Cadastrar produto na Loja:' htmlFor='selectLoja'>
+                <select className='form-select'
+                id='selectLoja'
+                name='idLoja'
+                value={idLoja}
+                onChange={(e)=>setIdLoja(e.target.value)}>
+                  <option key='0' value='0'>
+                    {''}
+                  </option>
+                  {dadosLoja.map((dado)=>(
+
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}
@@ -184,6 +223,7 @@ function Cadastroprodutos() {
                 </button>
                 <button
                   onClick={inicializar}
+                  
                   type='button'
                   className='btn btn-danger'
                 >

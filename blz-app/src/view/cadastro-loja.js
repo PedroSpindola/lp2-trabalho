@@ -55,6 +55,7 @@ function CadastroLoja() {
       setEstado(dados.estado)
       setCep(dados.cep)
     }
+    navigate(`/listagem-loja`);
   }
 
   async function salvar() {

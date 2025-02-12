@@ -39,7 +39,7 @@ function Listagemagenda() {
          headers: { 'Content-Type': 'application/json' },
        })
        .then(function (response) {
-         mensagemSucesso(`Cargo excluído com sucesso!`);
+         mensagemSucesso(`Agendamento excluído com sucesso!`);
          setDados(
            dados.filter((dado) => {
              return dado.id !== id;
@@ -47,7 +47,7 @@ function Listagemagenda() {
          );
        })
        .catch(function (error) {
-         mensagemErro(`Erro ao excluir o cargo`);
+         mensagemErro(`Erro ao excluir o Agendamento`);
        });
    }
 
@@ -79,6 +79,7 @@ function Listagemagenda() {
                     <th scope='col'>Horario</th>
                     <th scope='col'>Serviço</th>
                     <th scope='col'>Preferência por Funcionário</th>
+                    <th scope='col'>Loja</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -88,6 +89,7 @@ function Listagemagenda() {
                       <td>{dado.horario}</td>
                       <td>{dado.servico}</td>
                       <td>{dado.preferenciaFuncionario}</td>
+                      <td>{dado.loja}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

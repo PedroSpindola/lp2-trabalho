@@ -33,6 +33,7 @@ function CadastroCargo() {
       setId(dados.id);
       setnome(dados.nome);
     }
+    navigate(`/listagem-cargo`);
   }
 
   async function salvar() {

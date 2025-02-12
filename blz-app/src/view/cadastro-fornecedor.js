@@ -9,6 +9,7 @@ import FormGroup from '../components/form-group';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import { BASE_URL2 } from '../config/axios2';
 
 function CadastroFornecedor() {
   const { idParam } = useParams();
@@ -23,6 +24,7 @@ function CadastroFornecedor() {
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
   const [dtaNasc, setDtaNasc] = useState('');
+  const [idLoja, setIdLoja] = useState(0);
 
 
   const [dados, setDados] = useState([]);
@@ -35,6 +37,7 @@ function CadastroFornecedor() {
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
       setDtaNasc('');
+      setIdLoja(0);
     } else {
       setId(dados.id);
       setnome(dados.nome);
@@ -42,11 +45,13 @@ function CadastroFornecedor() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setDtaNasc(dados.dtaNasc);
+      setIdLoja(dados.idLoja);
     }
+    navigate(`/listagem-fornecedor`);
   }
 
   async function salvar() {
-    let data = { id, nome, telefone, celular, email, dtaNasc };
+    let data = { id, nome, telefone, celular, email, dtaNasc, idLoja };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -87,13 +92,26 @@ function CadastroFornecedor() {
     setCelular(dados.celular);
     setEmail(dados.email);
     setDtaNasc(dados.dtaNasc);
+    setIdLoja(dados.idLoja);
   }
 
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
-  if (!dados) return null;
+  const [dadosLoja, setDadosLoja] = React.useState(null);
+  useEffect(()=>{
+    axios.get(`${BASE_URL2}/Loja`).then((response) => {
+      setDadosLoja(response.data);
+    });
+  },[]);
+  useEffect(() => {
+    buscar(); // eslint-disable-next-line
+  }, [id]);
+
+  if(!dados) return null;
+  if(!dadosLoja) return null;
+
 
   return (
     <div className='container'>
@@ -142,6 +160,25 @@ function CadastroFornecedor() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
+
+              <FormGroup label= 'Fornecedor da Loja:' htmlFor='selectLoja'>
+                <select className='form-select'
+                id='selectLoja'
+                name='idLoja'
+                value={idLoja}
+                onChange={(e)=>setIdLoja(e.target.value)}>
+                  <option key='0' value='0'>
+                    {''}
+                  </option>
+                  {dadosLoja.map((dado)=>(
+
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

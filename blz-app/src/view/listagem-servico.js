@@ -76,8 +76,9 @@ function ListagemServico() {
                 <thead>
                   <tr>
                     <th scope='col'>Nome</th>
-                    <th scope='col'>Duração (Min)</th>
+                    <th scope='col'>Duração estimada (Min)</th>
                     <th scope='col'>Valor (R$)</th>
+                    <th scope='col'>Loja</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -86,6 +87,7 @@ function ListagemServico() {
                       <td>{dado.nome}</td>
                       <td>{dado.duracao}</td>
                       <td>{dado.preco}</td>
+                      <td>{dado.loja}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

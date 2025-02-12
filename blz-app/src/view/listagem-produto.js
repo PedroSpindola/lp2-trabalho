@@ -79,6 +79,7 @@ function Listagemproduto() {
                     <th scope='col'>Valor para venda (R$)</th>
                     <th scope='col'>Unidades Disponíveis</th>
                     <th scope='col'>Fornecedor</th>
+                    <th scope='col'>Loja</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -88,6 +89,7 @@ function Listagemproduto() {
                       <td>{dado.valorvenda}</td>
                       <td>{dado.quantidade}</td>
                       <td>{dado.fornecedor}</td>
+                      <td>{dado.loja}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

@@ -23,6 +23,7 @@ import Listagemcargo from './view/listagem-cargo';
 import Listagemfuncionario from './view/listagem-funcionario';
 import Listagemfornecedor from './view/listagem-fornecedor';
 import Listagemagenda from './view/listagem-agenda';
+import Listagemvenda from './view/listagem-venda';
 
 
 function Rotas(props) {
@@ -83,6 +84,7 @@ function Rotas(props) {
         <Route path='/listagem-funcionario' element={<Listagemfuncionario />} />
         <Route path='/listagem-fornecedor' element={<Listagemfornecedor />} />
         <Route path='/listagem-agenda' element={<Listagemagenda />} />
+        <Route path='/listagem-venda' element={<Listagemvenda />} />
 
       </Routes>
     </BrowserRouter>

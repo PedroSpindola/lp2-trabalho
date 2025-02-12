@@ -81,6 +81,7 @@ function Listagemfuncionario() {
                     <th scope='col'>Celular</th>
                     <th scope='col'>Data de Nascimento</th>
                     <th scope='col'>Email</th>
+                    <th scope='col'>Funcionário da Loja</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -92,6 +93,7 @@ function Listagemfuncionario() {
                       <td>{dado.celular}</td>
                       <td>{dado.dtaNasc}</td>
                       <td>{dado.email}</td>
+                      <td>{dado.loja}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

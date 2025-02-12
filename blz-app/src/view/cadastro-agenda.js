@@ -41,6 +41,7 @@ function Cadastroagenda() {
       setIdServico(dados.idServico);
       setIdFuncionario(dados.idFuncionario);
     }
+    navigate(`/listagem-agenda`);
   }
 
   async function salvar() {
@@ -139,7 +140,7 @@ function Cadastroagenda() {
                   onChange={(e) => setData(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Horario: *' htmlFor='inputHorarioagenda'>
+              <FormGroup label='Horario de Preferência: *' htmlFor='inputHorarioagenda'>
                 <input
                   type='text'
                   id='inputHorarioagenda'
@@ -168,7 +169,7 @@ function Cadastroagenda() {
                 </select>
               </FormGroup>
               
-              <FormGroup label= 'Funcionario' htmlFor='selectFuncionario'>
+              <FormGroup label= 'Funcionário de Preferência' htmlFor='selectFuncionario'>
                 <select className='form-select'
                 id='selectFuncionario'
                 name='idFuncionario'

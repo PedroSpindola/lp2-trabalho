@@ -13,19 +13,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios2';
+import { BASE_URL3 } from '../config/axios3';
 
-const baseURL = `${BASE_URL2}/Colaboradores`;
+const baseURL = `${BASE_URL3}/Venda`;
 
-function Listagemcolaborador() {
+function Listagemvenda() {
   const navigate = useNavigate();
 
   const cadastrar = () => {
-    navigate(`/cadastro-colaborador`);
+    navigate(`/cadastro-venda`);
   };
 
   const editar = (id) => {
-    navigate(`/cadastro-colaborador/${id}`);
+    navigate(`/cadastro-venda/${id}`);
   };
 
   const [dados, setDados] = React.useState(null);
@@ -39,7 +39,7 @@ function Listagemcolaborador() {
          headers: { 'Content-Type': 'application/json' },
        })
        .then(function (response) {
-         mensagemSucesso(`Cargo excluído com sucesso!`);
+         mensagemSucesso(`Venda excluído com sucesso!`);
          setDados(
            dados.filter((dado) => {
              return dado.id !== id;
@@ -47,7 +47,7 @@ function Listagemcolaborador() {
          );
        })
        .catch(function (error) {
-         mensagemErro(`Erro ao excluir o cargo`);
+         mensagemErro(`Erro ao excluir o Venda`);
        });
    }
 
@@ -61,7 +61,7 @@ function Listagemcolaborador() {
 
   return (
     <div className='container'>
-      <Card title='Listagem de colaborador'>
+      <Card title='Listagem de vendas'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
@@ -70,31 +70,28 @@ function Listagemcolaborador() {
                 className='btn btn-warning'
                 onClick={() => cadastrar()}
               >
-                Novo Colaborador
+                Nova Venda
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                  <th scope='col'>CPF</th>
-                    <th scope='col'>Nome</th>
-                    <th scope='col'>Telefone</th>
-                    <th scope='col'>Celular</th>
-                    <th scope='col'>Email</th>
-                    <th scope='col'>Lojas Cadastradas</th>
-                    <th scope='col'>Cargo</th>
+                    <th scope='col'>Cliente</th>
+                    <th scope='col'>Loja</th>
+                    <th scope='col'>Produto</th>
+                    <th scope='col'>Data da Compra</th>
+                    <th scope='col'>Horário da Compra</th>
                     
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
-                    <tr key={dado.cpf}>
-                     <td>{dado.cpf}</td>
-                      <td>{dado.nome}</td>
-                      <td>{dado.telefone}</td>
-                      <td>{dado.celular}</td>
-                      <td>{dado.email}</td>
+                    <tr key={dado.id}>
+                      <td>{dado.cliente}</td>
                       <td>{dado.loja}</td>
-                      <td>{dado.cargo}</td>
+                      <td>{dado.produto}</td>
+                      <td>{dado.dataVenda}</td>
+                      <td>{dado.horarioVenda}</td>
+                      
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
@@ -123,4 +120,4 @@ function Listagemcolaborador() {
   );
 }
 
-export default Listagemcolaborador;
+export default Listagemvenda;
