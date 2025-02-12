@@ -82,6 +82,7 @@ function Listagemcolaborador() {
                     <th scope='col'>Email</th>
                     <th scope='col'>Lojas Cadastradas</th>
                     <th scope='col'>Cargo</th>
+                    <th scope='col'>Loja</th>
                     
                   </tr>
                 </thead>
@@ -95,6 +96,7 @@ function Listagemcolaborador() {
                       <td>{dado.email}</td>
                       <td>{dado.loja}</td>
                       <td>{dado.cargo}</td>
+                      <td>{dado.loja}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

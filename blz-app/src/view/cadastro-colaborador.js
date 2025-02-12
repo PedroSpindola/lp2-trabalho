@@ -25,6 +25,7 @@ function CadastroColaborador() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [idCargo, setIdCargo] = useState(0);
+  const [idLoja, setIdLoja] = useState(0);
 
 
   const [dados, setDados] = useState([]);
@@ -39,6 +40,8 @@ function CadastroColaborador() {
       setEmail('');
       setSenha('');
       setIdCargo(0);
+      setIdLoja(0);
+
     } else {
       setId(dados.id)
       setCpf(dados.cpf);
@@ -48,6 +51,7 @@ function CadastroColaborador() {
       setEmail(dados.email);
       setSenha(dados.senha);
       setIdCargo(dados.idCargo);
+      setIdLoja(dados.idLoja);
     }
     navigate(`/listagem-colaborador`);
   }
@@ -101,6 +105,7 @@ function CadastroColaborador() {
     setEmail(dados.email);
     setSenha(dados.senha);
     setIdCargo(dados.idCargo);
+    setIdLoja(dados.idLoja);
   }
   const [dadosCargos,setDadosCargos] = React.useState(null)
 
@@ -184,6 +189,7 @@ function CadastroColaborador() {
 
                   {dadosCargos.map((dado)=>(
                     <option key={dado.id} value={dado.id}>
+              
 
                       {dado.nome}
 
@@ -194,6 +200,25 @@ function CadastroColaborador() {
                 </select>
 
               </FormGroup>
+              
+                <FormGroup label = 'Loja:' htmlFor='selectLoja'>
+
+                  <select className='form-select'
+                  type='select'
+                  id='selectLoja'
+                  name='lojaColaborador'
+                  value={idLoja}
+                  onChange={(e)=>setIdLoja(e.target.value)}>
+
+                    {dadosLoja.map((dado)=>(
+                      
+                      <option key={dado.id} value={dado.id}>
+                        {dado.nome}
+                      </option>
+                    ))}
+                  </select>
+              </FormGroup>
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}
