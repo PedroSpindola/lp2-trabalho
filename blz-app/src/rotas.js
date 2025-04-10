@@ -22,7 +22,7 @@ import Listagemcliente from './view/listagem-cliente';
 import Listagemcargo from './view/listagem-cargo';
 import Listagemfuncionario from './view/listagem-funcionario';
 import Listagemfornecedor from './view/listagem-fornecedor';
-import Listagemagenda from './view/listagem-agenda';
+import Listagemagenda from './view/listagem-Agenda';
 import Listagemvenda from './view/listagem-venda';
 
 

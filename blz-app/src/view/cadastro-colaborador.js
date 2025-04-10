@@ -57,7 +57,7 @@ function CadastroColaborador() {
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, senha,idCargo };
+    let data = { id,cpf, nome, telefone, celular, email, senha,idCargo, idLoja};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -108,11 +108,13 @@ function CadastroColaborador() {
     setIdLoja(dados.idLoja);
   }
   const [dadosCargos,setDadosCargos] = React.useState(null)
+  const [dadosLoja,setDadosLoja] = React.useState(null)
 
   useEffect(()=>{
 
     axios.get(`${BASE_URL2}/Cargo`).then((response) => {
       setDadosCargos(response.data);
+      setDadosLoja(response.data);
     });
   },[]);
 
