@@ -17,7 +17,7 @@ function CadastroCargo() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/Cargo`;
+  const baseURL = `${BASE_URL}/cargos`;
 
   const [id, setId] = useState('');
   const [nome, setnome] = useState('');

@@ -16,7 +16,7 @@ function CadastroFornecedor() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/fornecedor`;
+  const baseURL = `${BASE_URL}/fornecedores`;
 
   const [id, setId] = useState('');
   const [nome, setnome] = useState('');
@@ -101,7 +101,7 @@ function CadastroFornecedor() {
 
   const [dadosLoja, setDadosLoja] = React.useState(null);
   useEffect(()=>{
-    axios.get(`${BASE_URL}/Loja`).then((response) => {
+    axios.get(`${BASE_URL}/lojas`).then((response) => {
       setDadosLoja(response.data);
     });
   },[]);

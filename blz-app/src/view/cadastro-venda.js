@@ -15,7 +15,7 @@ function Cadastrovenda() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/Venda`;
+  const baseURL = `${BASE_URL}/vendas`;
 
   const [id, setId] = useState('');
   const [cliente, setcliente] = useState('');

@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/Clientes`;
+const baseURL = `${BASE_URL}/usuarios`;
 
 function Listagemcliente() {
   const navigate = useNavigate();

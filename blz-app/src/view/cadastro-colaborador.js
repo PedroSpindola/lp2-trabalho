@@ -15,7 +15,7 @@ function CadastroColaborador() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/Colaboradores`;
+  const baseURL = `${BASE_URL}/colaboradores`;
 
   const [id, setId] = useState('');
   const [cpf, setCpf] = useState('');
@@ -112,7 +112,7 @@ function CadastroColaborador() {
 
   useEffect(()=>{
 
-    axios.get(`${BASE_URL}/Cargo`).then((response) => {
+    axios.get(`${BASE_URL}/cargos`).then((response) => {
       setDadosCargos(response.data);
       setDadosLoja(response.data);
     });

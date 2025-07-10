@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/Agendamento`;
+const baseURL = `${BASE_URL}/agendamentos`;
 
 function Listagemagenda() {
   const navigate = useNavigate();

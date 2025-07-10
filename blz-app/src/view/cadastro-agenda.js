@@ -15,7 +15,7 @@ function Cadastroagenda() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/agenda`;
+  const baseURL = `${BASE_URL}/agendamentos`;
 
   const [id, setId] = useState('');
   const [data, setData] = useState('');
@@ -92,7 +92,7 @@ function Cadastroagenda() {
 
   const [dadosServico, setDadosServico] = React.useState(null);
   useEffect(()=>{
-    axios.get(`${BASE_URL}/servico`).then((response) => {
+    axios.get(`${BASE_URL}/servicos`).then((response) => {
       setDadosServico(response.data);
     });
   },[]);

@@ -101,7 +101,7 @@ function Cadastroprodutos() {
 
   const [dadosFornecedor, setDadosFornecedor] = React.useState(null);
   useEffect(()=>{
-    axios.get(`${BASE_URL}/fornecedor`).then((response) => {
+    axios.get(`${BASE_URL}/fornecedores`).then((response) => {
       setDadosFornecedor(response.data);
     });
   },[]);
@@ -111,7 +111,7 @@ function Cadastroprodutos() {
 
   const [dadosLoja, setDadosLoja] = React.useState(null);
   useEffect(()=>{
-    axios.get(`${BASE_URL}/Loja`).then((response) => {
+    axios.get(`${BASE_URL}/lojas`).then((response) => {
       setDadosLoja(response.data);
     });
   },[]);

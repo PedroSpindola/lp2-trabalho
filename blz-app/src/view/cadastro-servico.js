@@ -15,7 +15,7 @@ function Cadastroservico() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/servico`;
+  const baseURL = `${BASE_URL}/servicos`;
   
 
   const [id, setId] = useState('');
@@ -98,7 +98,7 @@ function Cadastroservico() {
 
   useEffect(()=>{
 
-    axios.get(`${BASE_URL}/Cargo`).then((response) => {
+    axios.get(`${BASE_URL}/cargos`).then((response) => {
       setDadosCargos(response.data);
     });
 
@@ -109,7 +109,7 @@ function Cadastroservico() {
   }, [id]);
   useEffect(()=>{
 
-    axios.get(`${BASE_URL}/Loja`).then((response) => {
+    axios.get(`${BASE_URL}/lojas`).then((response) => {
       setDadosLoja(response.data);
     });
 

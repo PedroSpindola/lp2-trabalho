@@ -16,7 +16,7 @@ function CadastroFuncionario() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/funcionario`;
+  const baseURL = `${BASE_URL}/funcionarios`;
 
   const [id, setId] = useState('');
   const [cpf, setCpf] = useState('');
@@ -114,7 +114,7 @@ function CadastroFuncionario() {
   const [dadosCargos, setDadosCargos] = React.useState(null)
 
   useEffect(()=>{
-    axios.get(`${BASE_URL}/Cargo`).then((response) => {
+    axios.get(`${BASE_URL}/cargos`).then((response) => {
       setDadosCargos(response.data);
 
     });

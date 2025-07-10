@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/Colaboradores`;
+const baseURL = `${BASE_URL}/colaboradores`;
 
 function Listagemcolaborador() {
   const navigate = useNavigate();

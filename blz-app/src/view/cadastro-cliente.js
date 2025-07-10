@@ -15,7 +15,7 @@ function CadastroCliente() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/Clientes`;
+  const baseURL = `${BASE_URL}/usuarios`;
 
   const [id, setId] = useState('');
   const [cpf, setCpf] = useState('');
@@ -104,7 +104,7 @@ function CadastroCliente() {
 
   const [dadosLoja, setDadosLoja] = React.useState(null);
   useEffect(()=>{
-    axios.get(`${BASE_URL}/Loja`).then((response) => {
+    axios.get(`${BASE_URL}/lojas`).then((response) => {
       setDadosLoja(response.data);
     });
   },[]);

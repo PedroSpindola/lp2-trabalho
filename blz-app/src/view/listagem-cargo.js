@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL}/Cargo`;
+const baseURL = `${BASE_URL}/cargos`;
 
 function Listagemcargo() {
   const navigate = useNavigate();

@@ -16,7 +16,7 @@ function CadastroLoja() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/loja`;
+  const baseURL = `${BASE_URL}/lojas`;
 
   const [id, setId] = useState('');
   const [cnpj, setCnpj] = useState('');
