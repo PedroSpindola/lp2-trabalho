@@ -20,7 +20,7 @@ function Cadastroprodutos() {
 
   const [id, setId] = useState('');
   const [nome, setnome] = useState('');
-  const [valorvenda, setValorVenda] = useState('0');
+  const [valorVenda, setValorVenda] = useState('0');
   const [quantidade, setQuantidade] = useState('0');
   const [dataValidade, setDataValidade] = useState('');
   const [idFornecedor, setIdFornecedor] = useState(0);
@@ -50,7 +50,7 @@ function Cadastroprodutos() {
     } else {
       setId(dados.id)
       setnome(dados.nome);
-      setValorVenda(dados.valorvenda);
+      setValorVenda(dados.valorVenda);
       setQuantidade(dados.quantidade);
       setDataValidade(dados.dataValidade);
       setIdFornecedor(dados.idFornecedor);
@@ -63,7 +63,7 @@ function Cadastroprodutos() {
   }
 
   async function salvar() {
-    let data = { id,nome, valorvenda, quantidade, dataValidade, idFornecedor, idLoja, unidadeMedida, desconto, quantidadeMin};
+    let data = { id,nome, valorVenda, quantidade, dataValidade, idFornecedor, idLoja, unidadeMedida, desconto, quantidadeMin};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -101,7 +101,7 @@ function Cadastroprodutos() {
       });
       setId(dados.id);
       setnome(dados.nome);
-      setValorVenda(dados.valorvenda);
+      setValorVenda(dados.valorVenda);
       setQuantidade(dados.quantidade);
       setDataValidade(dados.dataValidade);
       setIdFornecedor(dados.idFornecedor);
@@ -159,7 +159,7 @@ function Cadastroprodutos() {
                 <input
                   type='text'
                   id='inputvalorvenda'
-                  value={valorvenda}
+                  value={valorVenda}
                   className='form-control'
                   name='valorvendaprodutos'
                   onChange={(e) => setValorVenda(e.target.value)}

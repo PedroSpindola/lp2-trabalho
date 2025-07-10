@@ -90,11 +90,11 @@ function Listagemproduto() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
-                      <td>{dado.valorvenda}</td>
+                      <td>{dado.valorVenda}</td>
                       <td>{dado.quantidade}</td>
                       <td>{dado.quantidadeMin}</td>
-                      <td>{dado.fornecedor}</td>
-                      <td>{dado.loja}</td>
+                      <td>{dado.nomeFornecedor}</td>
+                      <td>{dado.nomeLoja}</td>
                       <td>{dado.desconto}</td>
                       <td>{dado.unidadeMedida}</td>
                       <td> 
