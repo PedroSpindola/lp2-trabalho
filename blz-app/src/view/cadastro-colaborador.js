@@ -8,14 +8,14 @@ import FormGroup from '../components/form-group';
 
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios2';
+import { BASE_URL } from '../config/axios';
 
 function CadastroColaborador() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL2}/Colaboradores`;
+  const baseURL = `${BASE_URL}/Colaboradores`;
 
   const [id, setId] = useState('');
   const [cpf, setCpf] = useState('');
@@ -112,7 +112,7 @@ function CadastroColaborador() {
 
   useEffect(()=>{
 
-    axios.get(`${BASE_URL2}/Cargo`).then((response) => {
+    axios.get(`${BASE_URL}/Cargo`).then((response) => {
       setDadosCargos(response.data);
       setDadosLoja(response.data);
     });

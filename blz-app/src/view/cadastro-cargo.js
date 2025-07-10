@@ -10,14 +10,14 @@ import FormGroup from '../components/form-group';
 
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios2';
+import { BASE_URL } from '../config/axios';
 
 function CadastroCargo() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL2}/Cargo`;
+  const baseURL = `${BASE_URL}/Cargo`;
 
   const [id, setId] = useState('');
   const [nome, setnome] = useState('');

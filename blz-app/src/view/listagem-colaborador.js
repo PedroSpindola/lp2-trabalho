@@ -13,9 +13,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios2';
+import { BASE_URL } from '../config/axios';
 
-const baseURL = `${BASE_URL2}/Colaboradores`;
+const baseURL = `${BASE_URL}/Colaboradores`;
 
 function Listagemcolaborador() {
   const navigate = useNavigate();

@@ -8,14 +8,14 @@ import FormGroup from '../components/form-group';
 
 
 import axios from 'axios';
-import { BASE_URL2 } from '../config/axios2';
+import { BASE_URL } from '../config/axios';
 
 function CadastroCliente() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL2}/Clientes`;
+  const baseURL = `${BASE_URL}/Clientes`;
 
   const [id, setId] = useState('');
   const [cpf, setCpf] = useState('');
@@ -104,7 +104,7 @@ function CadastroCliente() {
 
   const [dadosLoja, setDadosLoja] = React.useState(null);
   useEffect(()=>{
-    axios.get(`${BASE_URL2}/Loja`).then((response) => {
+    axios.get(`${BASE_URL}/Loja`).then((response) => {
       setDadosLoja(response.data);
     });
   },[]);

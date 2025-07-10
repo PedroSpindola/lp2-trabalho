@@ -8,7 +8,6 @@ import FormGroup from '../components/form-group';
 
 
 import axios from 'axios';
-import { BASE_URL3 } from '../config/axios3';
 import {BASE_URL} from '../config/axios';
 
 function Cadastrovenda() {
@@ -16,7 +15,7 @@ function Cadastrovenda() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL3}/Venda`;
+  const baseURL = `${BASE_URL}/Venda`;
 
   const [id, setId] = useState('');
   const [cliente, setcliente] = useState('');

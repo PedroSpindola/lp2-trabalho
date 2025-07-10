@@ -9,14 +9,14 @@ import FormGroup from '../components/form-group';
 
 import axios from 'axios';
 
-import { BASE_URL2 } from '../config/axios2';
+import { BASE_URL } from '../config/axios';
 
 function CadastroLoja() {
   const { idParam } = useParams();
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL2}/loja`;
+  const baseURL = `${BASE_URL}/loja`;
 
   const [id, setId] = useState('');
   const [cnpj, setCnpj] = useState('');

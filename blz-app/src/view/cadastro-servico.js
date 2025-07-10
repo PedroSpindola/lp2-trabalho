@@ -9,7 +9,6 @@ import FormGroup from '../components/form-group';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
-import { BASE_URL2 } from '../config/axios2';
 
 function Cadastroservico() {
   const { idParam } = useParams();
@@ -99,7 +98,7 @@ function Cadastroservico() {
 
   useEffect(()=>{
 
-    axios.get(`${BASE_URL2}/Cargo`).then((response) => {
+    axios.get(`${BASE_URL}/Cargo`).then((response) => {
       setDadosCargos(response.data);
     });
 
@@ -110,7 +109,7 @@ function Cadastroservico() {
   }, [id]);
   useEffect(()=>{
 
-    axios.get(`${BASE_URL2}/Loja`).then((response) => {
+    axios.get(`${BASE_URL}/Loja`).then((response) => {
       setDadosLoja(response.data);
     });
 
