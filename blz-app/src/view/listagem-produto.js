@@ -78,8 +78,12 @@ function Listagemproduto() {
                     <th scope='col'>Nome</th>
                     <th scope='col'>Valor para venda (R$)</th>
                     <th scope='col'>Unidades Disponíveis</th>
+                    <th scope='col'>Quantidade Mínima</th>
                     <th scope='col'>Fornecedor</th>
                     <th scope='col'>Loja</th>
+                    <th scope='col'>Desconto</th>
+                    <th scope='col'>Unidade de Medida</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -88,8 +92,11 @@ function Listagemproduto() {
                       <td>{dado.nome}</td>
                       <td>{dado.valorvenda}</td>
                       <td>{dado.quantidade}</td>
+                      <td>{dado.quantidadeMin}</td>
                       <td>{dado.fornecedor}</td>
                       <td>{dado.loja}</td>
+                      <td>{dado.desconto}</td>
+                      <td>{dado.unidadeMedida}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

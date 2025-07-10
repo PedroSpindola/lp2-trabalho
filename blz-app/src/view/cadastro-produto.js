@@ -25,6 +25,11 @@ function Cadastroprodutos() {
   const [dataValidade, setDataValidade] = useState('');
   const [idFornecedor, setIdFornecedor] = useState(0);
   const [idLoja, setIdLoja] = useState(0);
+  const [unidadeMedida, setUnidadeMedida] = useState(0);
+  const [desconto, setDesconto] = useState('0');
+  const [quantidadeMin, setQuantidadeMin] = useState(0);
+
+
 
 
   const [dados, setDados] = useState([]);
@@ -38,6 +43,9 @@ function Cadastroprodutos() {
       setDataValidade('');
       setIdFornecedor(0);
       setIdLoja(0);
+      setUnidadeMedida(0);
+      setDesconto('');
+      setQuantidadeMin(0);
 
     } else {
       setId(dados.id)
@@ -47,12 +55,15 @@ function Cadastroprodutos() {
       setDataValidade(dados.dataValidade);
       setIdFornecedor(dados.idFornecedor);
       setIdLoja(dados.idLoja);
+      setUnidadeMedida(dados.unidadeMedida);
+      setDesconto(dados.desconto);
+      setQuantidadeMin(dados.quantidadeMin);
     }
       navigate(`/listagem-produto`);
   }
 
   async function salvar() {
-    let data = { id,nome, valorvenda, quantidade, dataValidade, idFornecedor, idLoja };
+    let data = { id,nome, valorvenda, quantidade, dataValidade, idFornecedor, idLoja, unidadeMedida, desconto, quantidadeMin};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -95,6 +106,9 @@ function Cadastroprodutos() {
       setDataValidade(dados.dataValidade);
       setIdFornecedor(dados.idFornecedor);
       setIdLoja(dados.idLoja);
+      setUnidadeMedida(dados.unidadeMedida);
+      setDesconto(dados.desconto);
+      setQuantidadeMin(dados.quantidadeMin);
     }
   }
 
@@ -161,6 +175,21 @@ function Cadastroprodutos() {
                   onChange={(e) => setQuantidade(e.target.value)}
                 />
               </FormGroup>
+
+               <FormGroup label='Quantidade Mínima: ' htmlFor='inputQuantidadeMin'>
+                <input
+                  type='text'
+                  id='inputQuantidadeMin'
+                  value={quantidadeMin}
+                  className='form-control'
+                  name='quantidadeMinimaprodutos'
+                  onChange={(e) => setQuantidadeMin(e.target.value)}
+                />
+              </FormGroup>
+
+
+
+
               <FormGroup label='Data de validade: *' htmlFor='inputdataValidade'>
                 <input
                   type='text'
@@ -211,6 +240,32 @@ function Cadastroprodutos() {
                   ))}
                 </select>
               </FormGroup>
+               
+               <FormGroup label='Unidade de Medida: ' htmlFor='inputUnidadeMedida'>
+                <input
+                  type='text'
+                  id='inputUnidadeMedida'
+                  value={unidadeMedida}
+                  className='form-control'
+                  name='unidadeMedidaprodutos'
+                  onChange={(e) => setUnidadeMedida(e.target.value)}
+                />
+              </FormGroup>
+
+              <FormGroup label='Desconto: ' htmlFor='inputDesconto'>
+                <input
+                  type='text'
+                  id='inputDesconto'
+                  value={desconto}
+                  className='form-control'
+                  name='descontoprodutos'
+                  onChange={(e) => setDesconto(e.target.value)}
+                />
+              </FormGroup>
+
+             
+
+
 
 
               <Stack spacing={1} padding={1} direction='row'>

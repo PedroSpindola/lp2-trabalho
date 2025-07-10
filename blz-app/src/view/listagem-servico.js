@@ -77,6 +77,8 @@ function ListagemServico() {
                   <tr>
                     <th scope='col'>Nome</th>
                     <th scope='col'>Duração estimada (Min)</th>
+                    <th scope='col'>Comissão</th>
+                    <th scope='col'>Desconto</th>
                     <th scope='col'>Valor (R$)</th>
                     <th scope='col'>Loja</th>
                   </tr>
@@ -86,6 +88,8 @@ function ListagemServico() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.duracao}</td>
+                      <td>{dado.comissao}</td>
+                      <td>{dado.desconto}</td>
                       <td>{dado.preco}</td>
                       <td>{dado.loja}</td>
                       <td> 

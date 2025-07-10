@@ -21,6 +21,8 @@ function CadastroCargo() {
 
   const [id, setId] = useState('');
   const [nome, setnome] = useState('');
+  const [descricao, setDescricao] = useState('');
+  
 
 
   const [dados, setDados] = useState([]);
@@ -29,15 +31,17 @@ function CadastroCargo() {
     if (idParam == null) {
       setId('');
       setnome('');
+      setDescricao('');
     } else {
       setId(dados.id);
       setnome(dados.nome);
+      setDescricao(dados.descricao);
     }
     navigate(`/listagem-cargo`);
   }
 
   async function salvar() {
-    let data = { id, nome };
+    let data = { id, nome, descricao };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -98,6 +102,19 @@ function CadastroCargo() {
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
+
+               <FormGroup label='Descrição: ' htmlFor='inputdescricao'>
+                <input
+                  type='text'
+                  id='inputdescricao'
+                  value={descricao}
+                  className='form-control'
+                  name='descricao'
+                  onChange={(e) => setDescricao(e.target.value)}
+                />
+              </FormGroup>
+              
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

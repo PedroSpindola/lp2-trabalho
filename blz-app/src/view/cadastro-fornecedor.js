@@ -25,6 +25,8 @@ function CadastroFornecedor() {
   const [email, setEmail] = useState('');
   const [dtaNasc, setDtaNasc] = useState('');
   const [idLoja, setIdLoja] = useState(0);
+  const [cpf, setCpf] = useState('');
+  const [cnpj, setCnpj] = useState('');
 
 
   const [dados, setDados] = useState([]);
@@ -38,6 +40,8 @@ function CadastroFornecedor() {
       setEmail('');
       setDtaNasc('');
       setIdLoja(0);
+      setCnpj('');
+      setCpf('');
     } else {
       setId(dados.id);
       setnome(dados.nome);
@@ -46,12 +50,14 @@ function CadastroFornecedor() {
       setEmail(dados.email);
       setDtaNasc(dados.dtaNasc);
       setIdLoja(dados.idLoja);
+      setCpf(dados.cpf);
+      setCnpj(dados.cnpj);
     }
     navigate(`/listagem-fornecedor`);
   }
 
   async function salvar() {
-    let data = { id, nome, telefone, celular, email, dtaNasc, idLoja };
+    let data = { id, nome, telefone, celular, email, dtaNasc, idLoja, cpf,cnpj };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -93,6 +99,8 @@ function CadastroFornecedor() {
     setEmail(dados.email);
     setDtaNasc(dados.dtaNasc);
     setIdLoja(dados.idLoja);
+    setCpf(dados.cpf);
+    setCnpj(dados.cnpj);
   }
 
   useEffect(() => {
@@ -160,6 +168,32 @@ function CadastroFornecedor() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
+
+                <FormGroup label='CPF: ' htmlFor='inputcpf'>
+                <input
+                  type='text'
+                  id='inputcpf'
+                  value={cpf}
+                  className='form-control'
+                  name='cpfFornecedor'
+                  onChange={(e) => setCpf(e.target.value)}
+                />
+              </FormGroup>
+
+                  <FormGroup label='CNPJ: ' htmlFor='inputCNPJ'>
+                <input
+                  type='text'
+                  id='inputcnpj'
+                  value={cnpj}
+                  className='form-control'
+                  name='CNPJfornecedor'
+                  onChange={(e) => setCnpj(e.target.value)}
+                />
+              </FormGroup>
+
+
+
+
 
               <FormGroup label= 'Fornecedor da Loja:' htmlFor='selectLoja'>
                 <select className='form-select'

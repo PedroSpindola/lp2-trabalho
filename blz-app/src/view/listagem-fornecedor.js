@@ -79,7 +79,9 @@ function Listagemfornecedor() {
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Celular</th>
                     <th scope='col'>Email</th>
-                    <th scope='col'>Data de Nascimento</th>
+                    <th scope='col'>CPF</th>
+                    <th scope='col'>CNPJ</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -90,6 +92,8 @@ function Listagemfornecedor() {
                       <td>{dado.celular}</td>
                       <td>{dado.email}</td>
                       <td>{dado.dtaNasc}</td>
+                      <td>{dado.cpf}</td>
+                      <td>{dado.cnpj}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

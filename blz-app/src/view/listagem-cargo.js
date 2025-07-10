@@ -78,6 +78,8 @@ function Listagemcargo() {
                     <th scope='col'>ID</th>
                     <th scope='col'>Nome</th>
                     <th scope='col'>Loja</th>
+                    <th scope='col'>Descrição</th>
+
 
                   </tr>
                 </thead>
@@ -87,6 +89,7 @@ function Listagemcargo() {
                       <td>{dado.id}</td>
                       <td>{dado.nome}</td>
                       <td>{dado.loja}</td>
+                      <td>{dado.descricao}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

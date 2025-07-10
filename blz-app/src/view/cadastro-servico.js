@@ -24,6 +24,8 @@ function Cadastroservico() {
   const [duracao, setDuracao] = useState('0');
   const [idCargo, setIdCargo] = useState(0)
   const [idLoja, setIdLoja] = useState(0)
+  const [comissao, setComissao] = useState('0')
+  const [desconto, setDesconto] = useState('0')
 
 
   const [dados, setDados] = useState([]);
@@ -36,6 +38,8 @@ function Cadastroservico() {
       setDuracao('');
       setIdCargo(0);
       setIdLoja(0)
+      setComissao('0');
+      setDesconto('0');
 
     } else {
       setId(dados.id)
@@ -44,12 +48,14 @@ function Cadastroservico() {
       setDuracao(dados.duracao);
       setIdCargo(dados.idCargo)
       setIdLoja(dados.idLoja)
+      setComissao(dados.comissao);
+      setDesconto(dados.desconto);
     }
     navigate(`/listagem-servico`);
   }
 
   async function salvar() {
-    let data = { id,nome, preco, duracao, idCargo};
+    let data = { id,nome, preco, duracao, idCargo, comissao, desconto};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -90,7 +96,9 @@ function Cadastroservico() {
     setPreco(dados.preco);
     setDuracao(dados.duracao);
     setIdCargo(dados.idCargo)
-    setIdLoja(dados.idLoja)
+    setComissao(dados.comissao);
+    setDesconto(dados.desconto);
+
   }
 
   const [dadosCargos, setDadosCargos] = React.useState(null)
@@ -163,6 +171,33 @@ function Cadastroservico() {
                   onChange={(e) => setDuracao(e.target.value)}
                 />
               </FormGroup>
+
+                <FormGroup label='Comissão' htmlFor='inputcomissao'>
+                <input
+                  type='text'
+                  id='inputcomissao'
+                  value={comissao}
+                  className='form-control'
+                  name='comissaoservico'
+                  onChange={(e) => setComissao(e.target.value)}
+                />
+              </FormGroup>
+
+
+               <FormGroup label='Desconto:' htmlFor='inputdesconto'>
+                <input
+                  type='text'
+                  id='inputdesconto'
+                  value={desconto}
+                  className='form-control'
+                  name='descontoservico'
+                  onChange={(e) => setDesconto(e.target.value)}
+                />
+              </FormGroup>
+
+
+
+
               <FormGroup label= 'Profissional que realizará o serviço: *' htmlFor= 'selectCargo'>
                 <select
                   className='form-select'
