@@ -23,8 +23,9 @@ function CadastroCliente() {
   const [telefone, setTelefone] = useState('');
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [idLoja, setIdLoja] = useState(0);
+  const [senha, setSenha] = useState(123);
+  const [dataNascimento, setDataNascimento] = useState('');
+
 
 
   const [dados, setDados] = useState([]);
@@ -38,7 +39,7 @@ function CadastroCliente() {
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
       setSenha('');
-      setIdLoja(0);
+      setDataNascimento('');
     } else {
       setId(dados.id)
       setCpf(dados.cpf);
@@ -47,13 +48,13 @@ function CadastroCliente() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setSenha(dados.senha);
-      setIdLoja(dados.idLoja);
+      setDataNascimento(dados.dataNascimento);
     }
      navigate(`/listagem-cliente`);
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, senha, idLoja };
+    let data = { id,cpf, nome, telefone, celular, email,dataNascimento };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -95,26 +96,15 @@ function CadastroCliente() {
     setCelular(dados.celular);
     setEmail(dados.email);
     setSenha(dados.senha);
-    setIdLoja(dados.idLoja);
+    setDataNascimento(dados.dataNascimento)
   }
 
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
-  const [dadosLoja, setDadosLoja] = React.useState(null);
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/lojas`).then((response) => {
-      setDadosLoja(response.data);
-    });
-  },[]);
-  useEffect(() => {
-    buscar(); // eslint-disable-next-line
-  }, [id]);
+  if (!dados) return null;
 
-  if (!dados) return null;
-  if (!dadosLoja) return null;
-  if (!dados) return null;
 
   return (
     <div className='container'>
@@ -129,7 +119,7 @@ function CadastroCliente() {
                   value={cpf}
                   className='form-control'
                   name='cpfCliente'
-                  onChange={(e) => setnome(e.target.value)}
+                  onChange={(e) => setCpf(e.target.value)}
                 />
               </FormGroup>
               <FormGroup label='Nome: *' htmlFor='inputNome'>
@@ -172,27 +162,16 @@ function CadastroCliente() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
-
-              <FormGroup label= 'Cliente da Loja:' htmlFor='selectLoja'>
-                <select className='form-select'
-                id='selectLoja'
-                name='idLoja'
-                value={idLoja}
-                onChange={(e)=>setIdLoja(e.target.value)}>
-                  <option key='0' value='0'>
-                    {''}
-                  </option>
-                  {dadosLoja.map((dado)=>(
-
-                    <option key={dado.id} value={dado.id}>
-                      {dado.nome}
-                    </option>
-                  ))}
-                </select>
+              <FormGroup label='Data Nascimento: *' htmlFor='inputEmail'>
+                <input
+                  type='text'
+                  id='inputEmail'
+                  value={dataNascimento}
+                  className='form-control'
+                  name='EmailCliente'
+                  onChange={(e) => setDataNascimento(e.target.value)}
+                />
               </FormGroup>
-
-
-
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}

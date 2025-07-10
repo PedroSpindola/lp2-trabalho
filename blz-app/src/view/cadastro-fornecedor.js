@@ -23,11 +23,9 @@ function CadastroFornecedor() {
   const [telefone, setTelefone] = useState('');
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
-  const [dtaNasc, setDtaNasc] = useState('');
   const [idLoja, setIdLoja] = useState(0);
   const [cpf, setCpf] = useState('');
   const [cnpj, setCnpj] = useState('');
-
 
   const [dados, setDados] = useState([]);
 
@@ -38,7 +36,6 @@ function CadastroFornecedor() {
       setTelefone('(xx) xxxx-xxxx');
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
-      setDtaNasc('');
       setIdLoja(0);
       setCnpj('');
       setCpf('');
@@ -48,7 +45,6 @@ function CadastroFornecedor() {
       setTelefone(dados.telefone);
       setCelular(dados.celular);
       setEmail(dados.email);
-      setDtaNasc(dados.dtaNasc);
       setIdLoja(dados.idLoja);
       setCpf(dados.cpf);
       setCnpj(dados.cnpj);
@@ -57,7 +53,7 @@ function CadastroFornecedor() {
   }
 
   async function salvar() {
-    let data = { id, nome, telefone, celular, email, dtaNasc, idLoja, cpf,cnpj };
+    let data = { id, nome, telefone, celular, email, idLoja, cpf,cnpj, idLoja };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -97,7 +93,6 @@ function CadastroFornecedor() {
     setTelefone(dados.telefone);
     setCelular(dados.celular);
     setEmail(dados.email);
-    setDtaNasc(dados.dtaNasc);
     setIdLoja(dados.idLoja);
     setCpf(dados.cpf);
     setCnpj(dados.cnpj);

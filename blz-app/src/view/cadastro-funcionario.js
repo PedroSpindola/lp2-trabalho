@@ -25,7 +25,7 @@ function CadastroFuncionario() {
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [dtaNasc, setDtaNasc] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
   const [idCargo, setIdCargo] = useState(0);
   const [idLoja, setIdLoja] = useState(0);
 
@@ -40,7 +40,7 @@ function CadastroFuncionario() {
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
       setSenha('');
-      setDtaNasc('');
+      setDataNascimento('');
       setIdCargo(0)
       setIdLoja(0);
   
@@ -52,7 +52,7 @@ function CadastroFuncionario() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setSenha(dados.senha);
-      setDtaNasc(dados.dtaNasc);
+      setDataNascimento(dados.dtaNascimento);
       setIdCargo(dados.idCargo)
       setIdLoja(dados.idLoja);
     }
@@ -60,7 +60,7 @@ function CadastroFuncionario() {
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, senha, dtaNasc,idCargo, idLoja };
+    let data = { id,cpf, nome, telefone, celular, email, dataNascimento, idLoja };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -105,7 +105,7 @@ function CadastroFuncionario() {
     setCelular(dados.celular);
     setEmail(dados.email);
     setSenha(dados.senha);
-    setDtaNasc(dados.dtaNasc);
+    setDataNascimento(dados.dataNascimento);
     setIdCargo (dados.idCargo);
     setIdLoja(dados.idLoja);
     }
@@ -200,10 +200,10 @@ function CadastroFuncionario() {
                 <input
                   type='text'
                   id='inputDtaNasc'
-                  value={dtaNasc}
+                  value={dataNascimento}
                   className='form-control'
                   name='dtaNascFuncionario'
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setDataNascimento(e.target.value)}
                 />
               </FormGroup>
               <FormGroup label = 'Cargo: *' htmlFor ='selectCargo'>

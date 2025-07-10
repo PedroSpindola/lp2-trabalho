@@ -24,8 +24,9 @@ function CadastroColaborador() {
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [idCargo, setIdCargo] = useState(0);
+  /*const [idCargo, setIdCargo] = useState(0);*/
   const [idLoja, setIdLoja] = useState(0);
+  const [dataNascimento, setDataNascimento] = useState('')
 
 
   const [dados, setDados] = useState([]);
@@ -39,7 +40,7 @@ function CadastroColaborador() {
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
       setSenha('');
-      setIdCargo(0);
+      /*setIdCargo(0);*/
       setIdLoja(0);
 
     } else {
@@ -50,14 +51,14 @@ function CadastroColaborador() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setSenha(dados.senha);
-      setIdCargo(dados.idCargo);
+      /*setIdCargo(dados.idCargo);*/
       setIdLoja(dados.idLoja);
     }
     navigate(`/listagem-colaborador`);
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, senha,idCargo, idLoja};
+    let data = { id,cpf, nome, telefone, celular, dataNascimento ,email, idLoja};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -104,17 +105,26 @@ function CadastroColaborador() {
     setCelular(dados.celular);
     setEmail(dados.email);
     setSenha(dados.senha);
-    setIdCargo(dados.idCargo);
+    /*setIdCargo(dados.idCargo);*/
     setIdLoja(dados.idLoja);
   }
-  const [dadosCargos,setDadosCargos] = React.useState(null)
+  
   const [dadosLoja,setDadosLoja] = React.useState(null)
+  {/*const [dadosCargos,setDadosCargos] = React.useState(null)
 
   useEffect(()=>{
 
     axios.get(`${BASE_URL}/cargos`).then((response) => {
       setDadosCargos(response.data);
+      
+    });
+  },[]); */}
+
+  useEffect(()=>{
+
+    axios.get(`${BASE_URL}/lojas`).then((response) => {
       setDadosLoja(response.data);
+      
     });
   },[]);
 
@@ -123,7 +133,8 @@ function CadastroColaborador() {
   }, [id]);
 
   if (!dados) return null;
-  if(!dadosCargos) return null; 
+  /*if(!dadosCargos) return null;*/ 
+  if(!dadosLoja) return null;
   return (
     <div className='container'>
       <Card title='Cadastro de Usuário'>
@@ -137,7 +148,7 @@ function CadastroColaborador() {
                   value={cpf}
                   className='form-control'
                   name='cpfColaborador'
-                  onChange={(e) => setnome(e.target.value)}
+                  onChange={(e) => setCpf(e.target.value)}
                 />
               </FormGroup>
               <FormGroup label='Nome: *' htmlFor='inputNome'>
@@ -180,7 +191,17 @@ function CadastroColaborador() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label = "Cargo:" htmlFor='selectCargo'>
+              <FormGroup label='Data de nascimento: ' htmlFor='inputDtaNascimento'>
+                <input
+                  type='text'
+                  id='inputDtaNascimento'
+                  value={dataNascimento}
+                  className='form-control'
+                  name='descricao'
+                  onChange={(e) => setDataNascimento(e.target.value)}
+                />
+              </FormGroup>
+              {/*<FormGroup label = "Cargo:" htmlFor='selectCargo'>
 
                 <select className='form-select'
                 type='select'
@@ -201,7 +222,7 @@ function CadastroColaborador() {
 
                 </select>
 
-              </FormGroup>
+              </FormGroup>*/}
               
                 <FormGroup label = 'Loja:' htmlFor='selectLoja'>
 
