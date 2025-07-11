@@ -10,6 +10,8 @@ import Cadastroloja from "./view/cadastro-loja";
 import CadastroFornecedor from "./view/cadastro-fornecedor";
 import CadastroAgenda from "./view/cadastro-agenda"
 import CadastroVenda from "./view/cadastro-venda"
+import Cadastrocomanda from './view/cadastro-comanda';
+import CadastroFormaPagamento from './view/cadastro-forma-pagamento';
 
 
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
@@ -24,7 +26,8 @@ import Listagemfuncionario from './view/listagem-funcionario';
 import Listagemfornecedor from './view/listagem-fornecedor';
 import Listagemagenda from './view/listagem-Agenda';
 import Listagemvenda from './view/listagem-venda';
-
+import Listagemcomanda from './view/listagem-comanda';
+import ListagemFormaPagamento from './view/listagem-forma-pagamento';
 
 function Rotas(props) {
   return (
@@ -74,6 +77,16 @@ function Rotas(props) {
           path='/cadastro-venda/:idParam?'
           element={<CadastroVenda/>} 
         />
+        <Route 
+          path='/cadastro-comanda/:idParam?'
+          element={<Cadastrocomanda/>} 
+        />
+
+          <Route 
+          path='/cadastro-forma-pagamento/:idParam?'
+          element={<CadastroFormaPagamento/>} 
+        />
+
 
         <Route path='/listagem-produto' element={<Listagemproduto />} />
         <Route path='/listagem-servico' element={<Listagemservico />} />
@@ -85,6 +98,8 @@ function Rotas(props) {
         <Route path='/listagem-fornecedor' element={<Listagemfornecedor />} />
         <Route path='/listagem-agenda' element={<Listagemagenda />} />
         <Route path='/listagem-venda' element={<Listagemvenda />} />
+        <Route path='/listagem-comanda' element={<Listagemcomanda />} />
+        <Route path='/listagem-forma-pagamento' element={<ListagemFormaPagamento />} />
 
       </Routes>
     </BrowserRouter>
