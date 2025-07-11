@@ -33,10 +33,12 @@ function CadastroCargo() {
       setId('');
       setnome('');
       setDescricao('');
+      setIdLoja('')
     } else {
       setId(dados.id);
       setnome(dados.nome);
       setDescricao(dados.descricao);
+      setIdLoja(dados.idLoja);
     }
     navigate(`/listagem-cargo`);
   }
@@ -79,6 +81,8 @@ function CadastroCargo() {
     });
     setId(dados.id);
     setnome(dados.nome);
+    setDescricao(dados.descricao);
+    setIdLoja(dados.idLoja);
   }
 
   const [dadosLojas, setDadosLojas] = React.useState(null);

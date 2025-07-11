@@ -40,6 +40,7 @@ function CadastroColaborador() {
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
       setSenha('');
+      setDataNascimento('');
       /*setIdCargo(0);*/
       setIdLoja(0);
 
@@ -51,6 +52,7 @@ function CadastroColaborador() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setSenha(dados.senha);
+      setDataNascimento(dados.dataNascimento)
       /*setIdCargo(dados.idCargo);*/
       setIdLoja(dados.idLoja);
     }
@@ -58,7 +60,7 @@ function CadastroColaborador() {
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, dataNascimento ,email, idLoja};
+    let data = { id,cpf, nome, telefone, telefone ,celular, dataNascimento ,email, idLoja};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -105,6 +107,7 @@ function CadastroColaborador() {
     setCelular(dados.celular);
     setEmail(dados.email);
     setSenha(dados.senha);
+    setDataNascimento(dados.dataNascimento)
     /*setIdCargo(dados.idCargo);*/
     setIdLoja(dados.idLoja);
   }

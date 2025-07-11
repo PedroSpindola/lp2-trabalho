@@ -91,9 +91,9 @@ function Listagemfuncionario() {
                       <td>{dado.nome}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
-                      <td>{dado.dtaNasc}</td>
+                      <td>{dado.dataNascimento}</td>
                       <td>{dado.email}</td>
-                      <td>{dado.loja}</td>
+                      <td>{dado.nomeloja}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

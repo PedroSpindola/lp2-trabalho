@@ -28,6 +28,7 @@ function Cadastroprodutos() {
   const [unidadeMedida, setUnidadeMedida] = useState(0);
   const [desconto, setDesconto] = useState('0');
   const [quantidadeMin, setQuantidadeMin] = useState(0);
+  const [valorCompra, setValorCompra] = useState(0);
 
 
 
@@ -46,6 +47,7 @@ function Cadastroprodutos() {
       setUnidadeMedida(0);
       setDesconto('');
       setQuantidadeMin(0);
+      setValorCompra(0);
 
     } else {
       setId(dados.id)
@@ -58,12 +60,13 @@ function Cadastroprodutos() {
       setUnidadeMedida(dados.unidadeMedida);
       setDesconto(dados.desconto);
       setQuantidadeMin(dados.quantidadeMin);
+      setValorCompra(dados.valorCompra);
     }
       navigate(`/listagem-produto`);
   }
 
   async function salvar() {
-    let data = { id,nome, valorVenda, quantidade, dataValidade, idFornecedor, idLoja, unidadeMedida, desconto, quantidadeMin};
+    let data = { id,nome, valorVenda, valorCompra ,quantidade, dataValidade, idFornecedor, idLoja, unidadeMedida, desconto, quantidadeMin};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -109,6 +112,7 @@ function Cadastroprodutos() {
       setUnidadeMedida(dados.unidadeMedida);
       setDesconto(dados.desconto);
       setQuantidadeMin(dados.quantidadeMin);
+      setValorCompra(dados.valorCompra);
     }
   }
 
@@ -135,8 +139,6 @@ function Cadastroprodutos() {
 
   if (!dados) return null;
   if (!dadosFornecedor) return null;
-  if (!dados) return null;
-  if (!dadosLoja) return null;
 
   return (
     <div className='container'>
@@ -163,6 +165,16 @@ function Cadastroprodutos() {
                   className='form-control'
                   name='valorvendaprodutos'
                   onChange={(e) => setValorVenda(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup label='Valor da compra (R$): *' htmlFor='inputvalorcompra'>
+                <input
+                  type='text'
+                  id='inputvalorcompra'
+                  value={valorCompra}
+                  className='form-control'
+                  name='valorvendaprodutos'
+                  onChange={(e) => setValorCompra(e.target.value)}
                 />
               </FormGroup>
               <FormGroup label='Quantidade: *' htmlFor='inputquantidade'>

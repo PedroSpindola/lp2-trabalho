@@ -36,7 +36,6 @@ function CadastroFornecedor() {
       setTelefone('(xx) xxxx-xxxx');
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
-      setIdLoja(0);
       setCnpj('');
       setCpf('');
     } else {
@@ -53,7 +52,7 @@ function CadastroFornecedor() {
   }
 
   async function salvar() {
-    let data = { id, nome, telefone, celular, email, idLoja, cpf,cnpj, idLoja };
+    let data = { id, nome, telefone, celular, email, idLoja, cpf,cnpj };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -93,7 +92,6 @@ function CadastroFornecedor() {
     setTelefone(dados.telefone);
     setCelular(dados.celular);
     setEmail(dados.email);
-    setIdLoja(dados.idLoja);
     setCpf(dados.cpf);
     setCnpj(dados.cnpj);
   }
@@ -102,19 +100,7 @@ function CadastroFornecedor() {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
-  const [dadosLoja, setDadosLoja] = React.useState(null);
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/lojas`).then((response) => {
-      setDadosLoja(response.data);
-    });
-  },[]);
-  useEffect(() => {
-    buscar(); // eslint-disable-next-line
-  }, [id]);
-
   if(!dados) return null;
-  if(!dadosLoja) return null;
-
 
   return (
     <div className='container'>
@@ -184,28 +170,6 @@ function CadastroFornecedor() {
                   name='CNPJfornecedor'
                   onChange={(e) => setCnpj(e.target.value)}
                 />
-              </FormGroup>
-
-
-
-
-
-              <FormGroup label= 'Fornecedor da Loja:' htmlFor='selectLoja'>
-                <select className='form-select'
-                id='selectLoja'
-                name='idLoja'
-                value={idLoja}
-                onChange={(e)=>setIdLoja(e.target.value)}>
-                  <option key='0' value='0'>
-                    {''}
-                  </option>
-                  {dadosLoja.map((dado)=>(
-
-                    <option key={dado.id} value={dado.id}>
-                      {dado.nome}
-                    </option>
-                  ))}
-                </select>
               </FormGroup>
 
               <Stack spacing={1} padding={1} direction='row'>

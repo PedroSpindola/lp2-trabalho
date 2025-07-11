@@ -103,7 +103,7 @@ function Listagemloja() {
                       <td>{dado.email}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
-                      <td>{dado.dtaCriacao}</td>
+                      <td>{dado.dataCriacao}</td>
                       <td>{dado.logradouro}</td>
                       <td>{dado.numero}</td>
                       <td>{dado.complemento}</td>

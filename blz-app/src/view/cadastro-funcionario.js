@@ -26,7 +26,6 @@ function CadastroFuncionario() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
-  const [idCargo, setIdCargo] = useState(0);
   const [idLoja, setIdLoja] = useState(0);
 
   const [dados, setDados] = useState([]);
@@ -41,7 +40,6 @@ function CadastroFuncionario() {
       setEmail('');
       setSenha('');
       setDataNascimento('');
-      setIdCargo(0)
       setIdLoja(0);
   
     } else {
@@ -52,8 +50,7 @@ function CadastroFuncionario() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setSenha(dados.senha);
-      setDataNascimento(dados.dtaNascimento);
-      setIdCargo(dados.idCargo)
+      setDataNascimento(dados.dataNascimento);
       setIdLoja(dados.idLoja);
     }
     navigate(`/listagem-funcionario`);
@@ -106,24 +103,9 @@ function CadastroFuncionario() {
     setEmail(dados.email);
     setSenha(dados.senha);
     setDataNascimento(dados.dataNascimento);
-    setIdCargo (dados.idCargo);
     setIdLoja(dados.idLoja);
     }
   }
-
-  const [dadosCargos, setDadosCargos] = React.useState(null)
-
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/cargos`).then((response) => {
-      setDadosCargos(response.data);
-
-    });
-  },[]);
-
-  useEffect(() => {
-    buscar(); // eslint-disable-next-line
-  }, [id]);
-
 
   const [dadosLoja, setDadosLoja] = React.useState(null);
   useEffect(()=>{
@@ -136,7 +118,6 @@ function CadastroFuncionario() {
   }, [id]);
 
   if(!dados) return null;
-  if(!dadosCargos) return null
   if(!dadosLoja) return null;
 
 
@@ -153,7 +134,7 @@ function CadastroFuncionario() {
                   value={cpf}
                   className='form-control'
                   name='cpfFuncionario'
-                  onChange={(e) => setnome(e.target.value)}
+                  onChange={(e) => setCpf(e.target.value)}
                 />
               </FormGroup>
               <FormGroup label='Nome: *' htmlFor='inputNome'>
@@ -205,25 +186,6 @@ function CadastroFuncionario() {
                   name='dtaNascFuncionario'
                   onChange={(e) => setDataNascimento(e.target.value)}
                 />
-              </FormGroup>
-              <FormGroup label = 'Cargo: *' htmlFor ='selectCargo'>
-
-                <select className='form-select'
-                type = 'select'
-                id ='selectCargo'
-                name='idCargo'
-                value={idCargo}
-                onChange={(e)=>setIdCargo(e.target.value)}>
-
-                  {dadosCargos.map((dado)=>(
-
-                    <option key={dado.id} value={dado.id}>
-                      {dado.nome}
-                    </option>
-                  )
-                  )}
-                </select>
-
               </FormGroup>
 
               <FormGroup label= 'Funcionário da Loja:' htmlFor='selectLoja'>

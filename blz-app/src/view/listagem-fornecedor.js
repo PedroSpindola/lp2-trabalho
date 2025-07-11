@@ -91,7 +91,6 @@ function Listagemfornecedor() {
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
                       <td>{dado.email}</td>
-                      <td>{dado.dtaNasc}</td>
                       <td>{dado.cpf}</td>
                       <td>{dado.cnpj}</td>
                       <td> 
