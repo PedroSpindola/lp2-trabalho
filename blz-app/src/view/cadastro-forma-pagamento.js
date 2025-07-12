@@ -17,7 +17,7 @@ function CadastroFormaPagamento() {
 
   const navigate = useNavigate();
 
-  const baseURL = `${BASE_URL}/formapagamentos`;
+  const baseURL = `${BASE_URL}/formapagamento`;
 
   const [id, setId] = useState('');
   const [nome, setnome] = useState('');
@@ -50,7 +50,7 @@ function CadastroFormaPagamento() {
         })
         .then(function (response) {
          
-          navigate(`/listagem-cargo`);
+          navigate(`/listagem-forma-pagamento`);
         })
         .catch(function (error) {
 
@@ -62,7 +62,7 @@ function CadastroFormaPagamento() {
         })
         .then(function (response) {
        
-          navigate(`/listagem-cargo`);
+          navigate(`/listagem-forma-pagamento`);
         })
         .catch(function (error) {
 
@@ -92,7 +92,7 @@ function CadastroFormaPagamento() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <FormGroup label='Forma de Pagamento: *' htmlFor='inputcargo'>
+              <FormGroup label='Forma de Pagamento: *' htmlFor='inputFormaPagamento'>
                 <input
                   type='text'
                   id='inputformaPagamento'

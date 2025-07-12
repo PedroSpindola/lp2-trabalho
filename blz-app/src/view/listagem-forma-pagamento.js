@@ -47,7 +47,7 @@ function ListagemFormaPagamento() {
          );
        })
        .catch(function (error) {
-         mensagemErro(`Erro ao excluir o cargo`);
+         mensagemErro(`Erro ao excluir forma de Pagamento`);
        });
    }
 
@@ -76,7 +76,7 @@ function ListagemFormaPagamento() {
                 <thead>
                   <tr>
                     <th scope='col'>ID</th>
-                    <th scope='col'>Nome</th>
+                    <th scope='col'>Forma de Pagamento</th>
                     <th scope='col'>Descrição</th>
 
 

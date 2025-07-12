@@ -92,6 +92,7 @@ function ListagemServico() {
                       <td>{dado.desconto}</td>
                       <td>{dado.preco}</td>
                       <td>{dado.loja}</td>
+                      <td>{dado.idCargo}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

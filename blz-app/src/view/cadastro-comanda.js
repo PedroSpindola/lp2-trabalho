@@ -21,7 +21,7 @@ function Cadastrocomanda() {
   const [id, setId] = useState('');
   const [idFormaPagamento, setidFormaPagamento] = useState(0);
   const [horario, setHorario] = useState('0');
-  const [data, setData] = useState('0');
+  const [dataComanda, setDataComanda] = useState('0');
   const [idAgendamento, setidAgendamento] = useState(0)
 
 
@@ -32,21 +32,21 @@ function Cadastrocomanda() {
       setId('')
       setidFormaPagamento(0);
       setHorario('');
-      setData('');
+      setDataComanda('');
       setidAgendamento(0);
 
     } else {
       setId(dados.id)
-      setnome(dados.idFormaPagamento);
-      setPreco(dados.horario);
-      setDuracao(dados.data);
-      setIdCargo(dados.idAgendamento)
+      setidFormaPagamento(dados.idFormaPagamento);
+      setHorario(dados.horario);
+      setDataComanda(dados.dataComanda);
+      setidAgendamento(dados.idAgendamento)
     }
     navigate(`/listagem-comanda`);
   }
 
   async function salvar() {
-    let data = { id,idFormaPagamento,horario,data,idAgendamento};
+    let data = { id,idFormaPagamento,horario,dataComanda,idAgendamento};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -85,7 +85,7 @@ function Cadastrocomanda() {
       setId(dados.id)
       setidFormaPagamento(dados.idFormaPagamento);
       setHorario(dados.horario);
-      setData(dados.data);
+      setDataComanda(dados.dataComanda);
       setidAgendamento(dados.idAgendamento);
 
   }
@@ -95,7 +95,7 @@ function Cadastrocomanda() {
 
   useEffect(()=>{
 
-    axios.get(`${BASE_URL}/forma-pagamento`).then((response) => {
+    axios.get(`${BASE_URL}/formapagamento`).then((response) => {
       setDadosFormaPagamento(response.data);
     });
 
@@ -106,7 +106,7 @@ function Cadastrocomanda() {
   }, [id]);
   useEffect(()=>{
 
-    axios.get(`${BASE_URL}/agendamento`).then((response) => {
+    axios.get(`${BASE_URL}/agendamentos`).then((response) => {
       setDadosAgendamento(response.data);
     });
 
@@ -136,7 +136,7 @@ function Cadastrocomanda() {
                 id='selectFormaPagamento'
                 name='idFormaPagamento'
                 value={idFormaPagamento}
-                onChange={(e)=>setIdFormaPagamento(e.target.value)}>
+                onChange={(e)=>setidFormaPagamento(e.target.value)}>
                   <option key='0' value='0'>
                     {''}
                   </option>
@@ -166,14 +166,14 @@ function Cadastrocomanda() {
               </FormGroup>
 
 
-                 <FormGroup label='Data: ' htmlFor='inputData'>
+                 <FormGroup label='Data: ' htmlFor='inputDataComanda'>
                 <input
                   type='text'
-                  id='inputData'
-                  value={data}
+                  id='inputDataComanda'
+                  value={dataComanda}
                   className='form-control'
                   name='dataComanda'
-                  onChange={(e) => setData(e.target.value)}
+                  onChange={(e) => setDataComanda(e.target.value)}
                 />
               </FormGroup>
               

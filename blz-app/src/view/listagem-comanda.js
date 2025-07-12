@@ -33,7 +33,7 @@ function Listagemcomanda() {
    async function excluir(id) {
      let data = JSON.stringify({ id });
      let url = `${baseURL}/${id}`;
-     console.log(url);
+     
      await axios
        .delete(url, data, {
          headers: { 'Content-Type': 'application/json' },
