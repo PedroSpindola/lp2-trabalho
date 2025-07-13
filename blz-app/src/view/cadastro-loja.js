@@ -24,7 +24,7 @@ function CadastroLoja() {
   const [telefone, setTelefone] = useState('');
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
-  const [dtaCriacao, setDtaCriacao] = useState('');
+  const [dataCriacao, setDataCriacao] = useState('');
   const [logradouro, setLogradouro] = useState('');
   const [numero, setNumero] = useState('');
   const [complemento, setComplemento] = useState('');
@@ -47,7 +47,7 @@ function CadastroLoja() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setLogradouro(dados.logradouro);
-      setDtaCriacao(dados.dtaCriacao);
+      setDataCriacao(dados.dataCriacao);
       setNumero(dados.numero)
       setComplemento(dados.complemento)
       setBairro(dados.bairro)
@@ -59,7 +59,7 @@ function CadastroLoja() {
   }
 
   async function salvar() {
-    let data = { id,cnpj, nome, telefone, celular, email, logradouro, dtaCriacao,numero, complemento, bairro,cidade,estado,cep };
+    let data = { id,cnpj, nome, telefone, celular, email, logradouro, dataCriacao,numero, complemento, bairro,cidade,estado,cep };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -104,7 +104,7 @@ function CadastroLoja() {
       setCelular(dados.celular);
       setEmail(dados.email);
       setLogradouro(dados.logradouro);
-      setDtaCriacao(dados.dtaCriacao);
+      setDataCriacao(dados.dataCriacao);
       setNumero(dados.numero)
       setComplemento(dados.complemento)
       setBairro(dados.bairro)
@@ -133,7 +133,7 @@ function CadastroLoja() {
                   value={cnpj}
                   className='form-control'
                   name='cnpjloja'
-                  onChange={(e) => setnome(e.target.value)}
+                  onChange={(e) => setCnpj(e.target.value)}
                 />
               </FormGroup>
               <FormGroup label='Nome: *' htmlFor='inputNome'>
@@ -180,10 +180,10 @@ function CadastroLoja() {
                 <input
                   type='text'
                   id='inputDtaCriacao'
-                  value={dtaCriacao}
+                  value={dataCriacao}
                   className='form-control'
                   name='dtaCriacaoloja'
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setDataCriacao(e.target.value)}
                 />
               </FormGroup>    
             </div>
@@ -224,7 +224,7 @@ function CadastroLoja() {
                   onChange={(e) => setComplemento(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Celular: *' htmlFor='inputBairro'>
+              <FormGroup label='Bairro: *' htmlFor='inputBairro'>
                 <input
                   type='text'
                   id='inputBairro'

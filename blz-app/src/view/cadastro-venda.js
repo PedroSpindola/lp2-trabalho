@@ -20,8 +20,8 @@ function Cadastrovenda() {
   const [id, setId] = useState('');
   const [cliente, setcliente] = useState('');
   const [IdProduto, setIdProduto] = useState(0);
-  const [dataVenda, setdataVenda] = useState('');
-  const [horarioVenda, sethorarioVenda] = useState('');
+  const [data, setdata] = useState('');
+  const [horario, setHorario] = useState('');
 
 
   const [dados, setDados] = useState([]);
@@ -31,21 +31,21 @@ function Cadastrovenda() {
       setId('')
       setcliente('');
       setIdProduto(0);
-      setdataVenda('');
-      sethorarioVenda('')
+      setdata('');
+      setHorario('')
 
     } else {
       setId(dados.id)
       setcliente(dados.cliente);
       setIdProduto(dados.IdProduto);
-      setdataVenda(dados.dataVenda);
-      sethorarioVenda(dados.horarioVenda);
+      setdata(dados.data);
+      setHorario(dados.horario);
     }
       navigate(`/listagem-venda`);
   }
 
   async function salvar() {
-    let data = { id,cliente, IdProduto, dataVenda, horarioVenda };
+    let data = { id,cliente, IdProduto, data, horario };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -84,8 +84,8 @@ function Cadastrovenda() {
       setId(dados.id);
       setcliente(dados.cliente);
       setIdProduto(dados.IdProduto);
-      setdataVenda(dados.dataVenda);
-      sethorarioVenda(dados.horarioVenda);
+      setdata(dados.data);
+      setHorario(dados.horario);
     }
   }
 
@@ -143,10 +143,10 @@ function Cadastrovenda() {
                 <input
                   type='text'
                   id='inputdataVenda'
-                  value={dataVenda}
+                  value={data}
                   className='form-control'
                   name='dataVenda'
-                  onChange={(e) => setdataVenda(e.target.value)}
+                  onChange={(e) => setdata(e.target.value)}
                 />
               </FormGroup>
               
@@ -154,10 +154,10 @@ function Cadastrovenda() {
                 <input
                   type='text'
                   id='inputhoraVenda'
-                  value={dataVenda}
+                  value={horario}
                   className='form-control'
                   name='dataVenda'
-                  onChange={(e) => setdataVenda(e.target.value)}
+                  onChange={(e) => setHorario(e.target.value)}
                 />
               </FormGroup>
 

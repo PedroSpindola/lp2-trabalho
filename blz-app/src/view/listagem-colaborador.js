@@ -79,24 +79,22 @@ function Listagemcolaborador() {
                     <th scope='col'>Nome</th>
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Celular</th>
+                    <th scope='col'>Data Nascimento</th>
                     <th scope='col'>Email</th>
-                    <th scope='col'>Lojas Cadastradas</th>
-                    <th scope='col'>Cargo</th>
                     <th scope='col'>Loja</th>
                     
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
-                    <tr key={dado.cpf}>
+                    <tr key={dado.id}>
                      <td>{dado.cpf}</td>
                       <td>{dado.nome}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
+                      <td>{dado.dataNascimento}</td>
                       <td>{dado.email}</td>
-                      <td>{dado.loja}</td>
-                      <td>{dado.cargo}</td>
-                      <td>{dado.loja}</td>
+                      <td>{dado.nomeLoja}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

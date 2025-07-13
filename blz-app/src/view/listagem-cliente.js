@@ -80,7 +80,7 @@ function Listagemcliente() {
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Celular</th>
                     <th scope='col'>Email</th>
-                    <th scope='col'>Loja</th>
+                    <th scope='col'>Data Nascimento</th>
 
                   </tr>
                 </thead>
@@ -92,7 +92,7 @@ function Listagemcliente() {
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
                       <td>{dado.email}</td>
-                      <td>{dado.loja}</td>
+                      <td>{dado.dataNascimento}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

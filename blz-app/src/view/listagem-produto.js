@@ -77,6 +77,7 @@ function Listagemproduto() {
                   <tr>
                     <th scope='col'>Nome</th>
                     <th scope='col'>Valor para venda (R$)</th>
+                    <th scope='col'>Valor compra(R$)</th>
                     <th scope='col'>Unidades Disponíveis</th>
                     <th scope='col'>Quantidade Mínima</th>
                     <th scope='col'>Fornecedor</th>
@@ -91,6 +92,7 @@ function Listagemproduto() {
                     <tr key={dado.id}>
                       <td>{dado.nome}</td>
                       <td>{dado.valorVenda}</td>
+                      <td>{dado.valorCompra}</td>
                       <td>{dado.quantidade}</td>
                       <td>{dado.quantidadeMin}</td>
                       <td>{dado.nomeFornecedor}</td>
