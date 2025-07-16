@@ -85,7 +85,7 @@ function Listagemagenda() {
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.data}</td>
+                      <td>{dado.dataAgendamento}</td>
                       <td>{dado.horario}</td>
                       <td>{dado.servico}</td>
                       <td>{dado.preferenciaFuncionario}</td>

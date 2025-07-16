@@ -20,7 +20,7 @@ function Cadastrovenda() {
   const [id, setId] = useState('');
   const [idUsuario, setIdUsuario] = useState('');
   const [IdProduto, setIdProduto] = useState(0);
-  const [data, setdata] = useState('');
+  const [dataVenda, setdata] = useState('');
   const [horario, setHorario] = useState('');
   const [idFormaPagamento,setIdFormaPagamento] = useState('');
 
@@ -40,7 +40,7 @@ function Cadastrovenda() {
       setId(dados.id)
       setIdUsuario(dados.idUsuario);
       setIdProduto(dados.IdProduto);
-      setdata(dados.data);
+      setdata(dados.dataVenda);
       setHorario(dados.horario);
       setIdFormaPagamento(dados.idFormaPagamento);
     }
@@ -48,7 +48,7 @@ function Cadastrovenda() {
   }
 
   async function salvar() {
-    let data = { id,idUsuario, data, horario,idFormaPagamento };
+    let data = { id,idUsuario, dataVenda, horario,idFormaPagamento };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -87,7 +87,7 @@ function Cadastrovenda() {
       setId(dados.id);
       setIdUsuario(dados.idUsuario);
       setIdProduto(dados.IdProduto);
-      setdata(dados.data);
+      setdata(dados.dataVenda);
       setHorario(dados.horario);
       setIdFormaPagamento(dados.idFormaPagamento);
     }
@@ -183,7 +183,7 @@ function Cadastrovenda() {
                 <input
                   type='text'
                   id='inputdataVenda'
-                  value={data}
+                  value={dataVenda}
                   className='form-control'
                   name='dataVenda'
                   onChange={(e) => setdata(e.target.value)}

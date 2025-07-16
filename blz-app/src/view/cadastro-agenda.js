@@ -18,7 +18,7 @@ function Cadastroagenda() {
   const baseURL = `${BASE_URL}/agendamentos`;
 
   const [id, setId] = useState('');
-  const [data, setData] = useState('');
+  const [dataAgendamento, setData] = useState('');
   const [horario, setHorario] = useState('0');
   const [idServico, setIdServico] = useState(0);
   const [idFuncionario, setIdFuncionario] = useState(0);
@@ -36,16 +36,16 @@ function Cadastroagenda() {
 
     } else {
       setId(dados.id)
-      setData(dados.data);
+      setData(dados.dataAgendamento);
       setHorario(dados.horario);
       setIdServico(dados.idServico);
       setIdFuncionario(dados.idFuncionario);
     }
-    navigate(`/listagem-agenda`);
+    navigate(`/listagem-Agenda`);
   }
 
   async function salvar() {
-    let data = { id,data, horario, idServico, idFuncionario };
+    let data = { id,dataAgendamento, horario, idServico, idFuncionario };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -82,7 +82,7 @@ function Cadastroagenda() {
         console.log(a);
       });
       setId(dados.id);
-      setData(dados.data);
+      setData(dados.dataAgendamento);
       setHorario(dados.horario);
       setIdServico(dados.idServico);
       setIdFuncionario(dados.idFuncionario);
@@ -134,7 +134,7 @@ function Cadastroagenda() {
                 <input
                   type='text'
                   id='inputdata'
-                  value={data}
+                  value={dataAgendamento}
                   className='form-control'
                   name='Dataagenda'
                   onChange={(e) => setData(e.target.value)}
