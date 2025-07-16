@@ -20,12 +20,12 @@ function Cadastroservico() {
 
   const [id, setId] = useState('');
   const [nome, setnome] = useState('');
-  const [preco, setPreco] = useState('0');
-  const [duracao, setDuracao] = useState('0');
+  const [preco, setPreco] = useState(0);
+  const [duracao, setDuracao] = useState(0);
   const [idCargo, setIdCargo] = useState(0)
   const [idLoja, setIdLoja] = useState(0)
-  const [comissao, setComissao] = useState('0')
-  const [desconto, setDesconto] = useState('0')
+  const [comissao, setComissao] = useState(0)
+  const [desconto, setDesconto] = useState(0)
 
 
   const [dados, setDados] = useState([]);
@@ -38,8 +38,8 @@ function Cadastroservico() {
       setDuracao('');
       setIdCargo(0);
       setIdLoja(0)
-      setComissao('0');
-      setDesconto('0');
+      setComissao(0);
+      setDesconto(0);
 
     } else {
       setId(dados.id)
@@ -55,7 +55,7 @@ function Cadastroservico() {
   }
 
   async function salvar() {
-    let data = { id,nome, preco, duracao, idCargo, comissao, desconto};
+    let data = { id,nome, preco,duracao,comissao, desconto,idCargo,idLoja};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -98,6 +98,7 @@ function Cadastroservico() {
     setIdCargo(dados.idCargo)
     setComissao(dados.comissao);
     setDesconto(dados.desconto);
+    setIdLoja(dados.idLoja)
 
   }
 
@@ -112,9 +113,6 @@ function Cadastroservico() {
 
   },[])
 
-  useEffect(() => {
-    buscar(); // eslint-disable-next-line
-  }, [id]);
   useEffect(()=>{
 
     axios.get(`${BASE_URL}/lojas`).then((response) => {
@@ -127,12 +125,9 @@ function Cadastroservico() {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
-
-
-  if (!dados) return null;
-  if(!dadosCargos) return null;
   if(!dados) return null;
   if(!dadosLoja) return null;
+  if(!dadosCargos) return null;
 
   return (
     <div className='container'>
@@ -195,10 +190,7 @@ function Cadastroservico() {
                 />
               </FormGroup>
 
-
-
-
-              <FormGroup label= 'Profissional que realizará o serviço: *' htmlFor= 'selectCargo'>
+              <FormGroup label= 'Cargo: ' htmlFor= 'selectCargo'>
                 <select
                   className='form-select'
                   id='selectCarogo'

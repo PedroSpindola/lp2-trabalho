@@ -23,7 +23,6 @@ function CadastroColaborador() {
   const [telefone, setTelefone] = useState('');
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
   /*const [idCargo, setIdCargo] = useState(0);*/
   const [idLoja, setIdLoja] = useState(0);
   const [dataNascimento, setDataNascimento] = useState('')
@@ -39,7 +38,6 @@ function CadastroColaborador() {
       setTelefone('(xx) xxxx-xxxx');
       setCelular('(xx) xxxxx-xxxx');
       setEmail('');
-      setSenha('');
       setDataNascimento('');
       /*setIdCargo(0);*/
       setIdLoja(0);
@@ -51,7 +49,6 @@ function CadastroColaborador() {
       setTelefone(dados.telefone);
       setCelular(dados.celular);
       setEmail(dados.email);
-      setSenha(dados.senha);
       setDataNascimento(dados.dataNascimento)
       /*setIdCargo(dados.idCargo);*/
       setIdLoja(dados.idLoja);
@@ -60,7 +57,7 @@ function CadastroColaborador() {
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, telefone ,celular, dataNascimento ,email, idLoja};
+    let data = { id,cpf, nome, telefone, celular, email, dataNascimento, idLoja};
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -106,7 +103,6 @@ function CadastroColaborador() {
     setTelefone(dados.telefone);
     setCelular(dados.celular);
     setEmail(dados.email);
-    setSenha(dados.senha);
     setDataNascimento(dados.dataNascimento)
     /*setIdCargo(dados.idCargo);*/
     setIdLoja(dados.idLoja);

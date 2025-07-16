@@ -199,9 +199,6 @@ function Cadastroprodutos() {
                 />
               </FormGroup>
 
-
-
-
               <FormGroup label='Data de validade: *' htmlFor='inputdataValidade'>
                 <input
                   type='text'

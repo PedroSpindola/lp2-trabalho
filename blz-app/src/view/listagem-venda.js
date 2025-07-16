@@ -87,8 +87,8 @@ function Listagemvenda() {
                   {dados.map((dado) => (
                     <tr key={dado.id}>
                       <td>{dado.cliente}</td>
-                      <td>{dado.loja}</td>
-                      <td>{dado.produto}</td>
+                      <td>{dado.nomeLoja}</td>
+                      <td>{dado.nomeProduto}</td>
                       <td>{dado.dataVenda}</td>
                       <td>{dado.horarioVenda}</td>
                       

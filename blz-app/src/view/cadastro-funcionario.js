@@ -109,7 +109,7 @@ function CadastroFuncionario() {
 
   const [dadosLoja, setDadosLoja] = React.useState(null);
   useEffect(()=>{
-    axios.get(`${BASE_URL}/Loja`).then((response) => {
+    axios.get(`${BASE_URL}/lojas`).then((response) => {
       setDadosLoja(response.data);
     });
   },[]);

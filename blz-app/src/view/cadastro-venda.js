@@ -18,10 +18,11 @@ function Cadastrovenda() {
   const baseURL = `${BASE_URL}/vendas`;
 
   const [id, setId] = useState('');
-  const [cliente, setcliente] = useState('');
+  const [idUsuario, setIdUsuario] = useState('');
   const [IdProduto, setIdProduto] = useState(0);
   const [data, setdata] = useState('');
   const [horario, setHorario] = useState('');
+  const [idFormaPagamento,setIdFormaPagamento] = useState('');
 
 
   const [dados, setDados] = useState([]);
@@ -29,23 +30,25 @@ function Cadastrovenda() {
   function inicializar() {
     if (idParam == null) {
       setId('')
-      setcliente('');
+      setIdUsuario('');
       setIdProduto(0);
       setdata('');
-      setHorario('')
+      setHorario('');
+      setIdFormaPagamento('');
 
     } else {
       setId(dados.id)
-      setcliente(dados.cliente);
+      setIdUsuario(dados.idUsuario);
       setIdProduto(dados.IdProduto);
       setdata(dados.data);
       setHorario(dados.horario);
+      setIdFormaPagamento(dados.idFormaPagamento);
     }
       navigate(`/listagem-venda`);
   }
 
   async function salvar() {
-    let data = { id,cliente, IdProduto, data, horario };
+    let data = { id,idUsuario, data, horario,idFormaPagamento };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -82,18 +85,31 @@ function Cadastrovenda() {
         console.log(a);
       });
       setId(dados.id);
-      setcliente(dados.cliente);
+      setIdUsuario(dados.idUsuario);
       setIdProduto(dados.IdProduto);
       setdata(dados.data);
       setHorario(dados.horario);
+      setIdFormaPagamento(dados.idFormaPagamento);
     }
   }
 
 
   const [dadosProdutos, setDadosProdutos] = React.useState(null);
+  const [dadosFormaPagamento, setDadosFormaPagamento] = React.useState(null);
+  const [dadosUsuario, setDadosUsuario] = React.useState(null);
   useEffect(()=>{
     axios.get(`${BASE_URL}/produtos`).then((response) => {
       setDadosProdutos(response.data);
+    });
+  },[]);
+  useEffect(()=>{
+    axios.get(`${BASE_URL}/formapagamento`).then((response) => {
+      setDadosFormaPagamento(response.data);
+    });
+  },[]);
+  useEffect(()=>{
+    axios.get(`${BASE_URL}/usuarios`).then((response) => {
+      setDadosUsuario(response.data);
     });
   },[]);
   useEffect(() => {
@@ -102,6 +118,8 @@ function Cadastrovenda() {
 
   if (!dados) return null;
   if (!dadosProdutos) return null;
+  if(!dadosFormaPagamento) return null;
+  if(!dadosUsuario) return null;
 
   return (
     <div className='container'>
@@ -110,15 +128,21 @@ function Cadastrovenda() {
           <div className='col-lg-12'>
             <div className='bs-component'>
             
-              <FormGroup label='Cliente: ' htmlFor='inputcliente'>
-                <input
-                  type='text'
-                  id='inputcliente'
-                  value={cliente}
-                  className='form-control'
-                  name='clientevenda'
-                  onChange={(e) => setcliente(e.target.value)}
-                />
+              <FormGroup label='Cliente: ' htmlFor='selectCliente'>
+                <select
+                  className='form-select'
+                  id='selectCliente'
+                  name='idCliente'
+                  value={idUsuario}
+                >
+                  {dadosUsuario.map((dado)=>(
+                    <option key={dado.id} value={dado.id}>
+
+                      {dado.nome}
+                    
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
               
               <FormGroup label= 'Produto:' htmlFor= 'selectProduto'>
@@ -129,6 +153,22 @@ function Cadastrovenda() {
                   value={IdProduto}
                 >
                   {dadosProdutos.map((dado)=>(
+                    <option key={dado.id} value={dado.id}>
+
+                      {dado.nome}
+                    
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+              <FormGroup label= 'Forma de Pagamento:' htmlFor= 'selectFormadePagamento'>
+                <select
+                  className='form-select'
+                  id='selectFormadePagamento'
+                  name='idFormadePagamento'
+                  value={idFormaPagamento}
+                >
+                  {dadosFormaPagamento.map((dado)=>(
                     <option key={dado.id} value={dado.id}>
 
                       {dado.nome}

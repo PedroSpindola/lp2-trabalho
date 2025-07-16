@@ -108,7 +108,7 @@ function Cadastroagenda() {
   
   const [dadosFuncionario, setDadosFuncionario] = React.useState(null);
   useEffect(()=>{
-    axios.get(`${BASE_URL}/funcionario`).then((response) => {
+    axios.get(`${BASE_URL}/funcionarios`).then((response) => {
       setDadosFuncionario(response.data);
     });
   },[]);
