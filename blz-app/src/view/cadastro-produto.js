@@ -139,6 +139,7 @@ function Cadastroprodutos() {
 
   if (!dados) return null;
   if (!dadosFornecedor) return null;
+  if (!dadosLoja) return null;
 
   return (
     <div className='container'>
