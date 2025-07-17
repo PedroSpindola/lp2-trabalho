@@ -22,7 +22,7 @@ function Cadastroagenda() {
   const [horario, setHorario] = useState('0');
   const [idServico, setIdServico] = useState(0);
   const [idFuncionario, setIdFuncionario] = useState(0);
-
+    const [idLoja,setIdLoja] = useState(0);
 
   const [dados, setDados] = useState([]);
 
@@ -33,19 +33,20 @@ function Cadastroagenda() {
       setHorario('');
       setIdServico(0);
       setIdFuncionario(0)
-
+      setIdLoja(0);
     } else {
       setId(dados.id)
       setData(dados.dataAgendamento);
       setHorario(dados.horario);
       setIdServico(dados.idServico);
       setIdFuncionario(dados.idFuncionario);
+      setIdLoja(dados.idLoja);
     }
     navigate(`/listagem-Agenda`);
   }
 
   async function salvar() {
-    let data = { id,dataAgendamento, horario, idServico, idFuncionario };
+    let data = { id,dataAgendamento, horario, idServico, idFuncionario, idLoja };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -89,13 +90,19 @@ function Cadastroagenda() {
     }
   }
 
-
+  const [dadosLoja, setDadosLoja] = React.useState(null);
   const [dadosServico, setDadosServico] = React.useState(null);
   useEffect(()=>{
     axios.get(`${BASE_URL}/servicos`).then((response) => {
       setDadosServico(response.data);
     });
   },[]);
+  useEffect(()=>{
+    axios.get(`${BASE_URL}/lojas`).then((response) => {
+      setDadosLoja(response.data);
+    });
+  },[]);
+
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
@@ -120,6 +127,8 @@ function Cadastroagenda() {
   if (!dadosServico) return null;
   if (!dados) return null;
   if (!dadosFuncionario) return null;
+  if (!dadosLoja) return null;
+
 
   
 
@@ -182,6 +191,27 @@ function Cadastroagenda() {
 
                     <option key={dado.id} value={dado.id}>
                       {dado.nome}
+                    </option>
+                  ))}
+                </select>
+              </FormGroup>
+
+
+                <FormGroup label= 'Loja:' htmlFor= 'selectLoja'>
+                <select
+                  className='form-select'
+                  id='selectLoja'
+                  name='idLoja'
+                  value={idLoja}
+                   onChange={(e) => setIdLoja(e.target.value)}
+
+        
+                >
+                  {dadosLoja.map((dado)=>(
+                    <option key={dado.id} value={dado.id}>
+
+                      {dado.nome}
+                    
                     </option>
                   ))}
                 </select>
