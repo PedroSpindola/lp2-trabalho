@@ -134,7 +134,8 @@ function Cadastrovenda() {
                   id='selectCliente'
                   name='idCliente'
                   value={idUsuario}
-                >
+                  onChange={(e) => setIdUsuario(e.target.value)}>
+                
                   {dadosUsuario.map((dado)=>(
                     <option key={dado.id} value={dado.id}>
 
@@ -151,6 +152,7 @@ function Cadastrovenda() {
                   id='selectProduto'
                   name='idProduto'
                   value={IdProduto}
+        
                 >
                   {dadosProdutos.map((dado)=>(
                     <option key={dado.id} value={dado.id}>
@@ -167,6 +169,7 @@ function Cadastrovenda() {
                   id='selectFormadePagamento'
                   name='idFormadePagamento'
                   value={idFormaPagamento}
+                  onChange={(e) => setIdFormaPagamento(e.target.value)}
                 >
                   {dadosFormaPagamento.map((dado)=>(
                     <option key={dado.id} value={dado.id}>
