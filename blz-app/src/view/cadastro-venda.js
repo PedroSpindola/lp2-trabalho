@@ -232,7 +232,7 @@ function Cadastrovenda() {
 
         
                 >
-                  {dadosProdutos.map((dado)=>(
+                  {dadosLoja.map((dado)=>(
                     <option key={dado.id} value={dado.id}>
 
                       {dado.nome}
