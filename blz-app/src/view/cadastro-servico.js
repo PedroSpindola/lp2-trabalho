@@ -213,6 +213,7 @@ function Cadastroservico() {
                   id='selectLoja'
                   name='idLoja'
                   value={idLoja}
+                  onChange={(e) => setIdLoja(e.target.value)}
                 >
                   {dadosLoja.map((dado)=>(
                     <option key={dado.id} value={dado.id}>
