@@ -17,24 +17,24 @@ function Cadastrovenda() {
 
   const baseURL = `${BASE_URL}/vendas`;
 
-  const [id, setId] = useState('');
-  const [idUsuario, setIdUsuario] = useState('');
+  const [id, setId] = useState(0);
+  const [idUsuario, setIdUsuario] = useState(0);
   const [idProduto, setIdProduto] = useState(0);
   const [dataVenda, setdata] = useState('');
   const [horario, setHorario] = useState('');
-  const [idFormaPagamento,setIdFormaPagamento] = useState('');
+  const [idFormaPagamento,setIdFormaPagamento] = useState(0);
 
 
   const [dados, setDados] = useState([]);
 
   function inicializar() {
     if (idParam == null) {
-      setId('')
-      setIdUsuario('');
+      setId(0)
+      setIdUsuario(0);
       setIdProduto(0);
       setdata('');
       setHorario('');
-      setIdFormaPagamento('');
+      setIdFormaPagamento(0);
 
     } else {
       setId(dados.id)
