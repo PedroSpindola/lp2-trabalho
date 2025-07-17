@@ -19,7 +19,7 @@ function Cadastrovenda() {
 
   const [id, setId] = useState(0);
   const [idUsuario, setIdUsuario] = useState(0);
-  const [idProduto, setIdProduto] = useState(0);
+
   const [dataVenda, setdata] = useState('');
   const [horario, setHorario] = useState('');
   const [idFormaPagamento,setIdFormaPagamento] = useState(0);
@@ -32,7 +32,7 @@ function Cadastrovenda() {
     if (idParam == null) {
       setId(0)
       setIdUsuario(0);
-      setIdProduto(0);
+   
       setdata('');
       setHorario('');
       setIdFormaPagamento(0);
@@ -41,7 +41,7 @@ function Cadastrovenda() {
     } else {
       setId(dados.id)
       setIdUsuario(dados.idUsuario);
-      setIdProduto(dados.idProduto);
+
       setdata(dados.dataVenda);
       setHorario(dados.horario);
       setIdFormaPagamento(dados.idFormaPagamento);
@@ -51,7 +51,7 @@ function Cadastrovenda() {
   }
 
   async function salvar() {
-    let data = { id,idUsuario, idProduto, dataVenda, horario,idFormaPagamento, idLoja };
+    let data = { id,idUsuario,  dataVenda, horario,idFormaPagamento, idLoja };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -89,7 +89,7 @@ function Cadastrovenda() {
       });
       setId(dados.id);
       setIdUsuario(dados.idUsuario);
-      setIdProduto(dados.idProduto);
+      
       setdata(dados.dataVenda);
       setHorario(dados.horario);
       setIdFormaPagamento(dados.idFormaPagamento);
@@ -98,15 +98,11 @@ function Cadastrovenda() {
   }
 
 
-  const [dadosProdutos, setDadosProdutos] = React.useState(null);
+  
   const [dadosFormaPagamento, setDadosFormaPagamento] = React.useState(null);
   const [dadosUsuario, setDadosUsuario] = React.useState(null);
   const [dadosLoja, setDadosLoja] = React.useState(null);
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/produtos`).then((response) => {
-      setDadosProdutos(response.data);
-    });
-  },[]);
+
   useEffect(()=>{
     axios.get(`${BASE_URL}/formapagamento`).then((response) => {
       setDadosFormaPagamento(response.data);
@@ -132,7 +128,7 @@ function Cadastrovenda() {
 
 
   if (!dados) return null;
-  if (!dadosProdutos) return null;
+ 
   if(!dadosFormaPagamento) return null;
   if(!dadosUsuario) return null;
   if(!dadosLoja) return null;
@@ -162,25 +158,7 @@ function Cadastrovenda() {
                 </select>
               </FormGroup>
               
-              <FormGroup label= 'Produto:' htmlFor= 'selectProduto'>
-                <select
-                  className='form-select'
-                  id='selectProduto'
-                  name='idProduto'
-                  value={idProduto}
-                   onChange={(e) => setIdProduto(e.target.value)}
-
-        
-                >
-                  {dadosProdutos.map((dado)=>(
-                    <option key={dado.id} value={dado.id}>
-
-                      {dado.nome}
-                    
-                    </option>
-                  ))}
-                </select>
-              </FormGroup>
+            
               <FormGroup label= 'Forma de Pagamento:' htmlFor= 'selectFormadePagamento'>
                 <select
                   className='form-select'
