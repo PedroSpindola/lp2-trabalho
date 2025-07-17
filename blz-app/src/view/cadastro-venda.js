@@ -152,6 +152,8 @@ function Cadastrovenda() {
                   id='selectProduto'
                   name='idProduto'
                   value={IdProduto}
+                   onChange={(e) => setIdUsuario(e.target.value)}
+
         
                 >
                   {dadosProdutos.map((dado)=>(
