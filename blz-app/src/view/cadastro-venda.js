@@ -152,7 +152,7 @@ function Cadastrovenda() {
                   id='selectProduto'
                   name='idProduto'
                   value={idProduto}
-                   onChange={(e) => setIdUsuario(e.target.value)}
+                   onChange={(e) => setIdProduto(e.target.value)}
 
         
                 >
