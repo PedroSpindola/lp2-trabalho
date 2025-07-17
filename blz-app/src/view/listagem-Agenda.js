@@ -88,8 +88,8 @@ function Listagemagenda() {
                       <td>{dado.dataAgendamento}</td>
                       <td>{dado.horario}</td>
                       <td>{dado.servico}</td>
-                      <td>{dado.preferenciaFuncionario}</td>
-                      <td>{dado.loja}</td>
+                      <td>{dado.nomeFuncionario}</td>
+                      <td>{dado.nomeLoja}</td>
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton

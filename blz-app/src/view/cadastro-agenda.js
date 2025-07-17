@@ -107,13 +107,6 @@ function Cadastroagenda() {
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
-
-
-  
-  
-  
-  
-  
   const [dadosFuncionario, setDadosFuncionario] = React.useState(null);
   useEffect(()=>{
     axios.get(`${BASE_URL}/funcionarios`).then((response) => {
@@ -126,7 +119,6 @@ function Cadastroagenda() {
 
   if (!dados) return null;
   if (!dadosServico) return null;
-  if (!dados) return null;
   if (!dadosFuncionario) return null;
   if (!dadosLoja) return null;
 
