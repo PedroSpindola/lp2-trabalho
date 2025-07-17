@@ -22,7 +22,7 @@ function Cadastroagenda() {
   const [horario, setHorario] = useState('0');
   const [idServico, setIdServico] = useState(0);
   const [idFuncionario, setIdFuncionario] = useState(0);
-    const [idLoja,setIdLoja] = useState(0);
+  const [idLoja,setIdLoja] = useState(0);
 
   const [dados, setDados] = useState([]);
 
@@ -87,6 +87,7 @@ function Cadastroagenda() {
       setHorario(dados.horario);
       setIdServico(dados.idServico);
       setIdFuncionario(dados.idFuncionario);
+      setIdLoja(dados.idLoja)
     }
   }
 
