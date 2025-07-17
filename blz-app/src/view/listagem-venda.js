@@ -77,7 +77,7 @@ function Listagemvenda() {
                   <tr>
                     <th scope='col'>Cliente</th>
                     <th scope='col'>Loja</th>
-                    <th scope='col'>Produto</th>
+                    <th scope='col'>pagamento</th>
                     <th scope='col'>Data da Compra</th>
                     <th scope='col'>Horário da Compra</th>
                     
@@ -86,11 +86,11 @@ function Listagemvenda() {
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                      <td>{dado.cliente}</td>
+                      <td>{dado.nomeUsuario}</td>
                       <td>{dado.nomeLoja}</td>
-                      <td>{dado.nomeProduto}</td>
+                      <td>{dado.nomeFormaPagamento}</td>
                       <td>{dado.dataVenda}</td>
-                      <td>{dado.horarioVenda}</td>
+                      <td>{dado.horario}</td>
                       
                       <td> 
                         <Stack spacing={1} padding={0} direction='row'>
