@@ -19,7 +19,7 @@ function Cadastrovenda() {
 
   const [id, setId] = useState('');
   const [idUsuario, setIdUsuario] = useState('');
-  const [IdProduto, setIdProduto] = useState(0);
+  const [idProduto, setIdProduto] = useState(0);
   const [dataVenda, setdata] = useState('');
   const [horario, setHorario] = useState('');
   const [idFormaPagamento,setIdFormaPagamento] = useState('');
@@ -39,7 +39,7 @@ function Cadastrovenda() {
     } else {
       setId(dados.id)
       setIdUsuario(dados.idUsuario);
-      setIdProduto(dados.IdProduto);
+      setIdProduto(dados.idProduto);
       setdata(dados.dataVenda);
       setHorario(dados.horario);
       setIdFormaPagamento(dados.idFormaPagamento);
@@ -48,7 +48,7 @@ function Cadastrovenda() {
   }
 
   async function salvar() {
-    let data = { id,idUsuario, dataVenda, horario,idFormaPagamento };
+    let data = { id,idUsuario, idProduto, dataVenda, horario,idFormaPagamento };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -86,7 +86,7 @@ function Cadastrovenda() {
       });
       setId(dados.id);
       setIdUsuario(dados.idUsuario);
-      setIdProduto(dados.IdProduto);
+      setIdProduto(dados.idProduto);
       setdata(dados.dataVenda);
       setHorario(dados.horario);
       setIdFormaPagamento(dados.idFormaPagamento);
@@ -151,7 +151,7 @@ function Cadastrovenda() {
                   className='form-select'
                   id='selectProduto'
                   name='idProduto'
-                  value={IdProduto}
+                  value={idProduto}
                    onChange={(e) => setIdUsuario(e.target.value)}
 
         
