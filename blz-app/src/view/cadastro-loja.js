@@ -5,11 +5,12 @@ import Stack from '@mui/material/Stack';
 
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
-
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
 
 import { BASE_URL } from '../config/axios';
+
 
 function CadastroLoja() {
   const { idParam } = useParams();
@@ -67,11 +68,11 @@ function CadastroLoja() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-         
+          mensagemSucesso(`Loja ${nome} cadastrada com sucesso!`);
           navigate(`/listagem-loja`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     } else {
       await axios
@@ -79,11 +80,11 @@ function CadastroLoja() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-       
+          mensagemSucesso(`Loja ${nome} alterado com sucesso!`);
           navigate(`/listagem-loja`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }

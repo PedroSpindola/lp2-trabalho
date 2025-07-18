@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
-
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
@@ -54,11 +54,11 @@ function Cadastrocomanda() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-         
+          mensagemSucesso(`Comanda cadastrada com sucesso!`);
           navigate(`/listagem-comanda`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     } else {
       await axios
@@ -66,11 +66,11 @@ function Cadastrocomanda() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-       
+          mensagemSucesso(`Comanda alterado com sucesso!`);
           navigate(`/listagem-comanda`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }

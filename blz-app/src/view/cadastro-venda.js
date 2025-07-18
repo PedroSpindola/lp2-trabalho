@@ -9,6 +9,7 @@ import FormGroup from '../components/form-group';
 
 import axios from 'axios';
 import {BASE_URL} from '../config/axios';
+import { mensagemErro, mensagemSucesso } from '../components/toastr';
 
 function Cadastrovenda() {
   const { idParam } = useParams();
@@ -59,11 +60,11 @@ function Cadastrovenda() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-         
+          mensagemSucesso(`Venda cadastro com sucesso!`);
           navigate(`/listagem-venda`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     } else {
       await axios
@@ -71,11 +72,11 @@ function Cadastrovenda() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-       
+          mensagemSucesso(`Venda alterado com sucesso!`);
           navigate(`/listagem-venda`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }

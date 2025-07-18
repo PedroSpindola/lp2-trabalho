@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
 
-
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
@@ -62,11 +62,11 @@ function CadastroCliente() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-         
+          mensagemSucesso(`Cliente ${nome} cadastrado com sucesso!`);
           navigate(`/listagem-cliente`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     } else {
       await axios
@@ -74,11 +74,11 @@ function CadastroCliente() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-       
+          mensagemSucesso(`Cliente ${nome} alterado com sucesso!`);
           navigate(`/listagem-cliente`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }

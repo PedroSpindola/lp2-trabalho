@@ -75,6 +75,7 @@ function Listagemagenda() {
               <table className='table table-hover'>
                 <thead>
                   <tr>
+                    <th scope='col'>Cliente</th>
                     <th scope='col'>Data</th>
                     <th scope='col'>Horario</th>
                     <th scope='col'>Serviço</th>
@@ -85,6 +86,7 @@ function Listagemagenda() {
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
+                      <td>{dado.nomeCliente}</td>
                       <td>{dado.dataAgendamento}</td>
                       <td>{dado.horario}</td>
                       <td>{dado.servico}</td>

@@ -6,8 +6,7 @@ import Stack from '@mui/material/Stack';
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
 
-
-
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
@@ -49,11 +48,11 @@ function CadastroFormaPagamento() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-         
+          mensagemSucesso(`Forma de Pagamento ${nome} cadastrada com sucesso!`);
           navigate(`/listagem-forma-pagamento`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     } else {
       await axios
@@ -61,11 +60,11 @@ function CadastroFormaPagamento() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-       
+          mensagemSucesso(`Forma de Pagamento ${nome} alterado com sucesso!`);
           navigate(`/listagem-forma-pagamento`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }

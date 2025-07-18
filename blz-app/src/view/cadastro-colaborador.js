@@ -9,6 +9,7 @@ import FormGroup from '../components/form-group';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import { mensagemErro, mensagemSucesso } from '../components/toastr';
 
 function CadastroColaborador() {
   const { idParam } = useParams();
@@ -65,11 +66,11 @@ function CadastroColaborador() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-         
+          mensagemSucesso(`Colaborador ${nome} cadastrado com sucesso!`);
           navigate(`/listagem-colaborador`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     } else {
       await axios
@@ -77,11 +78,11 @@ function CadastroColaborador() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-       
+          mensagemSucesso(`Colaborador ${nome} alterado com sucesso!`);
           navigate(`/listagem-Colaborador`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }

@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 
 import axios from 'axios';
@@ -54,10 +55,11 @@ function Cadastroagenda() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-         
+          mensagemSucesso(`Agendamento cadastrado com sucesso!`);
           navigate(`/listagem-agenda`);
         })
         .catch(function (error) {
+          mensagemErro(error.response.data);
 
         });
     } else {
@@ -66,11 +68,11 @@ function Cadastroagenda() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-       
+          mensagemSucesso(`Agendamento alterado com sucesso!`);
           navigate(`/listagem-agenda`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }

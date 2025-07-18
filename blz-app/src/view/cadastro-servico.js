@@ -9,6 +9,7 @@ import FormGroup from '../components/form-group';
 
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
+import { mensagemErro, mensagemSucesso } from '../components/toastr';
 
 function Cadastroservico() {
   const { idParam } = useParams();
@@ -61,13 +62,14 @@ function Cadastroservico() {
       await axios
         .post(baseURL, data, {
           headers: { 'Content-Type': 'application/json' },
+          
         })
         .then(function (response) {
-         
+          mensagemSucesso(`serviço ${nome} cadastrado com sucesso!`);
           navigate(`/listagem-servico`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     } else {
       await axios
@@ -75,11 +77,11 @@ function Cadastroservico() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-       
+          mensagemSucesso(`Serviço ${nome} alterado com sucesso!`);
           navigate(`/listagem-servico`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }

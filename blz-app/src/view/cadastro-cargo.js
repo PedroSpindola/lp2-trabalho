@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
 
-
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 
 
 import axios from 'axios';
@@ -52,11 +52,11 @@ function CadastroCargo() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-
+          mensagemSucesso(`Cargo ${nome} cadastrado com sucesso!`);
           navigate(`/listagem-cargo`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     } else {
       await axios
@@ -64,11 +64,11 @@ function CadastroCargo() {
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
-
+          mensagemSucesso(`Cargo ${nome} alterado com sucesso!`);
           navigate(`/listagem-cargo`);
         })
         .catch(function (error) {
-
+          mensagemErro(error.response.data)
         });
     }
   }
