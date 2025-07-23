@@ -181,7 +181,7 @@ function Cadastrovenda() {
            
               <FormGroup label='Data da Venda: ' htmlFor='inputdataVenda'>
                 <input
-                  type='text'
+                  type='date'
                   id='inputdataVenda'
                   value={dataVenda}
                   className='form-control'

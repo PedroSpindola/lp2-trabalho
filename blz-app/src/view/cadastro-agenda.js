@@ -136,7 +136,7 @@ function Cadastroagenda() {
             
               <FormGroup label='Data: *' htmlFor='inputDataagenda'>
                 <input
-                  type='text'
+                  type='date'
                   id='inputdata'
                   value={dataAgendamento}
                   className='form-control'

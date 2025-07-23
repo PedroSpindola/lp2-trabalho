@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import InputMask from 'react-input-mask';
 import Stack from '@mui/material/Stack';
 
 import Card from '../components/card';
@@ -127,16 +127,25 @@ function CadastroLoja() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            <FormGroup label='CNPJ: *' htmlFor='inputCnpj'>
-                <input
-                  type='text'
-                  id='inputCnpj'
-                  value={cnpj}
-                  className='form-control'
-                  name='cnpjloja'
-                  onChange={(e) => setCnpj(e.target.value)}
-                />
-              </FormGroup>
+            
+<FormGroup label='CNPJ: *' htmlFor='inputCnpj'>
+  <InputMask
+    mask="99.999.999/9999-99"
+    value={cnpj}
+    onChange={(e) => setCnpj(e.target.value)}
+  >
+    {(inputProps) => (
+      <input
+        {...inputProps}
+        type="text"
+        id="inputCnpj"
+        name="cnpj"
+        className="form-control"
+      />
+    )}
+  </InputMask>
+</FormGroup>
+
               <FormGroup label='Nome: *' htmlFor='inputNome'>
                 <input
                   type='text'
@@ -146,27 +155,44 @@ function CadastroLoja() {
                   name='nomeloja'
                   onChange={(e) => setnome(e.target.value)}
                 />
-              </FormGroup>
-              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
-                <input
-                  type='text'
-                  id='inputTelefone'
-                  value={telefone}
-                  className='form-control'
-                  name='telefoneloja'
-                  onChange={(e) => setTelefone(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup label='Celular: *' htmlFor='inputCelular'>
-                <input
-                  type='text'
-                  id='inputCelular'
-                  value={celular}
-                  className='form-control'
-                  name='celularloja'
-                  onChange={(e) => setCelular(e.target.value)}
-                />
-              </FormGroup>
+    </FormGroup>
+ 
+  <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+  <InputMask
+    mask="(99) 99999-9999"
+    value={telefone}
+    onChange={(e) => setTelefone(e.target.value)}
+  >
+    {(inputProps) => (
+      <input
+        {...inputProps}
+        type="text"
+        id="inputTelefone"
+        name="telefone"
+        className="form-control"
+      />
+    )}
+  </InputMask>
+</FormGroup>
+
+
+<FormGroup label='Celular: *' htmlFor='inputCelular'>
+  <InputMask
+    mask="(99) 99999-9999"
+    value={celular}
+    onChange={(e) => setCelular(e.target.value)}
+  >
+    {(inputProps) => (
+      <input
+        {...inputProps}
+        type="text"
+        id="inputCelular"
+        name="celular"
+        className="form-control"
+      />
+    )}
+  </InputMask>
+</FormGroup>
               <FormGroup label='Email: *' htmlFor='inputEmail'>
                 <input
                   type='text'
@@ -177,9 +203,10 @@ function CadastroLoja() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </FormGroup>
+
               <FormGroup label='Data de Criação: *' htmlFor='inputDtaCriacao'>
                 <input
-                  type='text'
+                  type='date'
                   id='inputDtaCriacao'
                   value={dataCriacao}
                   className='form-control'
@@ -187,6 +214,7 @@ function CadastroLoja() {
                   onChange={(e) => setDataCriacao(e.target.value)}
                 />
               </FormGroup>    
+              
             </div>
           </div>
         </div>

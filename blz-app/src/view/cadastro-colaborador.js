@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
-
+import InputMask from 'react-input-mask';
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
 
@@ -141,16 +141,25 @@ function CadastroColaborador() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            <FormGroup label='Cpf: *' htmlFor='inputCpf'>
-                <input
-                  type='text'
-                  id='inputCpf'
-                  value={cpf}
-                  className='form-control'
-                  name='cpfColaborador'
-                  onChange={(e) => setCpf(e.target.value)}
-                />
-              </FormGroup>
+            
+  <FormGroup label='CPF:' htmlFor='inputCpf'>
+  <InputMask
+    mask="999.999.999-99"
+    value={cpf}
+    onChange={(e) => setCpf(e.target.value)}
+  >
+    {(inputProps) => (
+      <input
+        {...inputProps}
+        type="text"
+        id="inputCpf"
+        name="cpf"
+        className="form-control"
+      />
+    )}
+  </InputMask>
+</FormGroup>
+
               <FormGroup label='Nome: *' htmlFor='inputNome'>
                 <input
                   type='text'
@@ -161,16 +170,23 @@ function CadastroColaborador() {
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
-                <input
-                  type='text'
-                  id='inputTelefone'
-                  value={telefone}
-                  className='form-control'
-                  name='telefoneColaborador'
-                  onChange={(e) => setTelefone(e.target.value)}
-                />
-              </FormGroup>
+           <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+  <InputMask
+    mask="(99) 99999-9999"
+    value={telefone}
+    onChange={(e) => setTelefone(e.target.value)}
+  >
+    {(inputProps) => (
+      <input
+        {...inputProps}
+        type="text"
+        id="inputTelefone"
+        name="telefone"
+        className="form-control"
+      />
+    )}
+  </InputMask>
+</FormGroup>
               <FormGroup label='Celular: *' htmlFor='inputCelular'>
                 <input
                   type='text'
@@ -193,7 +209,7 @@ function CadastroColaborador() {
               </FormGroup>
               <FormGroup label='Data de nascimento: ' htmlFor='inputDtaNascimento'>
                 <input
-                  type='text'
+                  type='date'
                   id='inputDtaNascimento'
                   value={dataNascimento}
                   className='form-control'

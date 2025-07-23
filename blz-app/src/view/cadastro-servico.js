@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import CurrencyInput from 'react-currency-input-field';
 import Stack from '@mui/material/Stack';
 
 import Card from '../components/card';
@@ -148,15 +148,15 @@ function Cadastroservico() {
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
-              <FormGroup label='Preço: *' htmlFor='inputpreco'>
-                <input
-                  type='text'
-                  id='inputpreco'
-                  value={preco}
-                  className='form-control'
-                  name='precoservico'
-                  onChange={(e) => setPreco(e.target.value)}
-                />
+              <FormGroup label='Preço (R$): *' htmlFor='inputpreco'>
+              <CurrencyInput
+              id="input-example"
+              name="input-name"
+              decimalsLimit={2}
+              className='form-control'
+              onValueChange={(value, name, values) => console.log(value, name, values)}
+              onChange={(e) => setPreco(e.target.value)}
+/>
               </FormGroup>
               <FormGroup label='Duração (min):  *' htmlFor='inputduracao'>
                 <input
@@ -169,7 +169,7 @@ function Cadastroservico() {
                 />
               </FormGroup>
 
-                <FormGroup label='Comissão' htmlFor='inputcomissao'>
+                <FormGroup label='Comissão(*) :' htmlFor='inputcomissao'>
                 <input
                   type='text'
                   id='inputcomissao'
@@ -181,7 +181,7 @@ function Cadastroservico() {
               </FormGroup>
 
 
-               <FormGroup label='Desconto:' htmlFor='inputdesconto'>
+               <FormGroup label='Desconto (%):' htmlFor='inputdesconto'>
                 <input
                   type='text'
                   id='inputdesconto'

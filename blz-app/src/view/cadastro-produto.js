@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import CurrencyInput from 'react-currency-input-field';
 import Stack from '@mui/material/Stack';
 
 import Card from '../components/card';
@@ -160,15 +160,16 @@ function Cadastroprodutos() {
                 />
               </FormGroup>
               <FormGroup label='Preço (R$): *' htmlFor='inputvalorvenda'>
-                <input
-                  type='text'
-                  id='inputvalorvenda'
-                  value={valorVenda}
-                  className='form-control'
-                  name='valorvendaprodutos'
-                  onChange={(e) => setValorVenda(e.target.value)}
-                />
+              <CurrencyInput
+              id="input-example"
+              name="input-name"
+              decimalsLimit={2}
+              className='form-control'
+              onValueChange={(value, name, values) => console.log(value, name, values)}
+              onChange={(e) => setValorVenda(e.target.value)}
+/>
               </FormGroup>
+              
               <FormGroup label='Valor da compra (R$): *' htmlFor='inputvalorcompra'>
                 <input
                   type='text'
@@ -203,7 +204,7 @@ function Cadastroprodutos() {
 
               <FormGroup label='Data de validade: *' htmlFor='inputdataValidade'>
                 <input
-                  type='text'
+                  type='date'
                   id='inputdataValidade'
                   value={dataValidade}
                   className='form-control'
