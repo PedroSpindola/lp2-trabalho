@@ -53,7 +53,7 @@ function CadastroFornecedor() {
   }
 
   async function salvar() {
-    let data = { id, nome, telefone, celular, email, idLoja, cpf,cnpj };
+    let data = { id, nome, telefone, celular, email, idLoja, cpf, cnpj };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -101,7 +101,7 @@ function CadastroFornecedor() {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
-  if(!dados) return null;
+  if (!dados) return null;
 
   return (
     <div className='container'>
@@ -120,40 +120,40 @@ function CadastroFornecedor() {
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
-               <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
-  <InputMask
-    mask="(99) 99999-9999"
-    value={telefone}
-    onChange={(e) => setTelefone(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputTelefone"
-        name="telefone"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputTelefone"
+                      name="telefone"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
               <FormGroup label='Celular: *' htmlFor='inputCelular'>
-  <InputMask
-    mask="(99) 99999-9999"
-    value={celular}
-    onChange={(e) => setCelular(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputCelular"
-        name="celular"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={celular}
+                  onChange={(e) => setCelular(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputCelular"
+                      name="celular"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
               <FormGroup label='Email: *' htmlFor='inputEmail'>
                 <input
                   type='text'
@@ -165,41 +165,41 @@ function CadastroFornecedor() {
                 />
               </FormGroup>
 
-                 <FormGroup label='CPF:' htmlFor='inputCpf'>
-  <InputMask
-    mask="999.999.999-99"
-    value={cpf}
-    onChange={(e) => setCpf(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputCpf"
-        name="cpf"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+              <FormGroup label='CPF:' htmlFor='inputCpf'>
+                <InputMask
+                  mask="999.999.999-99"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputCpf"
+                      name="cpf"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
 
-<FormGroup label='CNPJ: *' htmlFor='inputCnpj'>
-  <InputMask
-    mask="99.999.999/9999-99"
-    value={cnpj}
-    onChange={(e) => setCnpj(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputCnpj"
-        name="cnpj"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+              <FormGroup label='CNPJ: *' htmlFor='inputCnpj'>
+                <InputMask
+                  mask="99.999.999/9999-99"
+                  value={cnpj}
+                  onChange={(e) => setCnpj(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputCnpj"
+                      name="cnpj"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
 
               <Stack spacing={1} padding={1} direction='row'>
                 <button
