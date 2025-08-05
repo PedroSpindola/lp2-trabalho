@@ -1,10 +1,7 @@
 import React from 'react';
 
 import Card from '../components/card';
-
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
-
-
 import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
@@ -30,71 +27,71 @@ function Listagemfuncionario() {
 
   const [dados, setDados] = React.useState(null);
 
-   async function excluir(id) {
-     let data = JSON.stringify({ id });
-     let url = `${baseURL}/${id}`;
-     console.log(url);
-     await axios
-       .delete(url, data, {
-         headers: { 'Content-Type': 'application/json' },
-       })
-       .then(function (response) {
-         mensagemSucesso(`Cargo excluído com sucesso!`);
-         setDados(
-           dados.filter((dado) => {
-             return dado.id !== id;
-           })
-         );
-       })
-       .catch(function (error) {
-         mensagemErro(`Erro ao excluir o cargo`);
-       });
-   }
+  async function excluir(id) {
+    let url = `${baseURL}/${id}`;
+    await axios
+      .delete(url)
+      .then(function (response) {
+        // MENSAGEM CORRIGIDA
+        mensagemSucesso(`Funcionário excluído com sucesso!`);
+        setDados(
+          dados.filter((dado) => {
+            return dado.id !== id;
+          })
+        );
+      })
+      .catch(function (error) {
+        // MENSAGEM CORRIGIDA
+        mensagemErro(`Erro ao excluir o funcionário.`);
+      });
+  }
 
   React.useEffect(() => {
-     axios.get(baseURL).then((response) => {
-       setDados(response.data);
-     });
-   }, []);
+    axios.get(baseURL).then((response) => {
+      setDados(response.data);
+    });
+  }, []);
 
-   if (!dados) return null;
+  if (!dados) return null;
 
   return (
     <div className='container'>
-      <Card title='Listagem de funcionario'>
+      <Card title='Listagem de Funcionários'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
               <button
                 type='button'
-                className='btn btn-warning'
+                className='btn btn-warning mb-3'
                 onClick={() => cadastrar()}
               >
-                Novo Funcionario
+                Novo Funcionário
               </button>
               <table className='table table-hover'>
                 <thead>
                   <tr>
-                  <th scope='col'>Cpf</th>
+                    <th scope='col'>CPF</th>
                     <th scope='col'>Nome</th>
                     <th scope='col'>Telefone</th>
                     <th scope='col'>Celular</th>
                     <th scope='col'>Data de Nascimento</th>
                     <th scope='col'>Email</th>
-                    <th scope='col'>Funcionário da Loja</th>
+                    <th scope='col'>Loja</th>
+                    <th scope='col' style={{ width: '10%' }}>Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dados.map((dado) => (
                     <tr key={dado.id}>
-                     <td>{dado.cpf}</td>
+                      <td>{dado.cpf}</td>
                       <td>{dado.nome}</td>
                       <td>{dado.telefone}</td>
                       <td>{dado.celular}</td>
                       <td>{dado.dataNascimento}</td>
                       <td>{dado.email}</td>
-                      <td>{dado.nomeLoja}</td>
-                      <td> 
+                      {/* A informação da loja já está aqui */}
+                      <td>{dado.loja ? dado.loja.nome : 'Não informado'}</td>
+                      <td>
                         <Stack spacing={1} padding={0} direction='row'>
                           <IconButton
                             aria-label='edit'
