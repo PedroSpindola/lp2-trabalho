@@ -42,7 +42,7 @@ function CadastroFuncionario() {
       setSenha('');
       setDataNascimento('');
       setIdLoja(0);
-  
+
     } else {
       setId(dados.id)
       setCpf(dados.cpf);
@@ -58,11 +58,13 @@ function CadastroFuncionario() {
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, dataNascimento, idLoja };
+    let data = { id, cpf, nome, telefone, celular, email, dataNascimento };
     data = JSON.stringify(data);
+
     if (idParam == null) {
       await axios
         .post(baseURL, data, {
+          
           headers: { 'Content-Type': 'application/json' },
         })
         .then(function (response) {
@@ -88,38 +90,38 @@ function CadastroFuncionario() {
   }
 
   async function buscar() {
-  
+
     if (idParam != null) {
       await axios.get(`${baseURL}/${idParam}`).then((response) => {
         setDados(response.data);
       }).catch((a) => {
         console.log(a);
       });
-  
-    setId(dados.id)
-    setCpf(dados.cpf);
-    setnome(dados.nome);
-    setTelefone(dados.telefone);
-    setCelular(dados.celular);
-    setEmail(dados.email);
-    setSenha(dados.senha);
-    setDataNascimento(dados.dataNascimento);
-    setIdLoja(dados.idLoja);
+
+      setId(dados.id)
+      setCpf(dados.cpf);
+      setnome(dados.nome);
+      setTelefone(dados.telefone);
+      setCelular(dados.celular);
+      setEmail(dados.email);
+      setSenha(dados.senha);
+      setDataNascimento(dados.dataNascimento);
+      setIdLoja(dados.idLoja);
     }
   }
 
   const [dadosLoja, setDadosLoja] = React.useState(null);
-  useEffect(()=>{
+  useEffect(() => {
     axios.get(`${BASE_URL}/lojas`).then((response) => {
       setDadosLoja(response.data);
     });
-  },[]);
+  }, []);
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
-  if(!dados) return null;
-  if(!dadosLoja) return null;
+  if (!dados) return null;
+  if (!dadosLoja) return null;
 
 
   return (
@@ -128,23 +130,23 @@ function CadastroFuncionario() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-             <FormGroup label='CPF:' htmlFor='inputCpf'>
-  <InputMask
-    mask="999.999.999-99"
-    value={cpf}
-    onChange={(e) => setCpf(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputCpf"
-        name="cpf"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+              <FormGroup label='CPF:' htmlFor='inputCpf'>
+                <InputMask
+                  mask="999.999.999-99"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputCpf"
+                      name="cpf"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
               <FormGroup label='Nome: *' htmlFor='inputNome'>
                 <input
                   type='text'
@@ -155,40 +157,40 @@ function CadastroFuncionario() {
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
-          <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
-  <InputMask
-    mask="(99) 99999-9999"
-    value={telefone}
-    onChange={(e) => setTelefone(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputTelefone"
-        name="telefone"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
-             <FormGroup label='Celular: *' htmlFor='inputCelular'>
-  <InputMask
-    mask="(99) 99999-9999"
-    value={celular}
-    onChange={(e) => setCelular(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputCelular"
-        name="celular"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputTelefone"
+                      name="telefone"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
+              <FormGroup label='Celular: *' htmlFor='inputCelular'>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={celular}
+                  onChange={(e) => setCelular(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputCelular"
+                      name="celular"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
               <FormGroup label='Email: *' htmlFor='inputEmail'>
                 <input
                   type='text'
@@ -208,18 +210,19 @@ function CadastroFuncionario() {
                   name='dtaNascFuncionario'
                   onChange={(e) => setDataNascimento(e.target.value)}
                 />
+
               </FormGroup>
 
-              <FormGroup label= 'Funcionário da Loja:' htmlFor='selectLoja'>
+              <FormGroup label='Funcionário da Loja:' htmlFor='selectLoja'>
                 <select className='form-select'
-                id='selectLoja'
-                name='idLoja'
-                value={idLoja}
-                onChange={(e)=>setIdLoja(e.target.value)}>
+                  id='selectLoja'
+                  name='idLoja'
+                  value={idLoja}
+                  onChange={(e) => setIdLoja(e.target.value)}>
                   <option key='0' value='0'>
                     {''}
                   </option>
-                  {dadosLoja.map((dado)=>(
+                  {dadosLoja.map((dado) => (
 
                     <option key={dado.id} value={dado.id}>
                       {dado.nome}
