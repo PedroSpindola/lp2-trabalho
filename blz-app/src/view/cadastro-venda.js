@@ -1,246 +1,202 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import Stack from '@mui/material/Stack';
 
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
 
-
 import axios from 'axios';
-import {BASE_URL} from '../config/axios';
+import { BASE_URL } from '../config/axios';
 import { mensagemErro, mensagemSucesso } from '../components/toastr';
 
-function Cadastrovenda() {
+function CadastroVenda() {
   const { idParam } = useParams();
-
   const navigate = useNavigate();
-
   const baseURL = `${BASE_URL}/vendas`;
 
-  const [id, setId] = useState(0);
-  const [idUsuario, setIdUsuario] = useState(0);
-
-  const [dataVenda, setdata] = useState('');
+  // --- ESTADOS DO FORMULÁRIO PRINCIPAL ---
+  const [id, setId] = useState('');
+  const [idUsuario, setIdUsuario] = useState('');
+  const [dataVenda, setDataVenda] = useState('');
   const [horario, setHorario] = useState('');
-  const [idFormaPagamento,setIdFormaPagamento] = useState(0);
-  const [idLoja,setIdLoja] = useState(0);
+  const [idFormaPagamento, setIdFormaPagamento] = useState('');
+  const [idLoja, setIdLoja] = useState('');
 
+  // Estado para os itens da venda (produtos e quantidades)
+  const [itens, setItens] = useState([{ idProduto: '', quantidade: 1 }]);
 
-  const [dados, setDados] = useState([]);
+  // --- Estados para dados de apoio (preencher os selects) ---
+  const [dadosFormaPagamento, setDadosFormaPagamento] = useState([]);
+  const [dadosUsuario, setDadosUsuario] = useState([]);
+  const [dadosLoja, setDadosLoja] = useState([]);
+  const [dadosProdutos, setDadosProdutos] = useState([]);
 
-  function inicializar() {
-    if (idParam == null) {
-      setId(0)
-      setIdUsuario(0);
-   
-      setdata('');
-      setHorario('');
-      setIdFormaPagamento(0);
-      setIdLoja(0);
+  // --- LÓGICA DE DADOS (API) ---
+  const buscarVenda = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/${idParam}`);
+      const venda = response.data;
+      setId(venda.id);
+      setIdUsuario(venda.idUsuario?.toString() || '');
+      setDataVenda(venda.dataVenda ? venda.dataVenda.split('T')[0] : '');
+      setHorario(venda.horario || '');
+      setIdFormaPagamento(venda.idFormaPagamento?.toString() || '');
+      setIdLoja(venda.idLoja?.toString() || '');
 
-    } else {
-      setId(dados.id)
-      setIdUsuario(dados.idUsuario);
-
-      setdata(dados.dataVenda);
-      setHorario(dados.horario);
-      setIdFormaPagamento(dados.idFormaPagamento);
-      setIdLoja(dados.idLoja);
+      const itensResponse = await axios.get(`${baseURL}/${idParam}/itemVendas`);
+      if (itensResponse.data && itensResponse.data.length > 0) {
+        const itensFormatados = itensResponse.data.map(item => ({
+          idProduto: item.idProduto.toString(),
+          quantidade: item.quantidade
+        }));
+        setItens(itensFormatados);
+      }
+    } catch (error) {
+      mensagemErro('Erro ao buscar dados da venda.');
     }
-      navigate(`/listagem-venda`);
-  }
+  };
 
   async function salvar() {
-    let data = { id,idUsuario,  dataVenda, horario,idFormaPagamento, idLoja };
-    data = JSON.stringify(data);
-    if (idParam == null) {
-      await axios
-        .post(baseURL, data, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        .then(function (response) {
-          mensagemSucesso(`Venda cadastro com sucesso!`);
-          navigate(`/listagem-venda`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data)
-        });
-    } else {
-      await axios
-        .put(`${baseURL}/${idParam}`, data, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        .then(function (response) {
-          mensagemSucesso(`Venda alterado com sucesso!`);
-          navigate(`/listagem-venda`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data)
-        });
+    const itensValidos = itens.filter(item => item.idProduto && item.quantidade > 0);
+    if (itensValidos.length === 0) {
+      mensagemErro('Adicione pelo menos um produto à venda.');
+      return;
     }
-  }
 
-  async function buscar() {
-    if (idParam != null) {
-      await axios.get(`${baseURL}/${idParam}`).then((response) => {
-        setDados(response.data);
-      }).catch((a) => {
-        console.log(a);
+    const data = { id, idUsuario, dataVenda, horario, idFormaPagamento, idLoja, itens: itensValidos };
+    
+    // =================================================================
+    // LOG ADICIONADO AQUI PARA VERIFICAR O QUE ESTÁ SENDO ENVIADO
+    console.log("Enviando para a API:", data);
+    // =================================================================
+
+    const request = idParam ? axios.put(`${baseURL}/${idParam}`, data) : axios.post(baseURL, data);
+
+    await request
+      .then(() => {
+        mensagemSucesso(`Venda salva com sucesso!`);
+        navigate(`/listagem-venda`);
+      })
+      .catch((error) => {
+        mensagemErro(error.response?.data || 'Ocorreu um erro ao salvar.');
+        // Logar o erro também é uma boa prática
+        console.error("Erro ao salvar:", error.response);
       });
-      setId(dados.id);
-      setIdUsuario(dados.idUsuario);
-      
-      setdata(dados.dataVenda);
-      setHorario(dados.horario);
-      setIdFormaPagamento(dados.idFormaPagamento);
-      setIdLoja(dados.idLoja);
-    }
   }
 
-
-  
-  const [dadosFormaPagamento, setDadosFormaPagamento] = React.useState(null);
-  const [dadosUsuario, setDadosUsuario] = React.useState(null);
-  const [dadosLoja, setDadosLoja] = React.useState(null);
-
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/formapagamento`).then((response) => {
-      setDadosFormaPagamento(response.data);
-    });
-  },[]);
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/usuarios`).then((response) => {
-      setDadosUsuario(response.data);
-    });
-
-  },[]);
-
-   useEffect(()=>{
-    axios.get(`${BASE_URL}/lojas`).then((response) => {
-      setDadosLoja(response.data);
-    });
-
-
-  },[]);
+  // --- EFEITOS (LIFECYCLE) ---
   useEffect(() => {
-    buscar(); // eslint-disable-next-line
-  }, [id]);
+    axios.get(`${BASE_URL}/formapagamento`).then((response) => setDadosFormaPagamento(response.data));
+    axios.get(`${BASE_URL}/usuarios`).then((response) => setDadosUsuario(response.data));
+    axios.get(`${BASE_URL}/lojas`).then((response) => setDadosLoja(response.data));
+    axios.get(`${BASE_URL}/produtos`).then((response) => setDadosProdutos(response.data));
 
+    if (idParam) {
+      buscarVenda();
+    }
+    // eslint-disable-next-line
+  }, [idParam]);
 
-  if (!dados) return null;
- 
-  if(!dadosFormaPagamento) return null;
-  if(!dadosUsuario) return null;
-  if(!dadosLoja) return null;
+  // --- FUNÇÕES DE MANIPULAÇÃO DOS ITENS ---
+  const handleItemChange = (index, field, value) => {
+    const novosItens = [...itens];
+    novosItens[index][field] = value;
+    setItens(novosItens);
+  };
+
+  const adicionarItem = () => {
+    setItens([...itens, { idProduto: '', quantidade: 1 }]);
+  };
+
+  const removerItem = (index) => {
+    const novosItens = itens.filter((_, i) => i !== index);
+    setItens(novosItens);
+  };
+
+  const cancelar = () => navigate('/listagem-venda');
 
   return (
     <div className='container'>
-      <Card title='Cadastro de Usuário'>
+      <Card title={idParam ? 'Edição de Venda' : 'Registro de Venda'}>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            
-              <FormGroup label='Cliente: ' htmlFor='selectCliente'>
-                <select
-                  className='form-select'
-                  id='selectCliente'
-                  name='idCliente'
-                  value={idUsuario}
-                  onChange={(e) => setIdUsuario(e.target.value)}>
-                
-                  {dadosUsuario.map((dado)=>(
-                    <option key={dado.id} value={dado.id}>
 
-                      {dado.nome}
-                    
-                    </option>
-                  ))}
-                </select>
-              </FormGroup>
+              {/* --- INFORMAÇÕES GERAIS DA VENDA --- */}
+              <div className="row">
+                <div className="col-md-6">
+                  <FormGroup label='Cliente: *' htmlFor='selectCliente'>
+                    <select className='form-select' id='selectCliente' value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
+                      <option value="">Selecione...</option>
+                      {dadosUsuario.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
+                    </select>
+                  </FormGroup>
+                </div>
+                <div className="col-md-6">
+                  <FormGroup label='Loja: *' htmlFor='selectLoja'>
+                    <select className='form-select' id='selectLoja' value={idLoja} onChange={(e) => setIdLoja(e.target.value)}>
+                      <option value="">Selecione...</option>
+                      {dadosLoja.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
+                    </select>
+                  </FormGroup>
+                </div>
+              </div>
               
-            
-              <FormGroup label= 'Forma de Pagamento:' htmlFor= 'selectFormadePagamento'>
-                <select
-                  className='form-select'
-                  id='selectFormadePagamento'
-                  name='idFormadePagamento'
-                  value={idFormaPagamento}
-                  onChange={(e) => setIdFormaPagamento(e.target.value)}
-                >
-                  {dadosFormaPagamento.map((dado)=>(
-                    <option key={dado.id} value={dado.id}>
+              <div className="row">
+                <div className="col-md-4">
+                  <FormGroup label='Data da Venda: *' htmlFor='inputdataVenda'>
+                    <input type='date' id='inputdataVenda' value={dataVenda} className='form-control' onChange={(e) => setDataVenda(e.target.value)} />
+                  </FormGroup>
+                </div>
+                <div className="col-md-4">
+                  <FormGroup label='Hora da Venda:' htmlFor='inputhoraVenda'>
+                    <input type='time' id='inputhoraVenda' value={horario} className='form-control' onChange={(e) => setHorario(e.target.value)} />
+                  </FormGroup>
+                </div>
+                <div className="col-md-4">
+                  <FormGroup label='Forma de Pagamento: *' htmlFor='selectFormaPagamento'>
+                    <select className='form-select' id='selectFormaPagamento' value={idFormaPagamento} onChange={(e) => setIdFormaPagamento(e.target.value)}>
+                      <option value="">Selecione...</option>
+                      {dadosFormaPagamento.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
+                    </select>
+                  </FormGroup>
+                </div>
+              </div>
 
-                      {dado.nome}
-                    
-                    </option>
-                  ))}
-                </select>
-              </FormGroup>
-             
-           
-              <FormGroup label='Data da Venda: ' htmlFor='inputdataVenda'>
-                <input
-                  type='date'
-                  id='inputdataVenda'
-                  value={dataVenda}
-                  className='form-control'
-                  name='dataVenda'
-                  onChange={(e) => setdata(e.target.value)}
-                />
-              </FormGroup>
+              <hr/>
+
+              {/* --- SEÇÃO DE ITENS DA VENDA --- */}
+              <h5>Itens da Venda</h5>
+              {itens.map((item, index) => (
+                <div className="row align-items-end mb-3" key={index}>
+                  <div className="col-md-7">
+                    <FormGroup label={`Produto ${index + 1}:`} htmlFor={`produto-${index}`}>
+                      <select className='form-select' id={`produto-${index}`} value={item.idProduto} onChange={(e) => handleItemChange(index, 'idProduto', e.target.value)}>
+                        <option value="">Selecione um produto...</option>
+                        {dadosProdutos.map(p => (<option key={p.id} value={p.id}>{p.nome}</option>))}
+                      </select>
+                    </FormGroup>
+                  </div>
+                  <div className="col-md-3">
+                    <FormGroup label="Quantidade:" htmlFor={`qtd-${index}`}>
+                      <input type="number" id={`qtd-${index}`} className="form-control" value={item.quantidade} min="1" onChange={(e) => handleItemChange(index, 'quantidade', parseInt(e.target.value) || 1)} />
+                    </FormGroup>
+                  </div>
+                  <div className="col-md-2 d-flex align-items-center pb-3">
+                    <button onClick={() => removerItem(index)} type='button' className='btn btn-danger w-100'>Remover</button>
+                  </div>
+                </div>
+              ))}
+              <button onClick={adicionarItem} type='button' className='btn btn-primary mb-3'>+ Adicionar Produto</button>
               
-              <FormGroup label='Hora da Venda:' htmlFor='inputhoraVenda'>
-                <input
-                  type='text'
-                  id='inputhoraVenda'
-                  value={horario}
-                  className='form-control'
-                  name='dataVenda'
-                  onChange={(e) => setHorario(e.target.value)}
-                />
-              </FormGroup>
+              <hr/>
 
-                <FormGroup label= 'Loja:' htmlFor= 'selectLoja'>
-                <select
-                  className='form-select'
-                  id='selectLoja'
-                  name='idLoja'
-                  value={idLoja}
-                   onChange={(e) => setIdLoja(e.target.value)}
-
-        
-                >
-                  {dadosLoja.map((dado)=>(
-                    <option key={dado.id} value={dado.id}>
-
-                      {dado.nome}
-                    
-                    </option>
-                  ))}
-                </select>
-              </FormGroup>
-
-
-
-
+              {/* --- BOTÕES DE AÇÃO --- */}
               <Stack spacing={1} padding={1} direction='row'>
-                <button
-                  onClick={salvar}
-                  type='button'
-                  className='btn btn-success'
-                >
-                  Salvar
-                </button>
-                <button
-                  onClick={inicializar}
-                  
-                  type='button'
-                  className='btn btn-danger'
-                >
-                  Cancelar
-                </button>
+                <button onClick={salvar} type='button' className='btn btn-success'>Salvar Venda</button>
+                <button onClick={cancelar} type='button' className='btn btn-outline-danger'>Cancelar</button>
               </Stack>
+              
             </div>
           </div>
         </div>
@@ -249,4 +205,4 @@ function Cadastrovenda() {
   );
 }
 
-export default Cadastrovenda;
+export default CadastroVenda;

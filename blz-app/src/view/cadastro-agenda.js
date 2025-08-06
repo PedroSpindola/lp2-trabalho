@@ -1,232 +1,211 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
 import Stack from '@mui/material/Stack';
-
 import Card from '../components/card';
 import FormGroup from '../components/form-group';
 import { mensagemSucesso, mensagemErro } from '../components/toastr';
-
-
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-function Cadastroagenda() {
+function CadastroAgenda() {
   const { idParam } = useParams();
-
   const navigate = useNavigate();
-
   const baseURL = `${BASE_URL}/agendamentos`;
 
+  // --- ESTADOS DO FORMULÁRIO PRINCIPAL ---
   const [id, setId] = useState('');
-  const [dataAgendamento, setData] = useState('');
-  const [horario, setHorario] = useState('0');
-  const [idServico, setIdServico] = useState(0);
-  const [idFuncionario, setIdFuncionario] = useState(0);
-  const [idLoja,setIdLoja] = useState(0);
+  const [dataAgendamento, setDataAgendamento] = useState('');
+  const [horario, setHorario] = useState('');
+  const [idFuncionario, setIdFuncionario] = useState('');
+  const [idLoja, setIdLoja] = useState('');
+  const [idUsuario, setIdUsuario] = useState(''); // CORRIGIDO: Renomeado de idCliente para idUsuario
 
-  const [dados, setDados] = useState([]);
+  // Estado para os serviços do agendamento
+  const [servicos, setServicos] = useState([{ idServico: '', quantidade: 1 }]);
 
-  function inicializar() {
-    if (idParam == null) {
-      setId('')
-      setData('');
-      setHorario('');
-      setIdServico(0);
-      setIdFuncionario(0)
-      setIdLoja(0);
-    } else {
-      setId(dados.id)
-      setData(dados.dataAgendamento);
-      setHorario(dados.horario);
-      setIdServico(dados.idServico);
-      setIdFuncionario(dados.idFuncionario);
-      setIdLoja(dados.idLoja);
+  // --- Estados para dados de apoio (preencher os selects) ---
+  const [dadosLoja, setDadosLoja] = useState([]);
+  const [dadosServico, setDadosServico] = useState([]);
+  const [dadosFuncionario, setDadosFuncionario] = useState([]);
+  const [dadosUsuario, setDadosUsuario] = useState([]); // CORRIGIDO: Renomeado de dadosCliente para dadosUsuario
+
+  // --- LÓGICA DE DADOS (API) ---
+  const buscarAgendamento = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/${idParam}`);
+      const agendamento = response.data;
+      setId(agendamento.id);
+      setDataAgendamento(agendamento.dataAgendamento ? agendamento.dataAgendamento.split('T')[0] : '');
+      setHorario(agendamento.horario || '');
+      setIdFuncionario(agendamento.idFuncionario?.toString() || '');
+      setIdLoja(agendamento.idLoja?.toString() || '');
+      setIdUsuario(agendamento.idUsuario?.toString() || ''); // CORRIGIDO: Usando idUsuario
+
+      const servicosResponse = await axios.get(`${baseURL}/${idParam}/ordemServicos`);
+      if (servicosResponse.data && servicosResponse.data.length > 0) {
+        const servicosFormatados = servicosResponse.data.map(item => ({
+          idServico: item.idServico.toString(),
+          quantidade: item.quantidade
+        }));
+        setServicos(servicosFormatados);
+      }
+    } catch (error) {
+      mensagemErro('Erro ao buscar dados do agendamento.');
     }
-    navigate(`/listagem-Agenda`);
-  }
+  };
 
   async function salvar() {
-    let data = { id,dataAgendamento, horario, idServico, idFuncionario, idLoja };
-    data = JSON.stringify(data);
-    if (idParam == null) {
-      await axios
-        .post(baseURL, data, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        .then(function (response) {
-          mensagemSucesso(`Agendamento cadastrado com sucesso!`);
-          navigate(`/listagem-agenda`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data);
-
-        });
-    } else {
-      await axios
-        .put(`${baseURL}/${idParam}`, data, {
-          headers: { 'Content-Type': 'application/json' },
-        })
-        .then(function (response) {
-          mensagemSucesso(`Agendamento alterado com sucesso!`);
-          navigate(`/listagem-agenda`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data)
-        });
+    const servicosValidos = servicos.filter(s => s.idServico && s.quantidade > 0);
+    if (servicosValidos.length === 0) {
+      mensagemErro('Adicione pelo menos um serviço ao agendamento.');
+      return;
     }
-  }
+    if (!idUsuario) { // CORRIGIDO: Verificando idUsuario
+      mensagemErro('Selecione um cliente para o agendamento.');
+      return;
+    }
 
-  async function buscar() {
-    if (idParam != null) {
-      await axios.get(`${baseURL}/${idParam}`).then((response) => {
-        setDados(response.data);
-      }).catch((a) => {
-        console.log(a);
+    // CORRIGIDO: Enviando 'idUsuario' no objeto de dados
+    
+    
+     const data = {
+      id: id, // O ID principal pode ser string vazia na criação
+      dataAgendamento: dataAgendamento,
+      horario: horario,
+      // Usamos parseInt() para garantir que o backend receba um número
+      idFuncionario: parseInt(idFuncionario, 10),
+      idLoja: parseInt(idLoja, 10),
+      idUsuario: parseInt(idUsuario, 10),
+      servicos: servicosValidos.map(s => ({
+        idServico: parseInt(s.idServico, 10),
+        quantidade: s.quantidade // quantidade já é um número
+      }))
+    };  
+    console.log("DADOS ENVIADOS PARA A API:", data);
+    const request = idParam ? axios.put(`${baseURL}/${idParam}`, data) : axios.post(baseURL, data);
+
+    await request
+      .then(() => {
+        mensagemSucesso(`Agendamento salvo com sucesso!`);
+        navigate(`/listagem-agenda`);
+      })
+      .catch((error) => {
+        mensagemErro(error.response?.data || 'Ocorreu um erro ao salvar.');
       });
-      setId(dados.id);
-      setData(dados.dataAgendamento);
-      setHorario(dados.horario);
-      setIdServico(dados.idServico);
-      setIdFuncionario(dados.idFuncionario);
-      setIdLoja(dados.idLoja)
-    }
   }
 
-  const [dadosLoja, setDadosLoja] = React.useState(null);
-  const [dadosServico, setDadosServico] = React.useState(null);
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/servicos`).then((response) => {
-      setDadosServico(response.data);
-    });
-  },[]);
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/lojas`).then((response) => {
-      setDadosLoja(response.data);
-    });
-  },[]);
-
+  // --- EFEITOS (LIFECYCLE) ---
   useEffect(() => {
-    buscar(); // eslint-disable-next-line
-  }, [id]);
-  const [dadosFuncionario, setDadosFuncionario] = React.useState(null);
-  useEffect(()=>{
-    axios.get(`${BASE_URL}/funcionarios`).then((response) => {
-      setDadosFuncionario(response.data);
-    });
-  },[]);
-  useEffect(() => {
-    buscar(); // eslint-disable-next-line
-  }, [id]);
+    // Busca todos os dados de apoio
+    axios.get(`${BASE_URL}/servicos`).then((response) => setDadosServico(response.data));
+    axios.get(`${BASE_URL}/lojas`).then((response) => setDadosLoja(response.data));
+    axios.get(`${BASE_URL}/funcionarios`).then((response) => setDadosFuncionario(response.data));
+    axios.get(`${BASE_URL}/usuarios`).then((response) => setDadosUsuario(response.data)); // CORRIGIDO: Usando setDadosUsuario
 
-  if (!dados) return null;
-  if (!dadosServico) return null;
-  if (!dadosFuncionario) return null;
-  if (!dadosLoja) return null;
+    if (idParam) {
+      buscarAgendamento();
+    }
+    // eslint-disable-next-line
+  }, [idParam]);
 
+  // --- FUNÇÕES DE MANIPULAÇÃO DOS ITENS ---
+  const handleServicoChange = (index, field, value) => {
+    const novosServicos = [...servicos];
+    novosServicos[index][field] = value;
+    setServicos(novosServicos);
+  };
 
-  
+  const adicionarServico = () => {
+    setServicos([...servicos, { idServico: '', quantidade: 1 }]);
+  };
+
+  const removerServico = (index) => {
+    const novosServicos = servicos.filter((_, i) => i !== index);
+    setServicos(novosServicos);
+  };
+
+  const cancelar = () => navigate('/listagem-agenda');
 
   return (
     <div className='container'>
-      <Card title='agenda'>
+      <Card title={idParam ? 'Editar Agendamento' : 'Novo Agendamento'}>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            
-              <FormGroup label='Data: *' htmlFor='inputDataagenda'>
-                <input
-                  type='date'
-                  id='inputdata'
-                  value={dataAgendamento}
-                  className='form-control'
-                  name='Dataagenda'
-                  onChange={(e) => setData(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup label='Horario de Preferência: *' htmlFor='inputHorarioagenda'>
-                <input
-                  type='text'
-                  id='inputHorarioagenda'
-                  value={horario}
-                  className='form-control'
-                  name='horarioagenda'
-                  onChange={(e) => setHorario(e.target.value)}
-                />
-              </FormGroup>
-             
-              <FormGroup label= 'Serviço Desejado *' htmlFor='selectServico'>
-                <select className='form-select'
-                id='selectServico'
-                name='idServico'
-                value={idServico}
-                onChange={(e)=>setIdServico(e.target.value)}>
-                  <option key='0' value='0'>
-                    {''}
-                  </option>
-                  {dadosServico.map((dado)=>(
+              <div className="row">
+                <div className="col-md-6">
+                  <FormGroup label='Data: *' htmlFor='inputDataagenda'>
+                    <input type='date' id='inputdata' value={dataAgendamento} className='form-control' onChange={(e) => setDataAgendamento(e.target.value)} />
+                  </FormGroup>
+                </div>
+                <div className="col-md-6">
+                  <FormGroup label='Horário: *' htmlFor='inputHorarioagenda'>
+                    <input type='time' id='inputHorarioagenda' value={horario} className='form-control' onChange={(e) => setHorario(e.target.value)} />
+                  </FormGroup>
+                </div>
+              </div>
 
-                    <option key={dado.id} value={dado.id}>
-                      {dado.nome}
-                    </option>
-                  ))}
-                </select>
-              </FormGroup>
+              <div className="row">
+                {/* CORRIGIDO: Campo de seleção de Cliente agora usa idUsuario */}
+                <div className="col-md-6">
+                  <FormGroup label='Cliente: *' htmlFor='selectCliente'>
+                    <select className='form-select' id='selectCliente' value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
+                      <option value="">Selecione um cliente...</option>
+                      {dadosUsuario.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
+                    </select>
+                  </FormGroup>
+                </div>
+                <div className="col-md-6">
+                  <FormGroup label='Funcionário de Preferência:' htmlFor='selectFuncionario'>
+                    <select className='form-select' id='selectFuncionario' value={idFuncionario} onChange={(e) => setIdFuncionario(e.target.value)}>
+                      <option value="">Qualquer um...</option>
+                      {dadosFuncionario.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
+                    </select>
+                  </FormGroup>
+                </div>
+              </div>
               
-              <FormGroup label= 'Funcionário de Preferência' htmlFor='selectFuncionario'>
-                <select className='form-select'
-                id='selectFuncionario'
-                name='idFuncionario'
-                value={idFuncionario}
-                onChange={(e)=>setIdFuncionario(e.target.value)}>
-                  <option key='0' value='0'>
-                    {''}
-                  </option>
-                  {dadosFuncionario.map((dado)=>(
+              <div className="row">
+                <div className="col-md-12">
+                  <FormGroup label='Loja: *' htmlFor='selectLoja'>
+                    <select className='form-select' id='selectLoja' value={idLoja} onChange={(e) => setIdLoja(e.target.value)}>
+                        <option value="">Selecione uma loja...</option>
+                      {dadosLoja.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
+                    </select>
+                  </FormGroup>
+                </div>
+              </div>
+              
+              <hr/>
 
-                    <option key={dado.id} value={dado.id}>
-                      {dado.nome}
-                    </option>
-                  ))}
-                </select>
-              </FormGroup>
-
-
-                <FormGroup label= 'Loja:' htmlFor= 'selectLoja'>
-                <select
-                  className='form-select'
-                  id='selectLoja'
-                  name='idLoja'
-                  value={idLoja}
-                   onChange={(e) => setIdLoja(e.target.value)}
-
-        
-                >
-                  {dadosLoja.map((dado)=>(
-                    <option key={dado.id} value={dado.id}>
-
-                      {dado.nome}
-                    
-                    </option>
-                  ))}
-                </select>
-              </FormGroup>
-
+              <h5>Serviços Agendados</h5>
+              {servicos.map((servico, index) => (
+                <div className="row align-items-end mb-3" key={index}>
+                  <div className="col-md-7">
+                    <FormGroup label={`Serviço ${index + 1}:`} htmlFor={`servico-${index}`}>
+                        <select className='form-select' id={`servico-${index}`} value={servico.idServico} onChange={(e) => handleServicoChange(index, 'idServico', e.target.value)}>
+                          <option value="">Selecione um serviço...</option>
+                          {dadosServico.map(s => (<option key={s.id} value={s.id}>{s.nome}</option>))}
+                        </select>
+                    </FormGroup>
+                  </div>
+                  <div className="col-md-3">
+                    <FormGroup label="Quantidade:" htmlFor={`qtd-${index}`}>
+                      <input type="number" id={`qtd-${index}`} className="form-control" value={servico.quantidade} min="1" onChange={(e) => handleServicoChange(index, 'quantidade', parseInt(e.target.value) || 1)} />
+                    </FormGroup>
+                  </div>
+                  <div className="col-md-2 d-flex align-items-center pb-3">
+                      <button onClick={() => removerServico(index)} type='button' className='btn btn-danger w-100'>Remover</button>
+                  </div>
+                </div>
+              ))}
+              <button onClick={adicionarServico} type='button' className='btn btn-primary mb-3'>+ Adicionar Serviço</button>
+              
+              <hr/>
+              
               <Stack spacing={1} padding={1} direction='row'>
-                <button
-                  onClick={salvar}
-                  type='button'
-                  className='btn btn-success'
-                >
-                  Salvar
-                </button>
-                <button
-                  onClick={inicializar}
-                  type='button'
-                  className='btn btn-danger'
-                >
-                  Cancelar
-                </button>
+                <button onClick={salvar} type='button' className='btn btn-success'>Salvar Agendamento</button>
+                <button onClick={cancelar} type='button' className='btn btn-outline-danger'>Cancelar</button>
               </Stack>
             </div>
           </div>
@@ -236,4 +215,4 @@ function Cadastroagenda() {
   );
 }
 
-export default Cadastroagenda;
+export default CadastroAgenda;

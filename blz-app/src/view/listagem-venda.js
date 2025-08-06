@@ -1,94 +1,162 @@
 import React from 'react';
-import Card from '../components/card';
-import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import { useNavigate } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { IconButton } from '@mui/material';
+import { IconButton, Box, Collapse, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Paper } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-// NOVO: Ícones para o botão de expandir/recolher
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
+import Card from '../components/card';
+import { mensagemSucesso, mensagemErro } from '../components/toastr';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-// AJUSTE 1: Corrigindo a baseURL para incluir a versão da API do seu controller.
 const baseURL = `${BASE_URL}/vendas`;
+const produtosURL = `${BASE_URL}/produtos`;
 
-function Listagemvenda() {
-  const navigate = useNavigate();
-
-  const cadastrar = () => {
-    navigate(`/cadastro-venda`);
-  };
-
-  const editar = (id) => {
-    navigate(`/cadastro-venda/${id}`);
-  };
-
-  const [dados, setDados] = React.useState(null);
-
-  // NOVO: Estados para a funcionalidade de expansão.
-  const [expandedRowId, setExpandedRowId] = React.useState(null);
+// --- Componente de Linha da Tabela (ROW) ---
+function Row(props) {
+  const { row, onExcluir, onEditar } = props;
+  const [open, setOpen] = React.useState(false);
+  const [itens, setItens] = React.useState([]);
   const [isLoadingItens, setIsLoadingItens] = React.useState(false);
-  const [itensPorVenda, setItensPorVenda] = React.useState({});
 
-  async function excluir(id) {
-    // AJUSTE 2: Simplificando a requisição delete, o corpo não é padrão.
-    await axios.delete(`${baseURL}/${id}`)
-      .then(function (response) {
-        // AJUSTE 3: Corrigindo o gênero na mensagem.
-        mensagemSucesso(`Venda excluída com sucesso!`);
-        setDados(
-          dados.filter((dado) => {
-            return dado.id !== id;
-          })
-        );
-      })
-      .catch(function (error) {
-        mensagemErro(`Erro ao excluir a Venda`);
-      });
+  const formatDate = (dateString) => {
+    if (!dateString) return 'Data inválida';
+    return new Date(`${dateString}T00:00:00`).toLocaleDateString('pt-BR');
   }
 
-  // NOVO: Função para buscar e exibir os itens de uma venda.
-  const handleRowExpansion = async (vendaId) => {
-    const isRowExpanded = expandedRowId === vendaId;
-    if (isRowExpanded) {
-      setExpandedRowId(null);
-    } else {
-      setExpandedRowId(vendaId);
-      if (!itensPorVenda[vendaId]) {
-        setIsLoadingItens(true);
-        try {
-          // Chamada ao endpoint correto do seu controller
-          const response = await axios.get(`${baseURL}/${vendaId}/itemVendas`);
-          setItensPorVenda(prevState => ({
-            ...prevState,
-            [vendaId]: response.data
-          }));
-        } catch (error) {
-          mensagemErro("Erro ao buscar os itens desta venda.");
-          console.error("Erro ao buscar itens da venda:", error);
-        } finally {
-          setIsLoadingItens(false);
+  // Lógica para buscar os itens e seus nomes
+  const handleFetchItens = async () => {
+    setOpen(!open);
+
+    // Só busca na API se a linha estiver abrindo e os itens ainda não foram carregados
+    if (!open && itens.length === 0) {
+      setIsLoadingItens(true);
+      try {
+        // 1. Busca os itens da venda (que têm idProduto e quantidade)
+        const itensResponse = await axios.get(`${baseURL}/${row.id}/itemVendas`);
+        const itensDaVenda = itensResponse.data;
+
+        if (itensDaVenda && itensDaVenda.length > 0) {
+          // 2. Cria uma "promessa" de busca para cada produto
+          const promessasDeProdutos = itensDaVenda.map(item =>
+            axios.get(`${produtosURL}/${item.idProduto}`)
+          );
+
+          // 3. Espera todas as buscas de produtos terminarem
+          const respostasDosProdutos = await Promise.all(promessasDeProdutos);
+
+          // 4. Junta os dados das duas fontes
+          const itensCompletos = itensDaVenda.map((itemOriginal, index) => {
+            const detalhesDoProduto = respostasDosProdutos[index].data;
+            return {
+              id: itemOriginal.id,
+              quantidade: itemOriginal.quantidade,
+              nomeProduto: detalhesDoProduto.nome // O nome que queremos exibir
+            };
+          });
+
+          setItens(itensCompletos);
         }
+      } catch (error) {
+        mensagemErro("Erro ao buscar os produtos da venda.");
+        // Se der erro aqui, é porque a chamada a /itemVendas ou /produtos falhou.
+        // Verifique a aba "Rede" (Network) do navegador para ver o status do erro (404, 500, etc)
+      } finally {
+        setIsLoadingItens(false);
       }
     }
   };
 
-  React.useEffect(() => {
+
+  return (
+    <React.Fragment>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} hover>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={handleFetchItens}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">{row.nomeUsuario}</TableCell>
+        <TableCell>{row.nomeLoja}</TableCell>
+        <TableCell>{row.nomeFormaPagamento}</TableCell>
+        <TableCell>{formatDate(row.dataVenda)}</TableCell>
+        <TableCell>{row.horario}</TableCell>
+        <TableCell>
+          <Stack spacing={1} padding={0} direction='row'>
+            <IconButton size="small" aria-label='edit' onClick={() => onEditar(row.id)}><EditIcon fontSize="inherit" /></IconButton>
+            <IconButton size="small" aria-label='delete' onClick={() => onExcluir(row.id)}><DeleteIcon fontSize="inherit" /></IconButton>
+          </Stack>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0, backgroundColor: '#f8f9fa' }} colSpan={7}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 2 }}>
+              <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
+                Produtos Vendidos:
+              </Typography>
+              {isLoadingItens ? <p>Carregando...</p> : (
+                 <ul>
+                   {itens.length > 0 ? (
+                     itens.map((item) => (
+                       // --- EXIBIÇÃO SIMPLIFICADA CONFORME SOLICITADO ---
+                       <li key={item.id}>
+                         {item.quantidade}x {item.nomeProduto}
+                       </li>
+                     ))
+                   ) : (
+                     <li>Nenhum item encontrado para esta venda.</li>
+                   )}
+                 </ul>
+              )}
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
+
+
+// --- O restante do arquivo (Componente ListagemVenda) não precisa de nenhuma alteração ---
+function ListagemVenda() {
+  const navigate = useNavigate();
+  const [dados, setDados] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  const fetchVendas = () => {
+    setIsLoading(true);
     axios.get(baseURL).then((response) => {
       setDados(response.data);
+    }).catch(error => {
+      mensagemErro("Erro ao carregar a lista de vendas.");
+    }).finally(() => {
+      setIsLoading(false);
     });
+  };
+
+  React.useEffect(() => {
+    fetchVendas();
   }, []);
 
-  if (!dados) return <p>Carregando vendas...</p>;
-  
-  // NOVO: Helper para formatar moeda
-  const formatCurrency = (value) => {
-    if (typeof value !== 'number') return 'R$ 0,00';
-    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  const cadastrar = () => navigate(`/cadastro-venda`);
+  const editar = (id) => navigate(`/cadastro-venda/${id}`);
+
+  const excluir = async (id) => {
+    await axios.delete(`${baseURL}/${id}`)
+      .then(() => {
+        mensagemSucesso(`Venda excluída com sucesso!`);
+        fetchVendas();
+      })
+      .catch(() => {
+        mensagemErro(`Erro ao excluir a Venda`);
+      });
   };
+
+  if (isLoading) return <p>Carregando vendas...</p>;
 
   return (
     <div className='container'>
@@ -96,87 +164,29 @@ function Listagemvenda() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <button
-                type='button'
-                className='btn btn-warning mb-3'
-                onClick={() => cadastrar()}
-              >
+              <button type='button' className='btn btn-warning mb-3' onClick={cadastrar}>
                 Nova Venda
               </button>
-              <table className='table table-hover'>
-                <thead>
-                  <tr>
-                    {/* NOVO: Coluna para o botão de expandir */}
-                    <th scope='col' style={{ width: '5%' }}></th>
-                    <th scope='col'>Cliente</th>
-                    <th scope='col'>Loja</th>
-                    <th scope='col'>Pagamento</th>
-                    <th scope='col'>Data</th>
-                    <th scope='col'>Horário</th>
-                    <th scope='col' style={{ width: '10%' }}>Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {dados.map((dado) => (
-                    <React.Fragment key={dado.id}>
-                      <tr onClick={() => handleRowExpansion(dado.id)} style={{ cursor: 'pointer' }}>
-                        <td>
-                          <IconButton aria-label="expand row" size="small">
-                            {expandedRowId === dado.id ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                          </IconButton>
-                        </td>
-                        <td>{dado.nomeUsuario}</td>
-                        <td>{dado.nomeLoja}</td>
-                        <td>{dado.nomeFormaPagamento}</td>
-                        <td>{new Date(dado.dataVenda).toLocaleDateString()}</td>
-                        <td>{dado.horario}</td>
-                        <td onClick={(e) => e.stopPropagation()}>
-                          <Stack spacing={1} padding={0} direction='row'>
-                            <IconButton aria-label='edit' onClick={() => editar(dado.id)}><EditIcon /></IconButton>
-                            <IconButton aria-label='delete' onClick={() => excluir(dado.id)}><DeleteIcon /></IconButton>
-                          </Stack>
-                        </td>
-                      </tr>
-                      {/* NOVO: Linha expandida para mostrar a lista de itens da venda */}
-                      {expandedRowId === dado.id && (
-                        <tr>
-                          <td colSpan="7" style={{ padding: '16px', backgroundColor: '#f8f9fa' }}>
-                            {isLoadingItens && <p>Carregando itens da venda...</p>}
-                            {!isLoadingItens && itensPorVenda[dado.id] && (
-                              <div>
-                                <h5 className="mb-3">Itens da Venda</h5>
-                                {itensPorVenda[dado.id].length > 0 ? (
-                                  <table className="table table-sm table-bordered bg-white">
-                                    <thead className="thead-light">
-                                      <tr>
-                                        <th>Produto</th>
-                                        <th>Quantidade</th>
-                                        <th>Preço Unitário</th>
-                                        <th>Subtotal</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {itensPorVenda[dado.id].map(item => (
-                                        <tr key={item.id}>
-                                          {/* AJUSTE 4: Acesso seguro aos dados dos itens */}
-                                          <td>{item.nomeProduto || 'Produto não informado'}</td>
-                                          <td>{item.quantidade}</td>
-                                          <td>{formatCurrency(item.precoUnitario)}</td>
-                                          <td>{formatCurrency(item.quantidade * item.precoUnitario)}</td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
-                                ) : (<p>Nenhum item encontrado para esta venda.</p>)}
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </tbody>
-              </table>
+              <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell style={{ width: '5%' }} />
+                      <TableCell sx={{ fontWeight: 'bold' }}>Cliente</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Loja</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Pagamento</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Data</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold' }}>Horário</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', width: '10%' }}>Ações</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {dados.map((dado) => (
+                      <Row key={dado.id} row={dado} onExcluir={excluir} onEditar={editar} />
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </div>
           </div>
         </div>
@@ -185,4 +195,4 @@ function Listagemvenda() {
   );
 }
 
-export default Listagemvenda;
+export default ListagemVenda;
