@@ -12,6 +12,9 @@ import CadastroAgenda from "./view/cadastro-agenda"
 import CadastroVenda from "./view/cadastro-venda"
 import Cadastrocomanda from './view/cadastro-comanda';
 import CadastroFormaPagamento from './view/cadastro-forma-pagamento';
+import CadastroUsuario from './view/CadastroUsuario';
+import Login from './view/login';
+
 
 
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
@@ -37,9 +40,17 @@ function Rotas(props) {
           path='/cadastro-produto/:idParam?'
           element={<Cadastroproduto />}
         />
+          <Route
+          path='/cadastro-usuario/:idParam?'
+          element={<CadastroUsuario />}
+        />
         <Route 
           path='/cadastro-servico/:idParam?' 
           element={<Cadastroservico />}
+        />
+         <Route 
+          path='/login/:idParam?' 
+          element={<Login />}
         />
         <Route 
           path='/cadastro-loja/:idParam?'
