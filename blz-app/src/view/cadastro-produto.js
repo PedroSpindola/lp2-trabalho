@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CurrencyInput from 'react-currency-input-field';
 import Stack from '@mui/material/Stack';
-
-// ALTERADO: Adicionando importações do Material-UI para o Select múltiplo
 import { Select, MenuItem, InputLabel, FormControl, Chip, Box } from '@mui/material';
 
 import Card from '../components/card';
@@ -19,11 +17,10 @@ function Cadastroprodutos() {
 
   // --- ESTADOS DO COMPONENTE ---
   const [id, setId] = useState('');
-  const [nome, setnome] = useState('');
+  const [nome, setNome] = useState('');
   const [valorVenda, setValorVenda] = useState('');
   const [quantidade, setQuantidade] = useState('');
   const [dataValidade, setDataValidade] = useState('');
-  // ALTERADO: Estados para seleção múltipla agora são arrays
   const [idFornecedor, setIdFornecedor] = useState([]);
   const [idLoja, setIdLoja] = useState([]);
   const [unidadeMedida, setUnidadeMedida] = useState('');
@@ -34,20 +31,20 @@ function Cadastroprodutos() {
   const [dadosFornecedor, setDadosFornecedor] = useState([]);
   const [dadosLoja, setDadosLoja] = useState([]);
 
-  // ALTERADO: Mapas para buscar nomes por ID de forma eficiente (para os Chips)
+  // Mapas para buscar nomes por ID de forma eficiente (para os Chips)
   const fornecedorMap = new Map(dadosFornecedor.map(f => [f.id.toString(), f.nome]));
   const lojaMap = new Map(dadosLoja.map(l => [l.id.toString(), l.nome]));
 
   // --- LÓGICA DE DADOS (API) ---
-
-  // ALTERADO: Função de busca mais robusta e segura
+  
+  // Busca os dados do produto para o modo de edição
   const buscarProduto = async () => {
     try {
       const response = await axios.get(`${baseURL}/${idParam}`);
       const produto = response.data;
       
       setId(produto.id);
-      setnome(produto.nome);
+      setNome(produto.nome);
       setValorVenda(produto.valorVenda?.toString() || '');
       setQuantidade(produto.quantidade?.toString() || '');
       // Formata a data para o formato YYYY-MM-DD que o input[type=date] espera
@@ -65,46 +62,55 @@ function Cadastroprodutos() {
     }
   };
 
-  // ALTERADO: Função salvar otimizada
+  // --- ALTERADO ---
+  // Função salvar com a conversão de tipos de dados corrigida.
   async function salvar() {
-    let data = { 
-        nome, valorVenda, valorCompra, quantidade, dataValidade, 
-        idFornecedor, idLoja, unidadeMedida, desconto, quantidadeMin 
+    // 1. Monta o payload com os dados convertidos para os tipos corretos
+    const payload = { 
+      nome,
+      dataValidade,
+      unidadeMedida,
+      // Converte os arrays de ID de string para número
+      idFornecedor: idFornecedor.map(id => parseInt(id, 10)),
+      idLoja: idLoja.map(id => parseInt(id, 10)),
+      
+      // Converte valores monetários de string para número (float)
+      // O "|| 0" previne o envio de NaN (Not a Number) caso o campo esteja vazio
+      valorVenda: parseFloat(valorVenda) || 0,
+      valorCompra: parseFloat(valorCompra) || 0,
+      desconto: parseFloat(desconto) || 0,
+      
+      // Converte valores inteiros de string para número
+      quantidade: parseInt(quantidade, 10) || 0,
+      // Para campos opcionais, é melhor enviar 'null' se estiverem vazios
+      quantidadeMin: quantidadeMin ? parseInt(quantidadeMin, 10) : null,
     };
     
-    // Opcional, mas recomendado: Converte valores de volta para os tipos corretos
-    data.idFornecedor = data.idFornecedor.map(id => parseInt(id, 10));
-    data.idLoja = data.idLoja.map(id => parseInt(id, 10));
+    // 2. Determina se é uma criação (POST) ou atualização (PUT)
+    const request = idParam 
+      ? axios.put(`${baseURL}/${idParam}`, payload)
+      : axios.post(baseURL, payload);
 
-    // Axios já faz o JSON.stringify automaticamente
-    if (idParam == null) {
-      // Criando um novo produto
-      await axios.post(baseURL, data)
-        .then(function (response) {
-          mensagemSucesso(`Produto ${nome} cadastrado com sucesso!`);
-          navigate(`/listagem-produto`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data);
-        });
-    } else {
-      // Atualizando um produto existente
-      await axios.put(`${baseURL}/${idParam}`, data)
-        .then(function (response) {
-          mensagemSucesso(`Produto ${nome} alterado com sucesso!`);
-          navigate(`/listagem-produto`);
-        })
-        .catch(function (error) {
-          mensagemErro(error.response.data);
-        });
-    }
+    // 3. Executa a requisição e trata a resposta
+    request
+      .then(function (response) {
+        const acao = idParam ? 'alterado' : 'cadastrado';
+        mensagemSucesso(`Produto ${nome} ${acao} com sucesso!`);
+        navigate(`/listagem-produto`);
+      })
+      .catch(function (error) {
+        // Exibe a mensagem de erro vinda do backend, ou uma mensagem genérica
+        const erroMsg = error.response?.data || 'Ocorreu um erro ao salvar.';
+        mensagemErro(erroMsg);
+        console.error("Erro ao salvar:", error.response);
+      });
   }
 
   // --- EFEITOS (LIFECYCLE) ---
 
-  // ALTERADO: useEffect consolidado para buscar dados iniciais
+  // useEffect consolidado para buscar dados iniciais
   useEffect(() => {
-    // Busca fornecedores e lojas apenas uma vez
+    // Busca fornecedores e lojas apenas uma vez ao carregar o componente
     axios.get(`${BASE_URL}/fornecedores`).then((response) => {
       setDadosFornecedor(response.data);
     });
@@ -136,24 +142,23 @@ function Cadastroprodutos() {
   };
   
   // Evita renderizar o formulário antes de carregar os dados essenciais
-  if ((idParam && !id) || !dadosFornecedor.length || !dadosLoja.length) {
+  // No modo de edição, espera o 'id' do produto ser preenchido
+  if (idParam && !id) {
     return <div>Carregando...</div>;
   }
 
   return (
     <div className='container'>
-      {/* ALTERADO: Título dinâmico do Card */}
       <Card title={idParam ? 'Edição de Produto' : 'Cadastro de Produto'}>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            
+              
               {/* --- CAMPOS DO FORMULÁRIO --- */}
               <FormGroup label='Nome: *' htmlFor='inputNome'>
-                <input type='text' id='inputNome' value={nome} className='form-control' name='nomeprodutos' onChange={(e) => setnome(e.target.value)} />
+                <input type='text' id='inputNome' value={nome} className='form-control' name='nomeprodutos' onChange={(e) => setNome(e.target.value)} />
               </FormGroup>
 
-              {/* ALTERADO: Corrigido o handler do CurrencyInput */}
               <FormGroup label='Preço de Venda (R$): *' htmlFor='inputvalorvenda'>
                 <CurrencyInput id="inputvalorvenda" name="valorvenda" decimalsLimit={2} className='form-control' value={valorVenda} onValueChange={(value) => setValorVenda(value || '')} />
               </FormGroup>
@@ -174,7 +179,6 @@ function Cadastroprodutos() {
                 <input type='date' id='inputdataValidade' value={dataValidade} className='form-control' name='dataValidadeprodutos' onChange={(e) => setDataValidade(e.target.value)} />
               </FormGroup>
               
-              {/* ALTERADO: Substituído o select antigo pelo componente do MUI */}
               <FormGroup label='Fornecedor(es):' htmlFor='select-fornecedor'>
                 <FormControl fullWidth>
                   <InputLabel id="select-fornecedor-label">Selecione</InputLabel>
@@ -202,7 +206,6 @@ function Cadastroprodutos() {
                 </FormControl>
               </FormGroup>
 
-              {/* ALTERADO: Substituído o select antigo pelo componente do MUI */}
               <FormGroup label='Loja(s):' htmlFor='select-loja'>
                 <FormControl fullWidth>
                     <InputLabel id="select-loja-label">Selecione</InputLabel>
