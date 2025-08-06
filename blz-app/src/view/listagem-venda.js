@@ -13,35 +13,63 @@ import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
 const baseURL = `${BASE_URL}/vendas`;
+const produtosURL = `${BASE_URL}/produtos`;
 
-// --- Componente de Linha da Tabela (com lógica de expansão simplificada) ---
+// --- Componente de Linha da Tabela (ROW) ---
 function Row(props) {
   const { row, onExcluir, onEditar } = props;
   const [open, setOpen] = React.useState(false);
   const [itens, setItens] = React.useState([]);
   const [isLoadingItens, setIsLoadingItens] = React.useState(false);
-  
+
   const formatDate = (dateString) => {
     if (!dateString) return 'Data inválida';
-    // Adiciona 'T00:00:00' para evitar problemas com fuso horário
     return new Date(`${dateString}T00:00:00`).toLocaleDateString('pt-BR');
   }
 
+  // Lógica para buscar os itens e seus nomes
   const handleFetchItens = async () => {
-    // A lógica de busca continua a mesma, pois é eficiente
+    setOpen(!open);
+
+    // Só busca na API se a linha estiver abrindo e os itens ainda não foram carregados
     if (!open && itens.length === 0) {
       setIsLoadingItens(true);
       try {
-        const response = await axios.get(`${baseURL}/${row.id}/itemVendas`);
-        setItens(response.data);
+        // 1. Busca os itens da venda (que têm idProduto e quantidade)
+        const itensResponse = await axios.get(`${baseURL}/${row.id}/itemVendas`);
+        const itensDaVenda = itensResponse.data;
+
+        if (itensDaVenda && itensDaVenda.length > 0) {
+          // 2. Cria uma "promessa" de busca para cada produto
+          const promessasDeProdutos = itensDaVenda.map(item =>
+            axios.get(`${produtosURL}/${item.idProduto}`)
+          );
+
+          // 3. Espera todas as buscas de produtos terminarem
+          const respostasDosProdutos = await Promise.all(promessasDeProdutos);
+
+          // 4. Junta os dados das duas fontes
+          const itensCompletos = itensDaVenda.map((itemOriginal, index) => {
+            const detalhesDoProduto = respostasDosProdutos[index].data;
+            return {
+              id: itemOriginal.id,
+              quantidade: itemOriginal.quantidade,
+              nomeProduto: detalhesDoProduto.nome // O nome que queremos exibir
+            };
+          });
+
+          setItens(itensCompletos);
+        }
       } catch (error) {
-        mensagemErro("Erro ao buscar os itens desta venda.");
+        mensagemErro("Erro ao buscar os produtos da venda.");
+        // Se der erro aqui, é porque a chamada a /itemVendas ou /produtos falhou.
+        // Verifique a aba "Rede" (Network) do navegador para ver o status do erro (404, 500, etc)
       } finally {
         setIsLoadingItens(false);
       }
     }
-    setOpen(!open);
   };
+
 
   return (
     <React.Fragment>
@@ -63,7 +91,6 @@ function Row(props) {
           </Stack>
         </TableCell>
       </TableRow>
-      {/* Linha com os detalhes dos itens */}
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0, backgroundColor: '#f8f9fa' }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -72,18 +99,18 @@ function Row(props) {
                 Produtos Vendidos:
               </Typography>
               {isLoadingItens ? <p>Carregando...</p> : (
-                // ALTERADO: Substituindo a tabela complexa por uma lista simples
-                <ul>
-                  {itens.length > 0 ? (
-                    itens.map((item) => (
-                      <li key={item.id}>
-                        {item.quantidade}x {item.nomeProduto}
-                      </li>
-                    ))
-                  ) : (
-                    <li>Nenhum item encontrado para esta venda.</li>
-                  )}
-                </ul>
+                 <ul>
+                   {itens.length > 0 ? (
+                     itens.map((item) => (
+                       // --- EXIBIÇÃO SIMPLIFICADA CONFORME SOLICITADO ---
+                       <li key={item.id}>
+                         {item.quantidade}x {item.nomeProduto}
+                       </li>
+                     ))
+                   ) : (
+                     <li>Nenhum item encontrado para esta venda.</li>
+                   )}
+                 </ul>
               )}
             </Box>
           </Collapse>
@@ -94,7 +121,7 @@ function Row(props) {
 }
 
 
-// --- Componente Principal da Listagem ---
+// --- O restante do arquivo (Componente ListagemVenda) não precisa de nenhuma alteração ---
 function ListagemVenda() {
   const navigate = useNavigate();
   const [dados, setDados] = React.useState([]);
@@ -122,7 +149,7 @@ function ListagemVenda() {
     await axios.delete(`${baseURL}/${id}`)
       .then(() => {
         mensagemSucesso(`Venda excluída com sucesso!`);
-        fetchVendas(); // Recarrega a lista após excluir
+        fetchVendas();
       })
       .catch(() => {
         mensagemErro(`Erro ao excluir a Venda`);

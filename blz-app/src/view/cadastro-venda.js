@@ -64,6 +64,12 @@ function CadastroVenda() {
     }
 
     const data = { id, idUsuario, dataVenda, horario, idFormaPagamento, idLoja, itens: itensValidos };
+    
+    // =================================================================
+    // LOG ADICIONADO AQUI PARA VERIFICAR O QUE ESTÁ SENDO ENVIADO
+    console.log("Enviando para a API:", data);
+    // =================================================================
+
     const request = idParam ? axios.put(`${baseURL}/${idParam}`, data) : axios.post(baseURL, data);
 
     await request
@@ -73,6 +79,8 @@ function CadastroVenda() {
       })
       .catch((error) => {
         mensagemErro(error.response?.data || 'Ocorreu um erro ao salvar.');
+        // Logar o erro também é uma boa prática
+        console.error("Erro ao salvar:", error.response);
       });
   }
 
@@ -163,10 +171,10 @@ function CadastroVenda() {
                 <div className="row align-items-end mb-3" key={index}>
                   <div className="col-md-7">
                     <FormGroup label={`Produto ${index + 1}:`} htmlFor={`produto-${index}`}>
-                       <select className='form-select' id={`produto-${index}`} value={item.idProduto} onChange={(e) => handleItemChange(index, 'idProduto', e.target.value)}>
-                         <option value="">Selecione um produto...</option>
-                         {dadosProdutos.map(p => (<option key={p.id} value={p.id}>{p.nome}</option>))}
-                       </select>
+                      <select className='form-select' id={`produto-${index}`} value={item.idProduto} onChange={(e) => handleItemChange(index, 'idProduto', e.target.value)}>
+                        <option value="">Selecione um produto...</option>
+                        {dadosProdutos.map(p => (<option key={p.id} value={p.id}>{p.nome}</option>))}
+                      </select>
                     </FormGroup>
                   </div>
                   <div className="col-md-3">
@@ -175,7 +183,7 @@ function CadastroVenda() {
                     </FormGroup>
                   </div>
                   <div className="col-md-2 d-flex align-items-center pb-3">
-                     <button onClick={() => removerItem(index)} type='button' className='btn btn-danger w-100'>Remover</button>
+                    <button onClick={() => removerItem(index)} type='button' className='btn btn-danger w-100'>Remover</button>
                   </div>
                 </div>
               ))}

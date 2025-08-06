@@ -18,7 +18,7 @@ function CadastroAgenda() {
   const [horario, setHorario] = useState('');
   const [idFuncionario, setIdFuncionario] = useState('');
   const [idLoja, setIdLoja] = useState('');
-  const [idCliente, setIdCliente] = useState(''); // NOVO: Estado para o cliente
+  const [idUsuario, setIdUsuario] = useState(''); // CORRIGIDO: Renomeado de idCliente para idUsuario
 
   // Estado para os serviços do agendamento
   const [servicos, setServicos] = useState([{ idServico: '', quantidade: 1 }]);
@@ -27,7 +27,7 @@ function CadastroAgenda() {
   const [dadosLoja, setDadosLoja] = useState([]);
   const [dadosServico, setDadosServico] = useState([]);
   const [dadosFuncionario, setDadosFuncionario] = useState([]);
-  const [dadosCliente, setDadosCliente] = useState([]); // NOVO: Estado para a lista de clientes
+  const [dadosUsuario, setDadosUsuario] = useState([]); // CORRIGIDO: Renomeado de dadosCliente para dadosUsuario
 
   // --- LÓGICA DE DADOS (API) ---
   const buscarAgendamento = async () => {
@@ -39,7 +39,7 @@ function CadastroAgenda() {
       setHorario(agendamento.horario || '');
       setIdFuncionario(agendamento.idFuncionario?.toString() || '');
       setIdLoja(agendamento.idLoja?.toString() || '');
-      setIdCliente(agendamento.idCliente?.toString() || ''); // NOVO: Populando o cliente
+      setIdUsuario(agendamento.idUsuario?.toString() || ''); // CORRIGIDO: Usando idUsuario
 
       const servicosResponse = await axios.get(`${baseURL}/${idParam}/ordemServicos`);
       if (servicosResponse.data && servicosResponse.data.length > 0) {
@@ -60,13 +60,28 @@ function CadastroAgenda() {
       mensagemErro('Adicione pelo menos um serviço ao agendamento.');
       return;
     }
-    if (!idCliente) {
+    if (!idUsuario) { // CORRIGIDO: Verificando idUsuario
       mensagemErro('Selecione um cliente para o agendamento.');
       return;
     }
 
-    // NOVO: Adicionado 'idCliente' ao objeto de dados
-    const data = { id, dataAgendamento, horario, idFuncionario, idLoja, idCliente, servicos: servicosValidos };
+    // CORRIGIDO: Enviando 'idUsuario' no objeto de dados
+    
+    
+     const data = {
+      id: id, // O ID principal pode ser string vazia na criação
+      dataAgendamento: dataAgendamento,
+      horario: horario,
+      // Usamos parseInt() para garantir que o backend receba um número
+      idFuncionario: parseInt(idFuncionario, 10),
+      idLoja: parseInt(idLoja, 10),
+      idUsuario: parseInt(idUsuario, 10),
+      servicos: servicosValidos.map(s => ({
+        idServico: parseInt(s.idServico, 10),
+        quantidade: s.quantidade // quantidade já é um número
+      }))
+    };  
+    console.log("DADOS ENVIADOS PARA A API:", data);
     const request = idParam ? axios.put(`${baseURL}/${idParam}`, data) : axios.post(baseURL, data);
 
     await request
@@ -85,7 +100,7 @@ function CadastroAgenda() {
     axios.get(`${BASE_URL}/servicos`).then((response) => setDadosServico(response.data));
     axios.get(`${BASE_URL}/lojas`).then((response) => setDadosLoja(response.data));
     axios.get(`${BASE_URL}/funcionarios`).then((response) => setDadosFuncionario(response.data));
-    axios.get(`${BASE_URL}/usuarios`).then((response) => setDadosCliente(response.data)); // NOVO: Busca a lista de clientes
+    axios.get(`${BASE_URL}/usuarios`).then((response) => setDadosUsuario(response.data)); // CORRIGIDO: Usando setDadosUsuario
 
     if (idParam) {
       buscarAgendamento();
@@ -131,12 +146,12 @@ function CadastroAgenda() {
               </div>
 
               <div className="row">
-                {/* NOVO: Campo de seleção de Cliente */}
+                {/* CORRIGIDO: Campo de seleção de Cliente agora usa idUsuario */}
                 <div className="col-md-6">
                   <FormGroup label='Cliente: *' htmlFor='selectCliente'>
-                    <select className='form-select' id='selectCliente' value={idCliente} onChange={(e) => setIdCliente(e.target.value)}>
+                    <select className='form-select' id='selectCliente' value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
                       <option value="">Selecione um cliente...</option>
-                      {dadosCliente.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
+                      {dadosUsuario.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
                     </select>
                   </FormGroup>
                 </div>
@@ -154,7 +169,7 @@ function CadastroAgenda() {
                 <div className="col-md-12">
                   <FormGroup label='Loja: *' htmlFor='selectLoja'>
                     <select className='form-select' id='selectLoja' value={idLoja} onChange={(e) => setIdLoja(e.target.value)}>
-                       <option value="">Selecione uma loja...</option>
+                        <option value="">Selecione uma loja...</option>
                       {dadosLoja.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
                     </select>
                   </FormGroup>
@@ -168,10 +183,10 @@ function CadastroAgenda() {
                 <div className="row align-items-end mb-3" key={index}>
                   <div className="col-md-7">
                     <FormGroup label={`Serviço ${index + 1}:`} htmlFor={`servico-${index}`}>
-                       <select className='form-select' id={`servico-${index}`} value={servico.idServico} onChange={(e) => handleServicoChange(index, 'idServico', e.target.value)}>
-                         <option value="">Selecione um serviço...</option>
-                         {dadosServico.map(s => (<option key={s.id} value={s.id}>{s.nome}</option>))}
-                       </select>
+                        <select className='form-select' id={`servico-${index}`} value={servico.idServico} onChange={(e) => handleServicoChange(index, 'idServico', e.target.value)}>
+                          <option value="">Selecione um serviço...</option>
+                          {dadosServico.map(s => (<option key={s.id} value={s.id}>{s.nome}</option>))}
+                        </select>
                     </FormGroup>
                   </div>
                   <div className="col-md-3">
@@ -180,7 +195,7 @@ function CadastroAgenda() {
                     </FormGroup>
                   </div>
                   <div className="col-md-2 d-flex align-items-center pb-3">
-                     <button onClick={() => removerServico(index)} type='button' className='btn btn-danger w-100'>Remover</button>
+                      <button onClick={() => removerServico(index)} type='button' className='btn btn-danger w-100'>Remover</button>
                   </div>
                 </div>
               ))}

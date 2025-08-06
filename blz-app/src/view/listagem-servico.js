@@ -11,11 +11,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import axios from 'axios';
 import { BASE_URL } from '../config/axios';
 
-// AJUSTE 1: A URL base DEVE incluir a versão da API.
 const baseURL = `${BASE_URL}/servicos`;
 
 function ListagemServico() {
   const navigate = useNavigate();
+  const [dados, setDados] = React.useState(null);
+  const [expandedRowId, setExpandedRowId] = React.useState(null);
 
   const cadastrar = () => {
     navigate(`/cadastro-servico`);
@@ -25,17 +26,8 @@ function ListagemServico() {
     navigate(`/cadastro-servico/${id}`);
   };
 
-  const [dados, setDados] = React.useState(null);
-  
-  // AJUSTE: Estados simplificados para lidar apenas com produtos, como solicitado.
-  const [expandedRowId, setExpandedRowId] = React.useState(null);
-  const [isLoadingProdutos, setIsLoadingProdutos] = React.useState(false);
-  const [produtosPorServico, setProdutosPorServico] = React.useState({});
-
   async function excluir(id) {
-    let url = `${baseURL}/${id}`;
-    await axios
-      .delete(url)
+    await axios.delete(`${baseURL}/${id}`)
       .then(function (response) {
         mensagemSucesso(`Serviço excluído com sucesso!`);
         setDados(dados.filter((dado) => dado.id !== id));
@@ -45,29 +37,10 @@ function ListagemServico() {
       });
   }
 
-  // AJUSTE: Função de expansão corrigida e simplificada para buscar APENAS os produtos.
-  const handleRowExpansion = async (servicoId) => {
+  // Lógica de expansão simplificada, pois os dados já vêm com a requisição principal
+  const handleRowExpansion = (servicoId) => {
     const isRowExpanded = expandedRowId === servicoId;
-    if (isRowExpanded) {
-      setExpandedRowId(null);
-    } else {
-      setExpandedRowId(servicoId);
-      if (!produtosPorServico[servicoId]) {
-        setIsLoadingProdutos(true);
-        try {
-          const response = await axios.get(`${baseURL}/${servicoId}/produtoUtilizados`);
-          setProdutosPorServico(prevState => ({
-            ...prevState,
-            [servicoId]: response.data
-          }));
-        } catch (error) {
-          mensagemErro("Erro ao buscar os produtos do serviço.");
-          console.error("Erro ao buscar produtos:", error);
-        } finally {
-          setIsLoadingProdutos(false);
-        }
-      }
-    }
+    setExpandedRowId(isRowExpanded ? null : servicoId);
   };
 
   React.useEffect(() => {
@@ -92,11 +65,7 @@ function ListagemServico() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-              <button
-                type='button'
-                className='btn btn-warning mb-3'
-                onClick={() => cadastrar()}
-              >
+              <button type='button' className='btn btn-warning mb-3' onClick={cadastrar}>
                 Novo Serviço
               </button>
               <table className='table table-hover'>
@@ -125,7 +94,6 @@ function ListagemServico() {
                         <td>{dado.duracao}</td>
                         <td>{dado.comissao}%</td>
                         <td>{formatCurrency(dado.preco)}</td>
-                        {/* AJUSTE 2: Lendo os nomes da Loja e do Cargo diretamente do DTO */}
                         <td>{dado.nomeLoja}</td>
                         <td>{dado.nomeCargo}</td>
                         <td onClick={(e) => e.stopPropagation()}>
@@ -138,25 +106,29 @@ function ListagemServico() {
                       {expandedRowId === dado.id && (
                         <tr>
                           <td colSpan="8" style={{ padding: '16px', backgroundColor: '#f8f9fa' }}>
-                            {isLoadingProdutos && <p>Carregando produtos...</p>}
-                            {!isLoadingProdutos && produtosPorServico[dado.id] && (
-                              <div>
-                                <h5 className="mb-3">Produtos Utilizados</h5>
-                                {produtosPorServico[dado.id].length > 0 ? (
-                                  <table className="table table-sm table-bordered bg-white">
-                                    <thead className="thead-light"><tr><th>Produto</th></tr></thead>
-                                    <tbody>
-                                      {produtosPorServico[dado.id].map(item => (
-                                        <tr key={item.id}>
-                                          {/* AJUSTE 3: Acessando o nome do produto de forma segura */}
-                                          <td>{item.produto?.nome || 'Nome não disponível'}</td>
-                                        </tr>
-                                      ))}
-                                    </tbody>
-                                  </table>
-                                ) : (<p>Nenhum produto associado a este serviço.</p>)}
-                              </div>
-                            )}
+                            <div>
+                              <h5 className="mb-3">Produtos Utilizados</h5>
+                              {/* CORREÇÃO: Acessando `dado.produtosUtilizados` que já veio na requisição */}
+                              {dado.produtosUtilizados && dado.produtosUtilizados.length > 0 ? (
+                                <table className="table table-sm table-bordered bg-white">
+                                  <thead className="thead-light">
+                                    <tr>
+                                      <th>Produto</th>
+                                      <th>Quantidade</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {dado.produtosUtilizados.map(item => (
+                                      <tr key={item.id}>
+                                        {/* CORREÇÃO: Acessando `item.nomeProduto` conforme o DTO */}
+                                        <td>{item.nomeProduto || 'N/A'}</td>
+                                        <td>{item.quantidade}</td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              ) : (<p>Nenhum produto associado a este serviço.</p>)}
+                            </div>
                           </td>
                         </tr>
                       )}
