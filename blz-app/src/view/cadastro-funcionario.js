@@ -76,7 +76,7 @@ function CadastroCliente() {
     await request
       .then(() => {
         mensagemSucesso(`Cliente ${nome} salvo com sucesso!`);
-        navigate(`/listagem-cliente`);
+        navigate(`/listagem-funcionario`);
       })
       .catch((error) => {
         mensagemErro(error.response?.data || 'Ocorreu um erro ao salvar.');
@@ -94,11 +94,11 @@ function CadastroCliente() {
     // eslint-disable-next-line
   }, [idParam]);
 
-  const cancelar = () => navigate('/listagem-cliente');
+  const cancelar = () => navigate('/listagem-funcionario');
 
   return (
     <div className='container'>
-      <Card title={idParam ? 'Edição de Cliente' : 'Cadastro de Cliente'}>
+      <Card title={idParam ? 'Edição de funcinario' : 'Cadastro de funcionario'}>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
