@@ -18,7 +18,7 @@ function CadastroAgenda() {
   const [horario, setHorario] = useState('');
   const [idFuncionario, setIdFuncionario] = useState('');
   const [idLoja, setIdLoja] = useState('');
-  const [idUsuario, setIdUsuario] = useState(''); // CORRIGIDO: Renomeado de idCliente para idUsuario
+  const [idCliente, setIdCliente] = useState(''); // CORRIGIDO: Renomeado de idCliente para idCliente
 
   // Estado para os serviços do agendamento
   const [servicos, setServicos] = useState([{ idServico: '', quantidade: 1 }]);
@@ -27,7 +27,7 @@ function CadastroAgenda() {
   const [dadosLoja, setDadosLoja] = useState([]);
   const [dadosServico, setDadosServico] = useState([]);
   const [dadosFuncionario, setDadosFuncionario] = useState([]);
-  const [dadosUsuario, setDadosUsuario] = useState([]); // CORRIGIDO: Renomeado de dadosCliente para dadosUsuario
+  const [dadosCliente, setDadosCliente] = useState([]); // CORRIGIDO: Renomeado de dadosCliente para dadosCliente
 
   // --- LÓGICA DE DADOS (API) ---
   const buscarAgendamento = async () => {
@@ -39,7 +39,7 @@ function CadastroAgenda() {
       setHorario(agendamento.horario || '');
       setIdFuncionario(agendamento.idFuncionario?.toString() || '');
       setIdLoja(agendamento.idLoja?.toString() || '');
-      setIdUsuario(agendamento.idUsuario?.toString() || ''); // CORRIGIDO: Usando idUsuario
+      setIdCliente(agendamento.idCliente?.toString() || ''); // CORRIGIDO: Usando idCliente
 
       const servicosResponse = await axios.get(`${baseURL}/${idParam}/ordemServicos`);
       if (servicosResponse.data && servicosResponse.data.length > 0) {
@@ -60,12 +60,12 @@ function CadastroAgenda() {
       mensagemErro('Adicione pelo menos um serviço ao agendamento.');
       return;
     }
-    if (!idUsuario) { // CORRIGIDO: Verificando idUsuario
+    if (!idCliente) { // CORRIGIDO: Verificando idCliente
       mensagemErro('Selecione um cliente para o agendamento.');
       return;
     }
 
-    // CORRIGIDO: Enviando 'idUsuario' no objeto de dados
+    // CORRIGIDO: Enviando 'idCliente' no objeto de dados
     
     
      const data = {
@@ -75,7 +75,7 @@ function CadastroAgenda() {
       // Usamos parseInt() para garantir que o backend receba um número
       idFuncionario: parseInt(idFuncionario, 10),
       idLoja: parseInt(idLoja, 10),
-      idUsuario: parseInt(idUsuario, 10),
+      idCliente: parseInt(idCliente, 10),
       servicos: servicosValidos.map(s => ({
         idServico: parseInt(s.idServico, 10),
         quantidade: s.quantidade // quantidade já é um número
@@ -100,7 +100,7 @@ function CadastroAgenda() {
     axios.get(`${BASE_URL}/servicos`).then((response) => setDadosServico(response.data));
     axios.get(`${BASE_URL}/lojas`).then((response) => setDadosLoja(response.data));
     axios.get(`${BASE_URL}/funcionarios`).then((response) => setDadosFuncionario(response.data));
-    axios.get(`${BASE_URL}/usuarios`).then((response) => setDadosUsuario(response.data)); // CORRIGIDO: Usando setDadosUsuario
+    axios.get(`${BASE_URL}/usuarios`).then((response) => setDadosCliente(response.data)); // CORRIGIDO: Usando setDadosCliente
 
     if (idParam) {
       buscarAgendamento();
@@ -146,12 +146,12 @@ function CadastroAgenda() {
               </div>
 
               <div className="row">
-                {/* CORRIGIDO: Campo de seleção de Cliente agora usa idUsuario */}
+                {/* CORRIGIDO: Campo de seleção de Cliente agora usa idCliente */}
                 <div className="col-md-6">
                   <FormGroup label='Cliente: *' htmlFor='selectCliente'>
-                    <select className='form-select' id='selectCliente' value={idUsuario} onChange={(e) => setIdUsuario(e.target.value)}>
+                    <select className='form-select' id='selectCliente' value={idCliente} onChange={(e) => setIdCliente(e.target.value)}>
                       <option value="">Selecione um cliente...</option>
-                      {dadosUsuario.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
+                      {dadosCliente.map(d => (<option key={d.id} value={d.id}>{d.nome}</option>))}
                     </select>
                   </FormGroup>
                 </div>

@@ -25,7 +25,7 @@ function CadastroColaborador() {
   const [celular, setCelular] = useState('');
   const [email, setEmail] = useState('');
   /*const [idCargo, setIdCargo] = useState(0);*/
-  const [idLoja, setIdLoja] = useState(0);
+  const [idLoja, setIdLoja] = useState();
   const [dataNascimento, setDataNascimento] = useState('')
 
 
@@ -41,7 +41,7 @@ function CadastroColaborador() {
       setEmail('');
       setDataNascimento('');
       /*setIdCargo(0);*/
-      setIdLoja(0);
+      setIdLoja();
 
     } else {
       setId(dados.id)
@@ -58,7 +58,7 @@ function CadastroColaborador() {
   }
 
   async function salvar() {
-    let data = { id,cpf, nome, telefone, celular, email, dataNascimento, idLoja};
+    let data = { id, cpf, nome, telefone, celular, email, dataNascimento, idLoja };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -88,16 +88,16 @@ function CadastroColaborador() {
   }
 
   async function buscar() {
-  
+
     if (idParam != null) {
       await axios.get(`${baseURL}/${idParam}`).then((response) => {
         setDados(response.data);
       }).catch((a) => {
         console.log(a);
       });
-        
+
     }
-  
+
     setId(dados.id)
     setCpf(dados.cpf);
     setnome(dados.nome);
@@ -108,8 +108,8 @@ function CadastroColaborador() {
     /*setIdCargo(dados.idCargo);*/
     setIdLoja(dados.idLoja);
   }
-  
-  const [dadosLoja,setDadosLoja] = React.useState(null)
+
+  const [dadosLoja, setDadosLoja] = React.useState(null)
   {/*const [dadosCargos,setDadosCargos] = React.useState(null)
 
   useEffect(()=>{
@@ -120,45 +120,45 @@ function CadastroColaborador() {
     });
   },[]); */}
 
-  useEffect(()=>{
+  useEffect(() => {
 
     axios.get(`${BASE_URL}/lojas`).then((response) => {
       setDadosLoja(response.data);
-      
+
     });
-  },[]);
+  }, []);
 
   useEffect(() => {
     buscar(); // eslint-disable-next-line
   }, [id]);
 
   if (!dados) return null;
-  /*if(!dadosCargos) return null;*/ 
-  if(!dadosLoja) return null;
+  /*if(!dadosCargos) return null;*/
+  if (!dadosLoja) return null;
   return (
     <div className='container'>
       <Card title='Cadastro de Usuário'>
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            
-  <FormGroup label='CPF:' htmlFor='inputCpf'>
-  <InputMask
-    mask="999.999.999-99"
-    value={cpf}
-    onChange={(e) => setCpf(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputCpf"
-        name="cpf"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+
+              <FormGroup label='CPF:' htmlFor='inputCpf'>
+                <InputMask
+                  mask="999.999.999-99"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputCpf"
+                      name="cpf"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
 
               <FormGroup label='Nome: *' htmlFor='inputNome'>
                 <input
@@ -170,32 +170,39 @@ function CadastroColaborador() {
                   onChange={(e) => setnome(e.target.value)}
                 />
               </FormGroup>
-           <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
-  <InputMask
-    mask="(99) 99999-9999"
-    value={telefone}
-    onChange={(e) => setTelefone(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputTelefone"
-        name="telefone"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputTelefone"
+                      name="telefone"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
               <FormGroup label='Celular: *' htmlFor='inputCelular'>
-                <input
-                  type='text'
-                  id='inputCelular'
-                  value={celular}
-                  className='form-control'
-                  name='celularColaborador'
-                  onChange={(e) => setCelular(e.target.value)}
-                />
+                <InputMask
+                    mask="(99) 99999-9999"
+                    value={celular}
+                    onChange={(e) => setCelular(e.target.value)}
+                  >
+                    {(inputProps) => (
+                      <input
+                        {...inputProps}
+                        type="text"
+                        id="inputCelular"
+                        name="celular"
+                        className="form-control"
+                      />
+                    )}
+                  </InputMask>
               </FormGroup>
               <FormGroup label='Email: *' htmlFor='inputEmail'>
                 <input
@@ -239,23 +246,23 @@ function CadastroColaborador() {
                 </select>
 
               </FormGroup>*/}
-              
-                <FormGroup label = 'Loja:' htmlFor='selectLoja'>
 
-                  <select className='form-select'
+              <FormGroup label='Loja:' htmlFor='selectLoja'>
+
+                <select className='form-select'
                   type='select'
                   id='selectLoja'
                   name='lojaColaborador'
                   value={idLoja}
-                  onChange={(e)=>setIdLoja(e.target.value)}>
+                  onChange={(e) => setIdLoja(Number(e.target.value))}>
 
-                    {dadosLoja.map((dado)=>(
-                      
-                      <option key={dado.id} value={dado.id}>
-                        {dado.nome}
-                      </option>
-                    ))}
-                  </select>
+                  {dadosLoja.map((dado) => (
+
+                    <option key={dado.id} value={dado.id}>
+                      {dado.nome}
+                    </option>
+                  ))}
+                </select>
               </FormGroup>
 
               <Stack spacing={1} padding={1} direction='row'>

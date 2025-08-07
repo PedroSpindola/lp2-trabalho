@@ -160,11 +160,11 @@ function Cadastroprodutos() {
               </FormGroup>
 
               <FormGroup label='Preço de Venda (R$): *' htmlFor='inputvalorvenda'>
-                <CurrencyInput id="inputvalorvenda" name="valorvenda" decimalsLimit={2} className='form-control' value={valorVenda} onValueChange={(value) => setValorVenda(value || '')} />
+                <CurrencyInput id="inputvalorvenda" name="valorvenda" decimalsLimit={2} decimalSeparator="," groupSeparator="." prefix="R$ " className='form-control' value={valorVenda} onValueChange={(value) => setValorVenda(value || '')} />
               </FormGroup>
 
               <FormGroup label='Valor de Compra (R$): *' htmlFor='inputvalorcompra'>
-                <CurrencyInput id="inputvalorcompra" name="valorcompra" decimalsLimit={2} className='form-control' value={valorCompra} onValueChange={(value) => setValorCompra(value || '')} />
+                <CurrencyInput id="inputvalorcompra" name="valorcompra" decimalsLimit={2}  decimalSeparator="," groupSeparator="." prefix="R$ " className='form-control' value={valorCompra} onValueChange={(value) => setValorCompra(value || '')} />
               </FormGroup>
 
               <FormGroup label='Quantidade: *' htmlFor='inputquantidade'>
@@ -234,7 +234,7 @@ function Cadastroprodutos() {
               </FormGroup>
               
               <FormGroup label='Unidade de Medida:' htmlFor='inputUnidadeMedida'>
-                <input type='text' id='inputUnidadeMedida' value={unidadeMedida} className='form-control' name='unidadeMedidaprodutos' onChange={(e) => setUnidadeMedida(e.target.value)} />
+                <input type='text' id='inputUnidadeMedida' value={unidadeMedida} className='form-control' name='unidadeMedidaprodutos' suffix="g" onChange={(e) => setUnidadeMedida(e.target.value)} />
               </FormGroup>
 
               <FormGroup label='Desconto:' htmlFor='inputDesconto'>

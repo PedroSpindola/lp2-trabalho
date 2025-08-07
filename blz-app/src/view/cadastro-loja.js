@@ -34,7 +34,7 @@ function CadastroLoja() {
   const [estado, setEstado] = useState('');
   const [cep, setCep] = useState('');
 
-  
+
   const [dados, setDados] = useState([]);
 
   function inicializar() {
@@ -60,7 +60,7 @@ function CadastroLoja() {
   }
 
   async function salvar() {
-    let data = { id,cnpj, nome, telefone, celular, email, logradouro, dataCriacao,numero, complemento, bairro,cidade,estado,cep };
+    let data = { id, cnpj, nome, telefone, celular, email, logradouro, dataCriacao, numero, complemento, bairro, cidade, estado, cep };
     data = JSON.stringify(data);
     if (idParam == null) {
       await axios
@@ -90,14 +90,14 @@ function CadastroLoja() {
   }
 
   async function buscar() {
-  
+
     if (idParam != null) {
       await axios.get(`${baseURL}/${idParam}`).then((response) => {
         setDados(response.data);
       }).catch((a) => {
         console.log(a);
       });
-  
+
       setId(dados.id)
       setCnpj(dados.cnpj);
       setnome(dados.nome);
@@ -127,24 +127,24 @@ function CadastroLoja() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            
-<FormGroup label='CNPJ: *' htmlFor='inputCnpj'>
-  <InputMask
-    mask="99.999.999/9999-99"
-    value={cnpj}
-    onChange={(e) => setCnpj(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputCnpj"
-        name="cnpj"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+
+              <FormGroup label='CNPJ: *' htmlFor='inputCnpj'>
+                <InputMask
+                  mask="99.999.999/9999-99"
+                  value={cnpj}
+                  onChange={(e) => setCnpj(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputCnpj"
+                      name="cnpj"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
 
               <FormGroup label='Nome: *' htmlFor='inputNome'>
                 <input
@@ -155,44 +155,44 @@ function CadastroLoja() {
                   name='nomeloja'
                   onChange={(e) => setnome(e.target.value)}
                 />
-    </FormGroup>
- 
-  <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
-  <InputMask
-    mask="(99) 99999-9999"
-    value={telefone}
-    onChange={(e) => setTelefone(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputTelefone"
-        name="telefone"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+              </FormGroup>
+
+              <FormGroup label='Telefone: *' htmlFor='inputTelefone'>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputTelefone"
+                      name="telefone"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
 
 
-<FormGroup label='Celular: *' htmlFor='inputCelular'>
-  <InputMask
-    mask="(99) 99999-9999"
-    value={celular}
-    onChange={(e) => setCelular(e.target.value)}
-  >
-    {(inputProps) => (
-      <input
-        {...inputProps}
-        type="text"
-        id="inputCelular"
-        name="celular"
-        className="form-control"
-      />
-    )}
-  </InputMask>
-</FormGroup>
+              <FormGroup label='Celular: *' htmlFor='inputCelular'>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={celular}
+                  onChange={(e) => setCelular(e.target.value)}
+                >
+                  {(inputProps) => (
+                    <input
+                      {...inputProps}
+                      type="text"
+                      id="inputCelular"
+                      name="celular"
+                      className="form-control"
+                    />
+                  )}
+                </InputMask>
+              </FormGroup>
               <FormGroup label='Email: *' htmlFor='inputEmail'>
                 <input
                   type='text'
@@ -213,8 +213,8 @@ function CadastroLoja() {
                   name='dtaCriacaoloja'
                   onChange={(e) => setDataCriacao(e.target.value)}
                 />
-              </FormGroup>    
-              
+              </FormGroup>
+
             </div>
           </div>
         </div>
@@ -223,7 +223,7 @@ function CadastroLoja() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            <FormGroup label='Logradouro: *' htmlFor='inputLogradouro'>
+              <FormGroup label='Logradouro: *' htmlFor='inputLogradouro'>
                 <input
                   type='text'
                   id='inputLogradouro'
@@ -293,8 +293,8 @@ function CadastroLoja() {
                   onChange={(e) => setCep(e.target.value)}
                 />
               </FormGroup>
-              
-              
+
+
             </div>
           </div>
         </div>
@@ -303,8 +303,8 @@ function CadastroLoja() {
         <div className='row'>
           <div className='col-lg-12'>
             <div className='bs-component'>
-            
-              
+
+
               <Stack spacing={1} padding={1} direction='row'>
                 <button
                   onClick={salvar}
